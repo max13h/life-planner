@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "life-planner",
+	"name": "Life planner",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Framework giving you the ability to plan your life from day to months",
+	"author": "max13h",
+	"authorUrl": "https://github.com/max13h",
+	"fundingUrl": "",
 	"isDesktopOnly": false
 }
