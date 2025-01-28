@@ -7,14 +7,18 @@ export interface TimeType {
 }
 
 export interface LifePlannerSettings {
+  binFolder: string;
   dateFormat: string
   timeTypesList: TimeType[];
   projectsFolder: string;
+  projectsTag: string;
+  projectsTemplatePath: string;
   tasksFolder: string;
   taskFile: string
 }
 
 export const DEFAULT_SETTINGS: LifePlannerSettings = {
+  binFolder: "_bin",
   dateFormat: "YYYY-MM-DD",
 	timeTypesList: [
     {name: "obligatoire", tag: "#temps/obligatoire"},
@@ -23,7 +27,9 @@ export const DEFAULT_SETTINGS: LifePlannerSettings = {
     {name: "pour-moi", tag: "#temps/pour-moi"},
   ],
   projectsFolder: "_bin/projects",
-  tasksFolder: "daily/YYYY/MM/WW/",
+  projectsTag: "#projet/en-cours",
+  projectsTemplatePath: "",
+  tasksFolder: "daily/YYYY/MM/WW",
   taskFile: "tasks-WW",
 }
 
@@ -47,6 +53,19 @@ export class LifePlannerSettingTab extends PluginSettingTab {
     containerEl.createDiv({ text: JSON.stringify(this.plugin.settings.timeTypesList)})
 
     new Setting(containerEl)
+      .setName('Bin Folder')
+      .setDesc("Set name of the bin folder")
+      .addText((text) =>
+        text
+          .setPlaceholder('_bin')
+          .setValue(this.plugin.settings.binFolder)
+          .onChange(async (value) => {
+            this.plugin.settings.binFolder = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    new Setting(containerEl)
       .setName('Project Folder')
       .setDesc("Set name of the project folder")
       .addText((text) =>
@@ -55,6 +74,18 @@ export class LifePlannerSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.projectsFolder)
           .onChange(async (value) => {
             this.plugin.settings.projectsFolder = value;
+            await this.plugin.saveSettings();
+          })
+      );
+    new Setting(containerEl)
+      .setName('Project Template Path')
+      .setDesc("Set path of the project template")
+      .addText((text) =>
+        text
+          .setPlaceholder('_bin')
+          .setValue(this.plugin.settings.projectsTemplatePath)
+          .onChange(async (value) => {
+            this.plugin.settings.projectsTemplatePath = value;
             await this.plugin.saveSettings();
           })
       );
