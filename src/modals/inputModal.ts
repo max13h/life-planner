@@ -5,13 +5,10 @@ import { App, Modal } from "obsidian";
  */
 export class InputModal<T> extends Modal {
   private resolvePromise!: (value: T | null) => void;
-  protected title: string = "";
-  protected description?: string;
+  protected description?: HTMLDivElement;
 
-  constructor(app: App, title?: string, description?: string) {
+  constructor(app: App) {
     super(app);
-    this.title = title || "";
-    this.description = description;
   }
 
   async open(): Promise<T | null> {
@@ -27,15 +24,15 @@ export class InputModal<T> extends Modal {
   }
 
   protected createHeader(): void {
-    if (this.description) {
-      const descriptionEl = this.modalEl.createEl("span", { text: this.description });
-      Object.assign(descriptionEl.style, { margin: "1rem", marginTop: "0.4rem" });
-      this.modalEl.insertBefore(descriptionEl, this.modalEl.firstChild);
-    }
-    if (this.title) {
-      this.setTitle(this.title);
-      Object.assign(this.titleEl.style, { margin: "1rem", marginBottom: "0" });
-      this.modalEl.insertBefore(this.titleEl, this.modalEl.firstChild);
-    }
+    this.description = this.modalEl.createDiv();
+    Object.assign(this.description.style, { margin: "0", marginTop: "0" });
+    this.modalEl.insertBefore(this.description, this.modalEl.firstChild);
+    
+    Object.assign(this.titleEl.style, { margin: "0", marginTop: "8px" });
+    this.modalEl.insertBefore(this.titleEl, this.modalEl.firstChild);
+  }
+
+  protected setDescription(text: string): void {
+    this.description?.setText(text);
   }
 }
