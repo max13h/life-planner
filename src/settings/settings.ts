@@ -14,7 +14,8 @@ export interface LifePlannerSettings {
   projectsTag: string;
   projectsTemplatePath: string;
   tasksFolder: string;
-  taskFile: string
+  tasksFile: string;
+  recurringTasksFile: string;
 }
 
 export const DEFAULT_SETTINGS: LifePlannerSettings = {
@@ -29,8 +30,9 @@ export const DEFAULT_SETTINGS: LifePlannerSettings = {
   projectsFolder: "_bin/projects",
   projectsTag: "#projet/en-cours",
   projectsTemplatePath: "",
-  tasksFolder: "daily/YYYY/MM/WW",
-  taskFile: "tasks-WW",
+  tasksFolder: "_bin",
+  tasksFile: "TASKS-" + new Date().getFullYear(),
+  recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear()
 }
 
 
@@ -107,9 +109,9 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       .addText((text) =>
         text
           .setPlaceholder('_bin')
-          .setValue(this.plugin.settings.taskFile)
+          .setValue(this.plugin.settings.tasksFile)
           .onChange(async (value) => {
-            this.plugin.settings.taskFile = value;
+            this.plugin.settings.tasksFile = value;
             await this.plugin.saveSettings();
           })
       );

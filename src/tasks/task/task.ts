@@ -1,5 +1,7 @@
 import { App, TFile } from "obsidian";
+import { NavigationModal } from "src/modals/navigationModal";
 import { LifePlannerSettings } from "src/settings/settings";
+import { AddTaskModal } from "./new";
 
 export interface AppWithPlugin extends App {
   plugins: {
@@ -70,7 +72,7 @@ export class Task {
   }
 
   async ensureExistAndReturnFile() {
-    const { filePathFormatted, folderPath } = this.filePathFormatted();
+    const { filePathFormatted, folderPath } = Task.retrieveFilePath(this.app);
 
     const tableHeader = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Recurs|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|---------|";
 
@@ -92,13 +94,17 @@ export class Task {
     return file;
   }
 
-  filePathFormatted() {
-    const settings = this.app.plugins.plugins["life-planner"].settings;
+  static retrieveFilePath(app: AppWithPlugin) {
+    const settings = app.plugins.plugins["life-planner"].settings;
 
     const folderPath = settings.tasksFolder.endsWith('/') ? settings.tasksFolder : settings.tasksFolder + '/';
     const fileName = settings.tasksFile.startsWith('/') ? settings.tasksFile.slice(1) : settings.tasksFile;
     const filePathFormatted = folderPath + fileName + ".md";
 
     return { folderPath, fileName, filePathFormatted }
+  }
+
+  static async new(app: App) {
+    const task = await new AddTaskModal(app).open()
   }
 }
