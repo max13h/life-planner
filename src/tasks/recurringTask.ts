@@ -1,5 +1,5 @@
 import { dateNow, timeNow } from "src/utils/time";
-import { AppWithPlugin, Task } from "./task/task";
+import { AppWithPlugin, Task } from "./task";
 
 export class RecurringTask extends Task {
   constructor(app: AppWithPlugin) {

@@ -5,9 +5,9 @@ export const listenKeyEnter = (el: HTMLElement, cb: () => void) => {
     }
   });
 }
-export const listenKeyUp = (el: HTMLElement, cb: () => void) => {
-  el.addEventListener("keyup", () => {
-    cb()
+export const listenKeyUp = (el: HTMLElement, cb: (event?: KeyboardEvent) => void) => {
+  el.addEventListener("keyup", (event) => {
+    cb(event)
   });
 }
 export const listenClick = (el: HTMLElement, cb: () => void) => {

@@ -1,10 +1,12 @@
 import { setIcon } from "obsidian";
+import { listenClick } from "src/utils/html";
 
 interface ButtonOptions {
   text?: string;
   icon?: string;
   style?: string;
-  isPrimary?: boolean
+  isPrimary?: boolean;
+  onClick?: (value: HTMLButtonElement) => void | Promise<void>
 }
 
 export const addButtonComponent = (parentEl: HTMLElement, options: ButtonOptions): HTMLButtonElement => {
@@ -13,5 +15,6 @@ export const addButtonComponent = (parentEl: HTMLElement, options: ButtonOptions
     attr: { style: `width: fit-content; ${options.isPrimary ? "background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);": ""} ${options.style}` },
   });
   if (options.icon) setIcon(button, options.icon); 
+  listenClick(button, async () => options?.onClick ? await options?.onClick(button) : undefined)
   return button;
 }

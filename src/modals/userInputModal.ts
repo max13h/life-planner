@@ -18,7 +18,7 @@ export class UserInputModal extends Modal {
     });
   }
 
-  complete(value: null) {
+  complete(value: any) {
     this.resolvePromise(value);
     this.close();
   }
