@@ -22,9 +22,10 @@ export class Project {
     const modal = new UserInputModal(app);
     modal.setTitle("Insert name of the new project");
 
-    const input = addInputComponent(modal.contentEl);
-    listenKeyUp(input, () => project.setName(input.value));
-    listenKeyEnter(input, () => modal.complete(null));
+    const input = addInputComponent(modal.contentEl, {
+      onEnter: () => modal.complete(null),
+      onKeyUp: () => project.setName(input.value)
+    });
 
     const button = addButtonComponent(modal.contentEl, {
         text: "Done",
@@ -36,7 +37,7 @@ export class Project {
     await modal.open();
 
     await project.createAndOpenFile()
-}
+  }
 
   async createAndOpenFile() {
     if (!this.path) throw new Error("Unable to create project file");

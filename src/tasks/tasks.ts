@@ -1,6 +1,6 @@
 import { App, Notice } from "obsidian"
 import { RecurringTask } from "./recurringTask";
-import { AppWithPlugin } from "./task/task";
+import { AppWithPlugin } from "types";
 
 export class Tasks {
   protected app: App;
@@ -20,5 +20,15 @@ export class Tasks {
     const lines = fileContent.split("\n");
     const tasksLines = lines.slice(2);
     console.log(tasksLines);
+  }
+
+  static retrieveFilePath(app: AppWithPlugin) {
+    const settings = app.plugins.plugins["life-planner"].settings;
+
+    const folderPath = settings.tasksFolder.endsWith('/') ? settings.tasksFolder : settings.tasksFolder + '/';
+    const fileName = settings.tasksFile.startsWith('/') ? settings.tasksFile.slice(1) : settings.tasksFile;
+    const filePathFormatted = folderPath + fileName + ".md";
+
+    return { folderPath, fileName, filePathFormatted }
   }
 }

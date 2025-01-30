@@ -3,22 +3,22 @@ import { App, Modal } from "obsidian";
 /**
  * Base class for modals that return a value asynchronously.
  */
-export class UserInputModal<T> extends Modal {
-  private resolvePromise!: (value: T | null) => void;
+export class UserInputModal extends Modal {
+  private resolvePromise!: (value: null) => void;
   protected description?: HTMLDivElement;
 
   constructor(app: App) {
     super(app);
   }
 
-  async open(): Promise<T | null> {
+  async open(): Promise<null> {
     return new Promise((resolve) => {
       this.resolvePromise = resolve;
       super.open();
     });
   }
 
-  complete(value: T) {
+  complete(value: null) {
     this.resolvePromise(value);
     this.close();
   }
