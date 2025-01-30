@@ -45,29 +45,6 @@ export class dateModal extends UserInputModal {
     })
   }
 
-  updateValueOfDateInput(sampleEl: HTMLInputElement) {
-    const value = sampleEl.value; // Get the current value of the input
-    if (!/^[\d-]*$/.test(value)) {
-      return sampleEl.value = this.previousValueOfInput || "";
-    }
-
-    console.log("value", value);
-    console.log("this.previousValueOfInput", this.previousValueOfInput);
-
-    if (
-      this.previousValueOfInput &&
-      this.previousValueOfInput.endsWith('-') &&
-      value.length < this.previousValueOfInput.length ||
-      value.length > 10
-    ) {
-      sampleEl.value = value.slice(0, -1); // Update the input value directly
-    } else if (/^\d{4}$/.test(value) || /^\d{4}-\d{2}$/.test(value)) {
-      sampleEl.value += '-'; // Append a dash
-    }
-
-    this.previousValueOfInput = value; // Store the previous value
-  }
-
   userSaysDone(year: HTMLInputElement, month: HTMLInputElement, day: HTMLInputElement) {
     const formattedDate = `${year.value}-${month.value}-${day.value}`
     const momentDate = moment(formattedDate, "YYYY-MM-DD")

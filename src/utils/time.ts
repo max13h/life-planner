@@ -3,8 +3,17 @@ import { moment } from 'obsidian';
 export const timeNow = () => moment().format('HH:mm')
 export const dateNow = () => moment().format('YYYY-MM-DD')
 
-type DayName = 'today' | 'tomorrow' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+export const timeFromDurationAndStartTime = (start: string, durationInMinutes: number, beforeOrAfter: "before" | "after") =>{
+  if (beforeOrAfter === "before") {
+    return moment(start, 'HH:mm').subtract(durationInMinutes, 'minutes').format('HH:mm');
+  } else {
+    return moment(start, 'HH:mm').add(durationInMinutes, 'minutes').format('HH:mm');
+  }
+}
 
+export const isTimeAfterTime = (isAfter: string, isBefore: string) => moment(isAfter, "HH:mm").isAfter(moment(isBefore, "HH:mm"));
+
+export type DayName = 'today' | 'tomorrow' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 export const getDayDate = (dayName: DayName) => {
   const daysMap = {
     monday: 1,

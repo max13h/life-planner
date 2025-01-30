@@ -24,7 +24,7 @@ export class UserInputModal extends Modal {
   }
 
   protected createHeader(): void {
-    this.description = this.modalEl.createDiv();
+    this.description = this.modalEl.createDiv({ attr: { style: "white-space: pre-line;" } });
     Object.assign(this.description.style, { margin: "0", marginTop: "0" });
     this.modalEl.insertBefore(this.description, this.modalEl.firstChild);
     
@@ -32,7 +32,7 @@ export class UserInputModal extends Modal {
     this.modalEl.insertBefore(this.titleEl, this.modalEl.firstChild);
   }
 
-  protected setDescription(text: string): void {
+  setDescription(text: string): void {
     this.description?.setText(text);
   }
 }

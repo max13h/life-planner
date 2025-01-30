@@ -15,3 +15,15 @@ export const listenClick = (el: HTMLElement, cb: () => void) => {
     cb()
   });
 }
+export const listenOverAndOut = (el: HTMLElement, cbOver?: () => void, cbOut?: () => void) => {
+  if (cbOver) {
+    el.addEventListener("mouseover", () => {
+      cbOver();
+    });
+  }
+  if (cbOut) {
+    el.addEventListener("mouseout", () => {
+      cbOut();
+    });
+  }
+}
