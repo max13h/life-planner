@@ -1,10 +1,11 @@
-import { App, setIcon } from "obsidian";
-import { InputModal } from "./inputModal";
+import { App } from "obsidian";
+import { UserInputModal } from "./userInputModal";
+import { addButtonComponent } from "./components/button";
 
 /**
  * A modal that supports step-based navigation through multiple pages.
  */
-export class NavigationModal<T> extends InputModal<T> {
+export class NavigationModal<T> extends UserInputModal<T> {
   protected pages: ((contentEl: HTMLElement) => void)[] = [];
   private actualPage: number = 0;
   private previousButton!: HTMLButtonElement;
@@ -22,23 +23,13 @@ export class NavigationModal<T> extends InputModal<T> {
   }
 
   private createNavigationButtons(): void {
-    this.previousButton = this.createButton("", "chevron-left", this.pressPrevious.bind(this));
-    this.nextButton = this.createButton("Suivant", undefined, this.pressNext.bind(this), "margin-left: auto;");
-    this.doneButton = this.createButton("Terminer", undefined, this.pressDone.bind(this), "margin-left: auto; background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3");
+    this.previousButton = addButtonComponent(this.containerEl, { icon: "chevron-left" });
+    this.nextButton = addButtonComponent(this.containerEl, { text: "Suivant", style: "margin-left: auto; margin-top: 1rem" });
+    this.doneButton = addButtonComponent(this.containerEl, { text: "Terminer", isPrimary: true, style: "margin-left: auto; margin-top: 1rem;" });
 
     this.modalEl.insertBefore(this.previousButton, this.modalEl.firstChild);
     this.modalEl.insertAfter(this.nextButton, this.contentEl);
     this.modalEl.insertAfter(this.doneButton, this.contentEl);
-  }
-
-  private createButton(text: string, icon: string | undefined, onClick: () => void, style?: string): HTMLButtonElement {
-    const button = this.containerEl.createEl("button", {
-      text: text,
-      attr: { style: `width: fit-content; box-shadow: none; ${style}` },
-    });
-    if (icon) setIcon(button, icon);
-    button.onClickEvent(onClick);
-    return button;
   }
 
   protected updateNavigation(): void {
@@ -49,6 +40,8 @@ export class NavigationModal<T> extends InputModal<T> {
     this.nextButton.style.display = this.actualPage === this.pages.length - 1 ? "none" : "block";
     this.doneButton.style.display = this.actualPage === this.pages.length - 1 ? "block" : "none";
     
+    this.setTitle("")
+    this.setDescription("")
     this.contentEl.empty();
     this.pages[this.actualPage](this.contentEl);
   }
