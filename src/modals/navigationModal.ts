@@ -1,6 +1,6 @@
 import { App } from "obsidian";
 import { UserInputModal } from "./userInputModal";
-import { addButtonComponent } from "./components/button";
+import { addButtonComponent } from "../utils/components/button";
 import { listenClick } from "src/utils/html";
 
 export class NavigationModal extends UserInputModal {

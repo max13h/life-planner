@@ -1,5 +1,5 @@
-import { addButtonComponent } from "src/modals/components/button";
-import { addInputComponent } from "src/modals/components/input";
+import { addButtonComponent } from "src/utils/components/button";
+import { addInputComponent } from "src/utils/components/input";
 import { UserInputModal } from "src/modals/userInputModal";
 import { listenClick, listenKeyEnter, listenKeyUp } from "src/utils/html";
 import { openOrCreateFile } from "src/utils/openOrCreateFile";

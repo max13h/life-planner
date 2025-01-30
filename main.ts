@@ -1,6 +1,7 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import { Commands } from 'src/commands';
 import { LifePlannerSettings, DEFAULT_SETTINGS, LifePlannerSettingTab } from "src/settings/settings";
+import { Views } from 'src/views';
 
 export default class LifePlanner extends Plugin {
 	settings: LifePlannerSettings;
@@ -8,7 +9,9 @@ export default class LifePlanner extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		this.addSettingTab(new LifePlannerSettingTab(this.app, this));
+
 		new Commands({ plugin: this });
+		new Views({ plugin: this });
 	}
 
 	onunload() {

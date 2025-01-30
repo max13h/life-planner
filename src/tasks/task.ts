@@ -1,9 +1,15 @@
-import {  TFile } from "obsidian";
+import {  App, TFile } from "obsidian";
 import { AppWithPlugin } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
 import { TaskParseError, TaskValidationError } from "errors";
 import { Tasks } from "./tasks";
 import { TaskFileError } from "errors";
+import { NavigationModal } from "src/modals/navigationModal";
+import { addInputComponent } from "src/utils/components/input";
+import { Projects } from "src/projects/projects";
+import { addAutocompleteSelect } from "src/utils/components/suggester";
+import { getDayDate } from "src/utils/time";
+import { dateModal } from "src/modals/dateModal";
 
 export class Task implements ITask {
   status: TaskStatus = " ";
@@ -138,4 +144,97 @@ export class Task implements ITask {
     
     return otherPriority - thisPriority;
   }
-} 
+
+  static async new(app: App) {
+    const task = new Task(app as AppWithPlugin)
+    const modal = new NavigationModal(app)
+
+    const askText = (contentEl: typeof modal.contentEl) => {
+      modal.setTitle("Insert content of the new task");
+
+      addInputComponent(contentEl, {
+        onKeyUp: async (input) => {
+          task.text = input.value
+        },
+        onEnter: async () => {
+          if (!task.text) return
+          await modal.pressNext()
+        },
+        value: task.text
+      });
+    }
+
+    const askProject = async (contentEl: typeof modal.contentEl) => {
+      modal.setTitle("Choose project related the new task");
+
+      const projectFiles = await Projects.getAllFiles(app as AppWithPlugin)
+
+      addAutocompleteSelect(contentEl, {
+        suggestions: {
+          displayedValues: projectFiles.map(file => file.basename),
+          usedValues: projectFiles.map(file => file.path)
+        },
+        onSelected: async (selected) => {
+          task.projectLink = selected
+          await modal.pressNext()
+        }
+      })
+    }
+
+    const askDate = async (contentEl: typeof modal.contentEl) => {
+      modal.setTitle("Choose task date");
+
+      const displayedValues = [
+        "✏️ Personnaliser",
+        "🤷 Ne pas encore donner de date",
+        `📅 Demain ${getDayDate('tomorrow')}`,
+        `🕔 Lundi prochain (${getDayDate('monday')})`,
+        `🕔 Mardi prochain (${getDayDate('tuesday')})`,
+        `🕔 Mercredi prochain (${getDayDate('wednesday')})`,
+        `🕔 Jeudi prochain (${getDayDate('thursday')})`,
+        `🕔 Vendredi prochain (${getDayDate('friday')})`,
+        `🕔 Samedi prochain (${getDayDate('saturday')})`,
+        `🕔 Dimanche prochain (${getDayDate('sunday')})`,
+      ];
+
+      const usedValues = [
+        async () => {
+          return await new dateModal(app).open()
+        },
+        "",
+        getDayDate('tomorrow'),
+        getDayDate('monday'),
+        getDayDate('tuesday'),
+        getDayDate('wednesday'),
+        getDayDate('thursday'),
+        getDayDate('friday'),
+        getDayDate('saturday'),
+        getDayDate('sunday'),
+      ];
+
+      addAutocompleteSelect(contentEl, {
+        suggestions: {
+          displayedValues: displayedValues,
+          usedValues: usedValues
+        },
+        onSelected: async (usedValue) => {
+          if (typeof usedValue === 'function') {
+            task.schedule = await usedValue();
+          } else {
+            task.schedule = usedValue;
+          }
+          modal.pressDone();
+        }
+      })
+    }
+
+    modal.pages = [
+      askText,
+      askProject,
+      askDate
+    ]
+
+    await modal.open()
+    console.log("taskaaaa", task);
+  }
+}
