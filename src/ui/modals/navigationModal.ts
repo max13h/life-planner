@@ -1,7 +1,7 @@
 import { App } from "obsidian";
 import { UserInputModal } from "./userInputModal";
-import { addButtonComponent } from "../utils/components/button";
-import { listenClick } from "src/utils/html";
+import { addButtonComponent } from "src/ui/components/button";
+import { listenClick } from "src/ui/html";
 
 export class NavigationModal extends UserInputModal {
   pages: ((contentEl: HTMLElement) => Promise<void> | void)[] = [];

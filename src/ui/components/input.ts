@@ -1,4 +1,4 @@
-import { listenKeyUp, listenKeyEnter } from "src/utils/html";
+import { listenKeyUp, listenKeyEnter } from "src/ui/html";
 
 interface InputOptions {
   placeholder?: string;

@@ -1,5 +1,5 @@
 import { setIcon } from "obsidian";
-import { listenClick } from "src/utils/html";
+import { listenClick } from "src/ui/html";
 
 interface ButtonOptions {
   text?: string;

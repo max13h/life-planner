@@ -1,7 +1,7 @@
 import { App } from "obsidian";
 import { UserInputModal } from "./userInputModal";
-import { listenKeyEnter, listenKeyUp } from "src/utils/html";
-import { addButtonComponent } from "../utils/components/button";
+import { listenKeyEnter, listenKeyUp } from "src/ui/html";
+import { addButtonComponent } from "src/ui/components/button";
 import { moment } from "obsidian";
 
 export class dateModal extends UserInputModal {
