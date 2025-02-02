@@ -10,7 +10,6 @@ export const createTaskComponent = (
   container: HTMLElement,
   task: ITask,
   props: Props,
-  app: App
 ) => {
   const taskElementContainer = container.createDiv({
     attr: {

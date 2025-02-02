@@ -51,7 +51,7 @@ export class Commands {
       id: 'open-projects-view',
       name: 'Open projects view',
       icon: 'folder-heart',
-      callback: () => openProjectsView(this.app)
+      callback: async () => await openProjectsView(this.app)
     });
 
   }

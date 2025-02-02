@@ -21,6 +21,6 @@ export class Projects {
       })
     }
 
-    return projectFiles
+    return projectFiles.sort((a, b) => a.name.localeCompare(b.name));
   }
 }

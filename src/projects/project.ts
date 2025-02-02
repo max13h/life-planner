@@ -1,39 +1,60 @@
-import { addButtonComponent } from "src/utils/components/button";
-import { addInputComponent } from "src/utils/components/input";
-import { UserInputModal } from "src/modals/userInputModal";
-import { listenClick, listenKeyEnter, listenKeyUp } from "src/utils/html";
+import { addInputComponent } from "src/ui/components/input";
 import { openOrCreateFile } from "src/utils/openOrCreateFile";
 import { AppWithPlugin } from "types";
+import { NavigationModal } from "src/ui/modals/navigationModal";
+import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { TimeType } from "types";
 
 export class Project {
   private app: AppWithPlugin
-  private name: string | undefined;
-  private path: string | undefined
+  name: string | undefined;
+  path: string | undefined
+  timeType: TimeType | undefined
 
-  constructor(app: AppWithPlugin, name?: string) {
+  constructor(app: AppWithPlugin, name?: string, timeType?: TimeType) {
     this.app = app
     this.name = name
+    this.timeType = timeType
+
 
     this.ensurePath()
   }
 
   static async new(app: AppWithPlugin) {
     const project = new Project(app);
-    const modal = new UserInputModal(app);
-    modal.setTitle("Insert name of the new project");
+    const modal = new NavigationModal(app);
+    
+    const askName = () => {
+      modal.setTitle("Insert name of the new project");
 
-    const input = addInputComponent(modal.contentEl, {
-      onEnter: () => modal.complete(null),
-      onKeyUp: () => project.setName(input.value)
-    });
+      const input = addInputComponent(modal.contentEl, {
+        onEnter: async () => await modal.pressNext(),
+        onKeyUp: () => project.setName(input.value)
+      });
+    }
 
-    const button = addButtonComponent(modal.contentEl, {
-        text: "Done",
-        style: "margin-top: 1rem; margin-left: auto; display: block",
-        isPrimary: true
-    });
-    listenClick(button, () => modal.complete(null));
+    const askTimeType = () => {
+      modal.setTitle("Choose time type of the new project");
 
+      const settings = app.plugins.plugins["life-planner"].settings;
+      const timeTypeList = settings.timeTypesList as TimeType[]
+
+      addAutocompleteSelect(modal.contentEl, {
+        suggestions: {
+          displayedValues: timeTypeList.map(el => el.name),
+          usedValues: timeTypeList
+        },
+        onSelected: (selected) => {
+          project.timeType = selected
+          modal.complete(null)
+        }
+      })
+    }
+
+    modal.pages = [
+      askName,
+      askTimeType
+    ]
     await modal.open();
 
     await project.createAndOpenFile()

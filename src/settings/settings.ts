@@ -1,10 +1,7 @@
 import LifePlanner from 'main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
-
-export interface TimeType {
-  name: string;
-  tag: string;
-}
+import { addAutocompleteSelect } from 'src/ui/components/suggester';
+import { TimeType } from 'types';
 
 export interface LifePlannerSettings {
   binFolder: string;
@@ -46,69 +43,90 @@ export class LifePlannerSettingTab extends PluginSettingTab {
 
   display(): void {
     let { containerEl } = this;
+    const folders = this.app.vault.getAllFolders()
+    const files = this.app.vault.getFiles()
 
     containerEl.empty();
 
     new Setting(containerEl)
       .setName('Time Types List')
       .setDesc("Here is the time type list")
-    containerEl.createDiv({ text: JSON.stringify(this.plugin.settings.timeTypesList)})
+    containerEl.createDiv({ attr: { style: "white-space: pre-line; margin-bottom: 8px" }, text: JSON.stringify(this.plugin.settings.timeTypesList).slice(1, -1).split("},{").join("},\n{").replace(/"/g, " ") });
 
-    new Setting(containerEl)
+    const binFolder = new Setting(containerEl)
       .setName('Bin Folder')
       .setDesc("Set name of the bin folder")
-      .addText((text) =>
-        text
-          .setPlaceholder('_bin')
-          .setValue(this.plugin.settings.binFolder)
-          .onChange(async (value) => {
-            this.plugin.settings.binFolder = value;
-            await this.plugin.saveSettings();
-          })
-      );
+    addAutocompleteSelect(binFolder.controlEl, {
+      suggestions: {
+        displayedValues: folders.map(el => el.path),
+        usedValues: folders.map(el => el.path)
+      },
+      onSelected: async (value) => {
+        this.plugin.settings.binFolder = value;
+        await this.plugin.saveSettings();
+      },
+      dropdownStyle: true,
+      style: "width: auto;",
+      value: this.plugin.settings.binFolder
+    })
 
-    new Setting(containerEl)
+    const projectFolder = new Setting(containerEl)
       .setName('Project Folder')
       .setDesc("Set name of the project folder")
-      .addText((text) =>
-        text
-          .setPlaceholder('_bin')
-          .setValue(this.plugin.settings.projectsFolder)
-          .onChange(async (value) => {
-            this.plugin.settings.projectsFolder = value;
-            await this.plugin.saveSettings();
-          })
-      );
-    new Setting(containerEl)
+    addAutocompleteSelect(projectFolder.controlEl, {
+      suggestions: {
+        displayedValues: folders.map(el => el.path),
+        usedValues: folders.map(el => el.path)
+      },
+      onSelected: async (value) => {
+        this.plugin.settings.projectsFolder = value;
+        await this.plugin.saveSettings();
+      },
+      dropdownStyle: true,
+      style: "width: auto;",
+      value: this.plugin.settings.projectsFolder
+    })  
+
+    const projectsTemplatePath = new Setting(containerEl)
       .setName('Project Template Path')
       .setDesc("Set path of the project template")
-      .addText((text) =>
-        text
-          .setPlaceholder('_bin')
-          .setValue(this.plugin.settings.projectsTemplatePath)
-          .onChange(async (value) => {
-            this.plugin.settings.projectsTemplatePath = value;
-            await this.plugin.saveSettings();
-          })
-      );
-    new Setting(containerEl)
+    addAutocompleteSelect(projectsTemplatePath.controlEl, {
+      suggestions: {
+        displayedValues: files.map(el => el.path),
+        usedValues: files.map(el => el.path)
+      },
+      onSelected: async (value) => {
+        this.plugin.settings.projectsTemplatePath = value;
+        await this.plugin.saveSettings();
+      },
+      dropdownStyle: true,
+      style: "width: auto;",
+      value: this.plugin.settings.projectsTemplatePath
+    })
+
+    const taskFolder = new Setting(containerEl)
       .setName('Tasks Folder')
       .setDesc("Set name of the tasks folder")
-      .addText((text) =>
-        text
-          .setPlaceholder('_bin')
-          .setValue(this.plugin.settings.tasksFolder)
-          .onChange(async (value) => {
-            this.plugin.settings.tasksFolder = value;
-            await this.plugin.saveSettings();
-          })
-      );
-    new Setting(containerEl)
+    addAutocompleteSelect(taskFolder.controlEl, {
+      suggestions: {
+        displayedValues: folders.map(el => el.path),
+        usedValues: folders.map(el => el.path)
+      },
+      onSelected: async (value) => {
+        this.plugin.settings.tasksFolder = value;
+        await this.plugin.saveSettings();
+      },
+      dropdownStyle: true,
+      style: "width: auto;",
+      value: this.plugin.settings.tasksFolder
+    })
+
+    const taskFile = new Setting(containerEl)
       .setName('Tasks File')
       .setDesc("Set name of the tasks file")
       .addText((text) =>
         text
-          .setPlaceholder('_bin')
+          .setPlaceholder(this.plugin.settings.binFolder + '/TASKS-' + new Date().getFullYear)
           .setValue(this.plugin.settings.tasksFile)
           .onChange(async (value) => {
             this.plugin.settings.tasksFile = value;

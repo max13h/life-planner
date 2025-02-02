@@ -25,3 +25,10 @@ export class TaskFileError extends TaskError {
     this.name = 'TaskFileError';
   }
 }
+
+export class VaultError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'VaultError';
+  }
+}

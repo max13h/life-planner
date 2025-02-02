@@ -1,7 +1,7 @@
 import { App } from 'obsidian';
 import type Max13hPlugin from 'main';
 import { VIEW_DASHBOARD, DashboardView } from './dashboard/dashboard';
-import { ProjectsView, VIEW_PROJECTS } from './projects';
+import { ProjectsView, VIEW_LIFE_PLANNER_PROJECTS } from './projects';
 
 export class Views {
     private readonly plugin: Max13hPlugin;
@@ -18,7 +18,7 @@ export class Views {
         (leaf) => new DashboardView(leaf, this.app)
       );
       plugin.registerView(
-        VIEW_PROJECTS,
+        VIEW_LIFE_PLANNER_PROJECTS,
         (leaf) => new ProjectsView(leaf, this.app)
       );
     }

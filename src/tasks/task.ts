@@ -1,15 +1,16 @@
-import {  App, TFile } from "obsidian";
+import {  App, TFile, moment } from "obsidian";
 import { AppWithPlugin } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
 import { TaskParseError, TaskValidationError } from "errors";
 import { Tasks } from "./tasks";
 import { TaskFileError } from "errors";
-import { NavigationModal } from "src/modals/navigationModal";
-import { addInputComponent } from "src/utils/components/input";
+import { NavigationModal } from "src/ui/modals/navigationModal";
+import { addInputComponent } from "src/ui/components/input";
 import { Projects } from "src/projects/projects";
-import { addAutocompleteSelect } from "src/utils/components/suggester";
-import { getDayDate } from "src/utils/time";
-import { dateModal } from "src/modals/dateModal";
+import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { DayName, getDayDate, timeFromDurationAndStartTime, timeNow, isTimeAfterTime } from "src/utils/time";
+import { dateModal } from "src/ui/modals/dateModal";
+import { timeModal } from "src/ui/modals/timeModal";
 
 export class Task implements ITask {
   status: TaskStatus = " ";
@@ -113,12 +114,14 @@ export class Task implements ITask {
     const { filePathFormatted, folderPath } = Tasks.retrieveFilePath(this.app);
 
     try {
+      console.log("try creating folder");
       await this.app.vault.createFolder(folderPath);
     } catch (error) {
       if (!error.message.includes("Folder already exists")) throw error;
     }
 
     try {
+      console.log("try creating file");
       await this.app.vault.create(filePathFormatted, Task.TABLE_HEADER);
     } catch (error) {
       if (!error.message.includes("File already exists")) throw error;
@@ -184,32 +187,21 @@ export class Task implements ITask {
     const askDate = async (contentEl: typeof modal.contentEl) => {
       modal.setTitle("Choose task date");
 
+      const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
       const displayedValues = [
-        "✏️ Personnaliser",
-        "🤷 Ne pas encore donner de date",
-        `📅 Demain ${getDayDate('tomorrow')}`,
-        `🕔 Lundi prochain (${getDayDate('monday')})`,
-        `🕔 Mardi prochain (${getDayDate('tuesday')})`,
-        `🕔 Mercredi prochain (${getDayDate('wednesday')})`,
-        `🕔 Jeudi prochain (${getDayDate('thursday')})`,
-        `🕔 Vendredi prochain (${getDayDate('friday')})`,
-        `🕔 Samedi prochain (${getDayDate('saturday')})`,
-        `🕔 Dimanche prochain (${getDayDate('sunday')})`,
+        "⚡ Today",
+        `📅 Tomorrow ${getDayDate('tomorrow')}`,
+        "🤷 No date yet",
+        "✏️ Personalized",
+        ...daysOfWeek.map(day => `🕔 Next ${day.charAt(0).toUpperCase() + day.slice(1)} (${getDayDate(day as DayName)})`)
       ];
 
       const usedValues = [
-        async () => {
-          return await new dateModal(app).open()
-        },
-        "",
+        getDayDate('today'),
         getDayDate('tomorrow'),
-        getDayDate('monday'),
-        getDayDate('tuesday'),
-        getDayDate('wednesday'),
-        getDayDate('thursday'),
-        getDayDate('friday'),
-        getDayDate('saturday'),
-        getDayDate('sunday'),
+        "",
+        async () => await new dateModal(app).open(),
+        ...daysOfWeek.map(day => getDayDate(day as DayName))
       ];
 
       addAutocompleteSelect(contentEl, {
@@ -223,6 +215,91 @@ export class Task implements ITask {
           } else {
             task.schedule = usedValue;
           }
+          await modal.pressNext();
+        }
+      })
+    }
+
+    const askStart = async (contentEl: typeof modal.contentEl) => {
+      if (!task.schedule) return await modal.pressNext()
+
+      const now = timeNow()
+      modal.setTitle("Choose start time");
+      modal.setDescription("Actual time: " + now)
+
+
+      const timeIntervals = [5, 10, 15, 20, 25, 30, 45, 60];
+      const displayedValues = [
+        "⚡ Now",
+        "🤷 No date yet",
+        "✏️ Personalized",
+        ...timeIntervals.map(minutes => `🕔 In ${minutes} minutes (${timeFromDurationAndStartTime(now, minutes, "after")})`),
+        ...timeIntervals.map(minutes => `⌛ ${minutes} minutes ago (${timeFromDurationAndStartTime(now, minutes, "before")})`)
+      ];
+
+      const usedValues = [
+        now,
+        "",
+        async () => await new timeModal(app).open(),
+        ...timeIntervals.map(minutes => timeFromDurationAndStartTime(now, minutes, "after")),
+        ...timeIntervals.map(minutes => timeFromDurationAndStartTime(now, minutes, "before"))
+      ];
+
+      addAutocompleteSelect(contentEl, {
+        suggestions: {
+          displayedValues: displayedValues,
+          usedValues: usedValues
+        },
+        onSelected: async (usedValue) => {
+          if (typeof usedValue === 'function') {
+            task.start = await usedValue();
+          } else {
+            task.start = usedValue;
+          }
+          await modal.pressNext();
+        }
+      })
+    }
+
+    const askEnd = async (contentEl: typeof modal.contentEl) => {
+      if (!task.schedule || !task.start) return modal.pressDone()
+
+      const now = moment().format("HH:mm");
+      const isStartAfterNow = isTimeAfterTime(task.start, now)
+      const isStartIsNow = task.start === now
+      
+      modal.setTitle("Choose end time");
+      modal.setDescription(`Actual time ${now === task.start ? `and task start time: ${task.start}` : `${now} \nTask start time: ${task.start}`}`)
+
+      const timeIntervals = [5, 10, 15, 20, 25, 30, 45, 60];
+      const displayedValues = [
+        "🤷 No date yet",
+        "✏️ Personalized",
+        ...timeIntervals.map(minutes => `🕔 ${minutes} minutes after task begin (${timeFromDurationAndStartTime(task.start || "", minutes, "after")})`),
+      ];
+
+      const usedValues = [
+        "",
+        async () => await new timeModal(app).open(),
+        ...timeIntervals.map(minutes => timeFromDurationAndStartTime(task.start || "", minutes, "after")),
+      ];
+
+      if (!isStartAfterNow && !isStartIsNow) {
+        displayedValues.unshift("⚡ Now")
+        usedValues.unshift(now)
+      }
+
+      addAutocompleteSelect(contentEl, {
+        suggestions: {
+          displayedValues: displayedValues,
+          usedValues: usedValues
+        },
+        onSelected: async (usedValue) => {
+          if (typeof usedValue === 'function') {
+            task.end = await usedValue();
+          } else {
+            task.end = usedValue;
+          }
           modal.pressDone();
         }
       })
@@ -231,10 +308,12 @@ export class Task implements ITask {
     modal.pages = [
       askText,
       askProject,
-      askDate
+      askDate,
+      askStart,
+      askEnd
     ]
 
     await modal.open()
-    console.log("taskaaaa", task);
+    await task.insertTaskInFile()
   }
 }

@@ -1,33 +1,79 @@
-interface Suggestions {
+interface Suggestions<T> {
   displayedValues: string[];
-  usedValues: any[];
+  usedValues: T[];
 }
 
-interface AutocompleteSelectOptions {
-  suggestions: Suggestions;
-  onSelected?: (usedValue: any) => void;
+interface AutocompleteSelectOptions<T> {
+  suggestions: Suggestions<T>;
+  onSelected?: (usedValue: T) => void;
+  dropdownStyle?: boolean;
+  style?: string,
+  value?: string,
+  focus?: boolean
 }
 
-export const addAutocompleteSelect = (containerEl: HTMLElement, options: AutocompleteSelectOptions) => {
-  let currentFocusIndex = -1;
+export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: AutocompleteSelectOptions<T>) => {
+  let currentFocusIndex = 0;
   let filteredValues: string[] = [];
+  let isDropdownVisible = false;
+
+  const wrapper = containerEl.createEl("div", {
+    attr: {
+      style: "position: relative; width: 100%; " + (options.style || "")
+    }
+  });
   
   // Create input
-  const input = containerEl.createEl("input", {
+  const input = wrapper.createEl("input", {
     attr: {
-      style: "width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 4px;",
+      style: "width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;",
       type: "text",
-      role: "combobox", "aria-autocomplete": "list"
-      }
+      role: "combobox",
+      "aria-autocomplete": "list",
+      value: options.value || ""
+    }
   });
   
   // Create options list
-  const optionsList = containerEl.createEl("ul", {
+  const optionsList = wrapper.createEl("ul", {
     attr: {
-        style: "width: 100%; margin: 0; padding: 0;",
-        role: "listbox"
+      style: `
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        ${options.dropdownStyle ? `
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: white;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          max-height: 200px;
+          overflow-y: auto;
+          z-index: 1000;
+          display: none;
+          text-wrap: wrap;
+          overflow-x: hidden
+        ` : ''}
+      `,
+      role: "listbox"
     }
   });
+
+  const showDropdown = () => {
+    if (options.dropdownStyle && filteredValues.length > 0) {
+      optionsList.style.display = 'block';
+      isDropdownVisible = true;
+    }
+  };
+
+  const hideDropdown = () => {
+    if (options.dropdownStyle) {
+      optionsList.style.display = 'none';
+      isDropdownVisible = false;
+    }
+  };
   
   const updateOptions = (filterText: string = "") => {
     optionsList.empty();
@@ -35,19 +81,29 @@ export const addAutocompleteSelect = (containerEl: HTMLElement, options: Autocom
       value.toLowerCase().includes(filterText.toLowerCase())
     );
     
+    if (filteredValues.length > 0) {
+      currentFocusIndex = Math.min(currentFocusIndex, filteredValues.length - 1);
+    } else {
+      currentFocusIndex = 0;
+    }
+    
     filteredValues.forEach((value, index) => {
       const item = optionsList.createEl("li", {
         text: value,
         attr: {
-        style: "padding: 8px; cursor: pointer; list-style: none; border-radius: 4px",
-        role: "option",
-          "aria-selected": "false"
+          style: `
+            padding: 8px;
+            cursor: pointer;
+            list-style: none;
+            ${options.dropdownStyle ? 'border-bottom: 1px solid #eee;' : 'border-radius: 4px;'}
+          `,
+          role: "option",
+          "aria-selected": index === currentFocusIndex ? "true" : "false"
         }
       });
-        
+      
       if (index === currentFocusIndex) {
         item.style.backgroundColor = "#e5e5e5";
-        item.setAttribute("aria-selected", "true");
       }
       
       item.addEventListener("mouseover", () => {
@@ -60,26 +116,42 @@ export const addAutocompleteSelect = (containerEl: HTMLElement, options: Autocom
         }
       });
       
-      item.addEventListener("click", () => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent the click from bubbling to document
         selectItem(value);
       });
     });
+
+    // Show/hide dropdown based on results
+    if (options.dropdownStyle) {
+      if (filteredValues.length > 0 && isDropdownVisible) {
+        showDropdown();
+      } else {
+        hideDropdown();
+      }
+    }
   };
   
   const selectItem = (displayValue: string) => {
     const index = options.suggestions.displayedValues.indexOf(displayValue);
     if (index !== -1) {
       input.value = displayValue;
-      currentFocusIndex = -1;
       if (options.onSelected) options.onSelected(options.suggestions.usedValues[index]);
+      hideDropdown();
       updateOptions(input.value);
     }
   };
   
   // Input event handlers
   input.addEventListener("input", () => {
-    currentFocusIndex = -1;
+    currentFocusIndex = 0;
     updateOptions(input.value);
+    showDropdown();
+  });
+
+  input.addEventListener("focus", () => {
+    updateOptions(input.value);
+    showDropdown();
   });
   
   input.addEventListener("keydown", (event) => {
@@ -91,7 +163,7 @@ export const addAutocompleteSelect = (containerEl: HTMLElement, options: Autocom
           updateOptions(input.value);
         }
         break;
-          
+        
       case "ArrowUp":
         event.preventDefault();
         if (currentFocusIndex > 0) {
@@ -99,28 +171,38 @@ export const addAutocompleteSelect = (containerEl: HTMLElement, options: Autocom
           updateOptions(input.value);
         }
         break;
-          
+        
       case "Enter":
         event.preventDefault();
         if (filteredValues.length > 0) {
-          if (currentFocusIndex === -1) {
-              selectItem(filteredValues[0]);
-          } else {
-            selectItem(filteredValues[currentFocusIndex]);
-          }
+          selectItem(filteredValues[currentFocusIndex]);
+        }
+        break;
+
+      case "Escape":
+        if (options.dropdownStyle) {
+          hideDropdown();
         }
         break;
     }
   });
+
+  // Handle clicking outside
+  if (options.dropdownStyle) {
+    document.addEventListener("click", (e) => {
+      if (!wrapper.contains(e.target as Node)) {
+        hideDropdown();
+      }
+    });
+  }
   
   // Initial population
   updateOptions();
-  input.focus();
-  currentFocusIndex = 0;
-  updateOptions();
+  if (options.focus) input.focus();
   
   return {
-      input,
-      optionsList
+    input,
+    optionsList,
+    wrapper
   };
 };

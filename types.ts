@@ -42,3 +42,8 @@ export interface TaskValidationResult {
 }
 
 export type TaskFilterProperties = Partial<Omit<ITask, 'app' | 'file'>>;
+
+export interface TimeType {
+  name: string;
+  tag: string;
+}
