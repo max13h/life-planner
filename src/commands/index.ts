@@ -3,9 +3,9 @@ import { moveFileToBin } from "./moveFileToBin";
 import LifePlanner from "main";
 import { openDashboard } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
-import { Project } from "src/projects/project";
 import { Task } from "src/tasks/task";
 import { openProjectsView } from "src/views/projects";
+import { newProject } from "./newProject";
 
 export class Commands {
   private readonly plugin: LifePlanner;
@@ -30,7 +30,7 @@ export class Commands {
       id: 'create-project',
       name: 'Create project',
       icon: 'folder-heart',
-      callback: async () => await Project.new(this.app as AppWithPlugin)
+      callback: async () => await newProject(this.app as AppWithPlugin)
     });
     
     plugin.addCommand({
