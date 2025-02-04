@@ -1,5 +1,5 @@
 import { VaultError } from 'errors';
-import { App, TFile } from 'obsidian';
+import { App, TFile, getAllTags } from 'obsidian';
 
 /**
  * Formats a file path to ensure it has the correct .md extension and proper structure
@@ -104,7 +104,7 @@ export const getOrCreateFile = async (app: App, path: string, templatePath?: str
   await ensureFolder(app, folderPath);
   
   // Check if file exists
-  const existingFile = app.vault.getAbstractFileByPath(formattedPath);
+  const existingFile = app.vault.getFileByPath(formattedPath);
   if (existingFile instanceof TFile) {
     return existingFile;
   }
@@ -151,3 +151,36 @@ export const ensureFile = async (app: App, path: string, content: string): Promi
     throw new VaultError(`Failed to create file: ${error.message}`);
   }
 };
+
+export const openFile = async (app: App, file: TFile, mode: "source" | "preview") => {
+  const activeLeaf = app.workspace.getLeaf() || app.workspace.getLeaf('tab')
+  await activeLeaf.openFile(file);
+
+  const view = activeLeaf.getViewState();
+  if (!view || !view.state) throw new Error("View not found");
+  view.state.mode = mode;
+  activeLeaf.setViewState(view);
+  // Give focus to the new leaf
+  app.workspace.setActiveLeaf(activeLeaf, { focus: true });
+
+  if (!activeLeaf || !activeLeaf.view || activeLeaf.view.getViewType() !== 'markdown') {
+      throw new Error("Active view is not a Markdown file");
+  } else {
+    return activeLeaf
+  }
+}
+
+export const getAllTagsInVault = (app: App, filesInVault?: TFile[]) => {
+  const tagsMessy: string[][] = []
+  const files = filesInVault || app.vault.getFiles()
+
+  files.forEach(file => {
+    const frontmatter = app.metadataCache.getFileCache(file)
+    if (frontmatter) {
+      const tags = getAllTags(frontmatter)
+      if (tags?.length) tagsMessy.push(tags)
+    }
+  })
+
+  return [...new Set(tagsMessy.flat())].sort();
+}

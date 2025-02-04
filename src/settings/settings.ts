@@ -1,6 +1,7 @@
 import LifePlanner from 'main';
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, getAllTags, PluginSettingTab, Setting } from 'obsidian';
 import { addAutocompleteSelect } from 'src/ui/components/suggester';
+import { getAllTagsInVault } from 'src/utils/vault';
 import { TimeType } from 'types';
 
 export interface LifePlannerSettings {
@@ -45,6 +46,7 @@ export class LifePlannerSettingTab extends PluginSettingTab {
     let { containerEl } = this;
     const folders = this.app.vault.getAllFolders()
     const files = this.app.vault.getFiles()
+    const tags = getAllTagsInVault(this.app, files)
 
     containerEl.empty();
 
@@ -102,6 +104,23 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       dropdownStyle: true,
       style: "width: auto;",
       value: this.plugin.settings.projectsTemplatePath
+    })
+    
+    const projectsTag = new Setting(containerEl)
+      .setName('Projects tag')
+      .setDesc("Set the tag that will identify a project in vault")
+    addAutocompleteSelect(projectsTag.controlEl, {
+      suggestions: {
+        displayedValues: tags,
+        usedValues: tags
+      },
+      onSelected: async (value) => {
+        this.plugin.settings.projectsTag = value;
+        await this.plugin.saveSettings();
+      },
+      dropdownStyle: true,
+      style: "width: auto;",
+      value: this.plugin.settings.projectsTag
     })
 
     const taskFolder = new Setting(containerEl)

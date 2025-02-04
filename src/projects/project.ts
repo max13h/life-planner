@@ -1,63 +1,55 @@
-import { addInputComponent } from "src/ui/components/input";
-import { openOrCreateFile } from "src/utils/openOrCreateFile";
 import { AppWithPlugin } from "types";
+import { getOrCreateFile, openFile } from "src/utils/vault";
+import { Projects } from "./projects";
 import { NavigationModal } from "src/ui/modals/navigationModal";
+import { addInputComponent } from "src/ui/components/input";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
-import { TimeType } from "types";
 
 export class Project {
   private app: AppWithPlugin
   name: string | undefined;
-  path: string | undefined
-  timeType: TimeType | undefined
+  path: string | undefined;
+  parentProjectPath: string | undefined;
 
-  constructor(app: AppWithPlugin, name?: string, timeType?: TimeType) {
+  constructor(app: AppWithPlugin, name?: string) {
     this.app = app
     this.name = name
-    this.timeType = timeType
+    this.parentProjectPath = undefined
 
-
-    this.ensurePath()
+    if (this.name) this.path = this.retrieveFilePath()
   }
 
-  static async new(app: AppWithPlugin) {
-    const project = new Project(app);
-    const modal = new NavigationModal(app);
-    
-    const askName = () => {
-      modal.setTitle("Insert name of the new project");
-
-      const input = addInputComponent(modal.contentEl, {
-        onEnter: async () => await modal.pressNext(),
-        onKeyUp: () => project.setName(input.value)
-      });
+  async ask() {
+    return {
+      name: async (pModal?: NavigationModal) => {
+        const modal = pModal || new NavigationModal(this.app);
+        modal.setTitle("Insert name of the new project");
+  
+        const input = addInputComponent(modal.contentEl, {
+          onEnter: async () => await modal.pressNext(),
+          onKeyUp: () => this.setName(input.value),
+          focus: true
+        });
+      },
+      parentProject: async (pModal?: NavigationModal) => {
+        const projects = await Projects.getAllFiles(this.app)
+  
+        const modal = pModal || new NavigationModal(this.app);
+        modal.setTitle("Choose time type of the new project");
+  
+        addAutocompleteSelect(modal.contentEl, {
+          suggestions: {
+            displayedValues: projects.map(el => el.name),
+            usedValues: projects.map(el => el.path)
+          },
+          onSelected: (selected: string) => {
+          this.parentProjectPath = selected
+            modal.complete(null)
+          },
+          focus: true
+        })
+      }
     }
-
-    const askTimeType = () => {
-      modal.setTitle("Choose time type of the new project");
-
-      const settings = app.plugins.plugins["life-planner"].settings;
-      const timeTypeList = settings.timeTypesList as TimeType[]
-
-      addAutocompleteSelect(modal.contentEl, {
-        suggestions: {
-          displayedValues: timeTypeList.map(el => el.name),
-          usedValues: timeTypeList
-        },
-        onSelected: (selected) => {
-          project.timeType = selected
-          modal.complete(null)
-        }
-      })
-    }
-
-    modal.pages = [
-      askName,
-      askTimeType
-    ]
-    await modal.open();
-
-    await project.createAndOpenFile()
   }
 
   async createAndOpenFile() {
@@ -65,25 +57,30 @@ export class Project {
 
     const settings = this.app.plugins.plugins["life-planner"].settings;
 
-    await openOrCreateFile(this.app, this.path, "source", settings.projectsTemplatePath)
+    const file = await getOrCreateFile(this.app, this.path, settings.projectsTemplatePath)
+    if (!file) throw new Error("Not able to create file");
+
+    if (this.parentProjectPath) {
+      this.app.fileManager.processFrontMatter(file, (frontmatter) => {
+        frontmatter['parent_project'] = `[[${this.parentProjectPath}]]`;
+      });
+    }
+
+    await openFile(this.app, file, "source")
   }
 
   setName(name: string) {
     this.name = name
-    this.ensurePath()
+    if (this.name) this.path = this.retrieveFilePath()
   }
 
-  private ensurePath() {
-    if (this.name) this.path = this.retrieveFilePath().filePathFormatted
-  }
-
-  private retrieveFilePath() {
+  retrieveFilePath() {
     const settings = this.app.plugins.plugins["life-planner"].settings;
 
     const folderPath = settings.projectsFolder.endsWith('/') ? settings.projectsFolder : settings.projectsFolder + '/';
-    const fileName = this.name?.startsWith('/') ? this.name?.slice(1) : this.name;
-    const filePathFormatted = folderPath + fileName + ".md";
+    const fileName = this.name?.startsWith('/') ? this.name?.slice(1).replace(/\.md$/, '') : this.name?.replace(/\.md$/, '');
+    const filePath = folderPath + fileName + ".md";
 
-    return { folderPath, fileName, filePathFormatted }
+    return filePath
   }
 }
