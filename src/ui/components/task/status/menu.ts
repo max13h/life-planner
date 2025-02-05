@@ -1,13 +1,15 @@
 import { Menu } from "obsidian";
-import { ITask } from "types";
+import Task from "src/classes/task/task";
+import { setCancelled, setChecked, setInProgress, setUnchecked } from "./actions";
 
-export const displayStatusMenu = (e: MouseEvent | TouchEvent, task: ITask) => {
+export const displayStatusMenu = (e: MouseEvent | TouchEvent, task: Task, checkbox: HTMLInputElement) => {
   const menu = new Menu();
 
   menu.addItem((item) =>
     item
       .setTitle('🔲')
       .onClick(() => {
+        setUnchecked(task, checkbox)
       })
       .setChecked(task.status === " ")
   );
@@ -15,6 +17,7 @@ export const displayStatusMenu = (e: MouseEvent | TouchEvent, task: ITask) => {
     item
       .setTitle('✅')
       .onClick(() => {
+        setChecked(task, checkbox)
       })
       .setChecked(task.status === "x")
   );
@@ -22,6 +25,7 @@ export const displayStatusMenu = (e: MouseEvent | TouchEvent, task: ITask) => {
     item
       .setTitle('⚒️')
       .onClick(() => {
+        setInProgress(task, checkbox)
       })
       .setChecked(task.status === "/")
   );
@@ -29,6 +33,7 @@ export const displayStatusMenu = (e: MouseEvent | TouchEvent, task: ITask) => {
     item
       .setTitle('❌')
       .onClick(() => {
+        setCancelled(task, checkbox)
       })
       .setChecked(task.status === "-")
   );

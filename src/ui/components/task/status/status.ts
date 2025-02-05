@@ -1,5 +1,6 @@
 import { statusEvenListeners } from "./eventListeners";
 import Task from "src/classes/task/task";
+import { setSpan } from "./spanComponent";
 
 export const createStatus = (task: Task, container: HTMLElement) => {
   const wrapper = container.createDiv({
@@ -25,22 +26,10 @@ export const createStatus = (task: Task, container: HTMLElement) => {
   checkbox.checked = task.status === "x"
 
   if (task.status === "-" || task.status === "/") {
-    wrapper.createSpan({
-      text: task.status === "-" ? "❌" : "⚒️",
-      attr: {
-        style: `
-          font-size: 0.7rem;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 10;
-          pointer-events: none;
-        `
-      }
-    });
+    setSpan(wrapper, task.status === "-" ? "❌" : "⚒️")
   }
 
-  statusEvenListeners(checkbox, task)
+  statusEvenListeners(wrapper, task)
 
   return checkbox;
 }

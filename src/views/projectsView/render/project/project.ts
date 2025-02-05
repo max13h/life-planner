@@ -10,8 +10,9 @@ export const renderProject = async ({ app, container, file, leaf, headingNumber,
     flex-direction: column; 
     gap: 0.5rem;
     background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.10);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-m);
     padding-left: 16px;
+    padding-bottom: 8px;
   ` } })
 
   createHeader({

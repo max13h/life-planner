@@ -16,7 +16,7 @@ export const createTaskComponent = (
       style: `
         display: flex;
         flex-direction: column;
-        border-radius: var(--radius-l);
+        border-radius: var(--radius-m) 0 0 var(--radius-m);
         padding-left: 0.5rem;
         padding-right: 0.5rem;
         background: var(--background-primary);

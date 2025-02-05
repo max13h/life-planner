@@ -1,32 +1,26 @@
+import { onClick } from "./actions";
 import { displayStatusMenu } from "./menu";
 import Task from "src/classes/task/task";
 
-export const statusEvenListeners = (checkbox: HTMLInputElement, task: Task) => {
+export const statusEvenListeners = (wrapper: HTMLDivElement, task: Task) => {
   let longPressTimer: NodeJS.Timeout;
   let hasLongPressTriggered = false;
   const LONG_PRESS_DURATION = 500;
 
+  const checkbox = wrapper.querySelector("input");
+
+  if (!checkbox) throw new Error("Unable to retrieve checkbx");
+  
+
   // LEFT CLICK OR TOUCH
-  checkbox.addEventListener("click", async e => {
-    if (task.status === " ") {
-      checkbox.checked = true
-      checkbox.value = "true"
-      await task.update({ 
-        status: "x",
-      }).save();
-    } else if (task.status === "x") {
-      checkbox.checked = false
-      checkbox.value = "false"
-      await task.update({ 
-        status: " ",
-      }).save();
-    }
+  checkbox.addEventListener("click", async () => {
+    await onClick(task, checkbox)
   })
 
   // RIGHT CLICK
   checkbox.addEventListener("contextmenu", e => {
     e.preventDefault();
-    displayStatusMenu(e, task)
+    displayStatusMenu(e, task, checkbox)
   });
 
 
@@ -37,7 +31,7 @@ export const statusEvenListeners = (checkbox: HTMLInputElement, task: Task) => {
     longPressTimer = setTimeout(() => {
       hasLongPressTriggered = true;
       e.preventDefault();
-      if (!hasLongPressTriggered) displayStatusMenu(e, task);
+      if (!hasLongPressTriggered) displayStatusMenu(e, task, checkbox);
     }, LONG_PRESS_DURATION);
   });
 
