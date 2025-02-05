@@ -53,6 +53,6 @@ const buildPlannerSkeleton = (plannerContainer: HTMLDivElement) => {
 export const buildPlanner = (app: App, plannerContainer: HTMLDivElement) => {
   buildPlannerSkeleton(plannerContainer)
   const date = dateNow()
-  const tasksFromDate = Tasks.getTasksFromDate(app, date)
-  const recurringTasks = Tasks.getRecurringTasks(app)
+  // const tasksFromDate = Tasks.getTasksFromDate(app, date)
+  // const recurringTasks = Tasks.getRecurringTasks(app)
 }

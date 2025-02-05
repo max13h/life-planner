@@ -8,7 +8,7 @@ export async function askProject(modal: NavigationModal, task: Task, isLast: boo
   return async (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Choose project related the new task");
 
-    const projectFiles = await Projects.getAllFiles(task.app as AppWithPlugin)
+    const projectFiles = await Projects.getFiles(task.app as AppWithPlugin)
 
     addAutocompleteSelect(contentEl, {
       focus: true,

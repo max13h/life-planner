@@ -1,11 +1,10 @@
 import { AppWithPlugin } from "types";
-import { getOrCreateFile, openFile } from "src/utils/vault";
 import { Projects } from "../projects/projects";
 import { createProject } from "./new/new";
-import { ProjectFileError } from "errors";
+import { createAndOpenFile } from "./createAndOpenFile";
 
 export class Project {
-  private app: AppWithPlugin
+  app: AppWithPlugin
   name: string | undefined;
   path: string | undefined;
   parentProjectPath: string | undefined;
@@ -16,30 +15,12 @@ export class Project {
     this.parentProjectPath = undefined
   }
 
-  static async new(app: AppWithPlugin) {
+  static async new(app: AppWithPlugin): Promise<void> {
     await createProject(app)
   }
 
-  async createAndOpenFile() {
-    if (!this.path) throw new ProjectFileError("Unable to create project file");
-    const settings = this.app.plugins.plugins["life-planner"].settings;
-
-    const file = await getOrCreateFile(this.app, this.path, settings.projectsTemplatePath)
-    if (!file) throw new Error("Not able to create file");
-
-    this.app.fileManager.processFrontMatter(file, (frontmatter) => {
-      if (this.parentProjectPath) frontmatter['parent_project'] = `[[${this.parentProjectPath}]]`;
-
-      if (!frontmatter.tags || !frontmatter.tags.includes(settings.projectsTag)) {
-        if (frontmatter.tags) {
-          frontmatter.tags.push(settings.projectsTag)
-        } else {
-          frontmatter.tags = [settings.projectsTag.replace(/^#/, '')]
-        }
-      }
-    });
-
-    await openFile(this.app, file, "source")
+  async createAndOpenFile(): Promise<void> {
+    return createAndOpenFile.call(this); 
   }
 
   async setName(name: string) {
@@ -49,8 +30,10 @@ export class Project {
 
   async setPath() {
     if (!this.name) return
-
     this.path = (await Projects.getMetadata(this.app, this.name)).filePathFormatted
   }
-  
 }
+
+export const ensureInstanceOfProject = (projectInstance: any): void => {
+  if (!(projectInstance instanceof Project)) throw new Error("Not instance of Project");
+};

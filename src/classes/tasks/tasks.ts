@@ -1,10 +1,12 @@
-import { App, TFile } from "obsidian";
+import { TFile } from "obsidian";
 import { AppWithPlugin, Metadata } from "types";
-import Task from "../../tasks/task";
 import { TaskFilterProperties } from "types";
 import { getFile } from "src/classes/tasks/getFile";
 import { getMetadata } from "./getMetadata";
 import { getTasks } from "./getTasks";
+import Task from "../task/task";
+import { getTasksFromProperties } from "./getTasksFromProperties";
+import { sortTasks } from "./sortTasks";
 
 export class Tasks {
   static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Recurs|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|---------|";
@@ -15,35 +17,12 @@ export class Tasks {
 
   static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app) }
 
-
   static async getTasksFromProperties(app: AppWithPlugin, properties: TaskFilterProperties): Promise<Task[]> {
-    const tasks = await this.getTasks(app);
-
-    return tasks.filter(task => {
-      return Object.entries(properties).every(([key, value]) => {
-        const taskValue = task[key as keyof Task];
-        
-        if (key === 'tags' && Array.isArray(value)) {
-          return JSON.stringify(task.tags) === JSON.stringify(value);
-        }
-        
-        return taskValue === value;
-      });
-    });
-  }
-
-  static async getTasksFromDate(app: AppWithPlugin, date: string): Promise<Task[]> {
-    return this.getTasksFromProperties(app, { schedule: date });
+    return await getTasksFromProperties(app, properties)
   }
 
   static sortTasks(tasks: Task[], ...comparisons: ((a: Task, b: Task) => number)[]): Task[] {
-    return [...tasks].sort((a, b) => {
-      for (const comparison of comparisons) {
-        const result = comparison(a, b);
-        if (result !== 0) return result;
-      }
-      return 0;
-    });
+    return sortTasks(tasks, ...comparisons)
   }
 
   static readonly comparisons = {
