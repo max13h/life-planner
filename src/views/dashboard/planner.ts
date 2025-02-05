@@ -1,5 +1,5 @@
 import { App } from "obsidian"
-import { Tasks } from "src/tasks/tasks";
+import { Tasks } from "src/classes/tasks/tasks";
 import { dateNow } from "src/utils/time";
 
 const buildPlannerSkeleton = (plannerContainer: HTMLDivElement) => {

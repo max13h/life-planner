@@ -1,11 +1,11 @@
 import { App, ItemView, WorkspaceLeaf, getAllTags, moment } from 'obsidian';
 import { Projects } from 'src/projects/projects';
-import { Tasks } from 'src/tasks/tasks';
+import { Tasks } from 'src/classes/tasks/tasks';
 import { createTaskComponent } from 'src/ui/components/task';
 import { listenClick, listenOverAndOut } from 'src/ui/html';
 import { AppWithPlugin } from 'types';
 import { renderHeading } from './render/heading';
-import { renderProjects } from './render/projects';
+import { renderProjects } from './render/projects/projects';
 
 export const VIEW_LIFE_PLANNER_PROJECTS = 'VIEW_LIFE_PLANNER_PROJECTS';
 

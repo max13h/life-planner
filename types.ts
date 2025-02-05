@@ -47,3 +47,9 @@ export interface TimeType {
   name: string;
   tag: string;
 }
+
+export interface Metadata {
+  folderPath: string;
+  fileName: string;
+  filePathFormatted: string;
+}

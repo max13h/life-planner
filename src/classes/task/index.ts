@@ -4,11 +4,10 @@ import { ITask, TaskStatus, TaskValidationResult } from "types";
 import { validate as validateFn } from "./validate";
 import { parseFromMarkdownLine as parseFromMarkdownLineFn } from "./parseFromMarkdownLine";
 import { toMarkdownLine as toMarkdownLineFn } from "./toMarkdownLine";
-import { ensureFile } from "src/utils/vault";
-import { Tasks } from "../tasks";
 import { insertTaskInFile as insertTaskInFileFn } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
 import { createTask } from "./new";
+import { Tasks } from "../tasks/tasks";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -25,8 +24,6 @@ export default class Task implements ITask {
   completed?: string;
   app: AppWithPlugin;
   file: TFile;
-
-  private static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Recurs|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|---------|";
 
   constructor(app: AppWithPlugin) {
     this.app = app;
@@ -59,11 +56,7 @@ export default class Task implements ITask {
 
   async setFile(): Promise<void> {
     if (!this.file) {
-      this.file = await ensureFile(
-        this.app,
-        Tasks.retrieveFilePath(this.app).filePathFormatted,
-        Task.TABLE_HEADER
-      );
+      this.file = await Tasks.getFile(this.app)
     }
   }
 
