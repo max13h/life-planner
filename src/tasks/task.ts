@@ -61,11 +61,37 @@ export class Task implements ITask {
     }
   }
 
-  validate(): TaskValidationResult {
+  validate(isStrict: boolean = false, message?: string): TaskValidationResult {
     const errors: string[] = [];
+    const settings = this.app.plugins.plugins["life-planner"].settings;
+
+
+    if (this.status !== " " && this.status !== "x" && this.status !== "/" && this.status !== "-") {
+      errors.push("Status must be ' ' or 'x' or '/' or '-'");
+    }
 
     if (!this.text.trim()) {
       errors.push("Task text is required");
+    }
+
+    if (this.schedule && !moment(this.schedule, settings.dateFormat).isValid()) {
+      errors.push(`Schedule must be in format ${settings.dateFormat}`);
+    }
+
+    if (this.start && !moment(this.start, "HH:mm").isValid()) {
+      errors.push(`Start must be in format "HH:mm"`);
+    }
+
+    if (this.end && !moment(this.end, "HH:mm").isValid()) {
+      errors.push(`End must be in format "HH:mm"`);
+    }
+
+    if (this.occurrence && !(/^\d+\/\d+$/.test(this.occurrence))) {
+      errors.push("Occurrence must be in format like 1/2 or 16/37");
+    }
+
+    if (this.projectLink && !(/^\[\[[^\[\]]+\.md\]\]$/.test(this.projectLink))) {
+      errors.push("Occurrence must be in format like [[exemple.md]] or [[exemple/.../exemple.md]]");
     }
 
     if (this.tags.some(tag => !tag.startsWith("#"))) {
@@ -76,6 +102,10 @@ export class Task implements ITask {
       errors.push("Priority must be low, medium, or high");
     }
 
+    if (isStrict) {
+      throw new TaskValidationError(`${message ? message + "\n" : ""}Invalid task: ${errors.join(", ")}`);
+    }
+
     return {
       isValid: errors.length === 0,
       errors
@@ -83,10 +113,7 @@ export class Task implements ITask {
   }
 
   toMarkdownLine(): string {
-    const validation = this.validate();
-    if (!validation.isValid) {
-      throw new TaskValidationError(`Invalid task: ${validation.errors.join(", ")}`);
-    }
+    this.validate(true);
 
     const tagsString = this.tags.join(" ");
     const projectLinkFormatted = this.projectLink ? `[[${this.projectLink}]]` : "";
@@ -100,11 +127,7 @@ export class Task implements ITask {
     if (!this.created) {
       this.created = new Date().toISOString();
     }
-
-    const validation = this.validate();
-    if (!validation.isValid) {
-      throw new TaskValidationError(`Cannot insert invalid task: ${validation.errors.join(", ")}`);
-    }
+    this.validate(true, "Cannot insert invalid task");
 
     this.file = await this.ensureExistAndReturnFile();
     await this.app.vault.append(this.file, `\n${this.toMarkdownLine()}`);
@@ -316,4 +339,6 @@ export class Task implements ITask {
     await modal.open()
     await task.insertTaskInFile()
   }
+
+
 }
