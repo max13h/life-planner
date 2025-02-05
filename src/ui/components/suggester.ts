@@ -5,11 +5,13 @@ interface Suggestions<T> {
 
 interface AutocompleteSelectOptions<T> {
   suggestions: Suggestions<T>;
-  onSelected?: (usedValue: T) => void;
+  onSelected?: (usedValue: T | string) => void;
   dropdownStyle?: boolean;
   style?: string,
   value?: string,
-  focus?: boolean
+  focus?: boolean,
+  placeholder?: string;
+  allowNewEntry?: boolean;
 }
 
 export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: AutocompleteSelectOptions<T>) => {
@@ -30,7 +32,8 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
       type: "text",
       role: "combobox",
       "aria-autocomplete": "list",
-      value: options.value || ""
+      value: options.value || "",
+      placeholder: options.placeholder || ""
     }
   });
   
@@ -139,6 +142,9 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
       if (options.onSelected) options.onSelected(options.suggestions.usedValues[index]);
       hideDropdown();
       updateOptions(input.value);
+    } else if (options.allowNewEntry) {
+      if (options.onSelected) options.onSelected(input.value);
+      updateOptions(input.value)
     }
   };
   
@@ -147,6 +153,10 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
     currentFocusIndex = 0;
     updateOptions(input.value);
     showDropdown();
+
+    if (options.allowNewEntry) {
+      selectItem("")
+    }
   });
 
   input.addEventListener("focus", () => {

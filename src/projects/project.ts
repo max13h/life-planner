@@ -35,18 +35,18 @@ export class Project {
         const projects = await Projects.getAllFiles(this.app)
   
         const modal = pModal || new NavigationModal(this.app);
-        modal.setTitle("Choose time type of the new project");
+        modal.setTitle("Choose parent project of the new project");
   
         addAutocompleteSelect(modal.contentEl, {
           suggestions: {
-            displayedValues: projects.map(el => el.name),
+            displayedValues: projects.map(el => el.basename),
             usedValues: projects.map(el => el.path)
           },
           onSelected: (selected: string) => {
           this.parentProjectPath = selected
             modal.complete(null)
           },
-          focus: true
+          focus: true,
         })
       }
     }
@@ -60,11 +60,17 @@ export class Project {
     const file = await getOrCreateFile(this.app, this.path, settings.projectsTemplatePath)
     if (!file) throw new Error("Not able to create file");
 
-    if (this.parentProjectPath) {
-      this.app.fileManager.processFrontMatter(file, (frontmatter) => {
-        frontmatter['parent_project'] = `[[${this.parentProjectPath}]]`;
-      });
-    }
+    this.app.fileManager.processFrontMatter(file, (frontmatter) => {
+      if (this.parentProjectPath) frontmatter['parent_project'] = `[[${this.parentProjectPath}]]`;
+
+      if (!frontmatter.tags || !frontmatter.tags.includes(settings.projectsTag)) {
+        if (frontmatter.tags) {
+          frontmatter.tags.push(settings.projectsTag)
+        } else {
+          frontmatter.tags = [settings.projectsTag.replace(/^#/, '')]
+        }
+      }
+    });
 
     await openFile(this.app, file, "source")
   }

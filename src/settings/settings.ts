@@ -1,13 +1,11 @@
 import LifePlanner from 'main';
-import { App, getAllTags, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting } from 'obsidian';
 import { addAutocompleteSelect } from 'src/ui/components/suggester';
 import { getAllTagsInVault } from 'src/utils/vault';
-import { TimeType } from 'types';
 
 export interface LifePlannerSettings {
   binFolder: string;
   dateFormat: string
-  timeTypesList: TimeType[];
   projectsFolder: string;
   projectsTag: string;
   projectsTemplatePath: string;
@@ -17,18 +15,12 @@ export interface LifePlannerSettings {
 }
 
 export const DEFAULT_SETTINGS: LifePlannerSettings = {
-  binFolder: "_bin",
+  binFolder: "",
   dateFormat: "YYYY-MM-DD",
-	timeTypesList: [
-    {name: "obligatoire", tag: "#temps/obligatoire"},
-    {name: "professionnel", tag: "#temps/professionnel"},
-    {name: "personnel", tag: "#temps/personnel"},
-    {name: "pour-moi", tag: "#temps/pour-moi"},
-  ],
-  projectsFolder: "_bin/projects",
-  projectsTag: "#projet/en-cours",
+  projectsFolder: "",
+  projectsTag: "#project/in-progress",
   projectsTemplatePath: "",
-  tasksFolder: "_bin",
+  tasksFolder: "",
   tasksFile: "TASKS-" + new Date().getFullYear(),
   recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear()
 }
@@ -50,18 +42,13 @@ export class LifePlannerSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    new Setting(containerEl)
-      .setName('Time Types List')
-      .setDesc("Here is the time type list")
-    containerEl.createDiv({ attr: { style: "white-space: pre-line; margin-bottom: 8px" }, text: JSON.stringify(this.plugin.settings.timeTypesList).slice(1, -1).split("},{").join("},\n{").replace(/"/g, " ") });
-
     const binFolder = new Setting(containerEl)
       .setName('Bin Folder')
       .setDesc("Set name of the bin folder")
     addAutocompleteSelect(binFolder.controlEl, {
       suggestions: {
         displayedValues: folders.map(el => el.path),
-        usedValues: folders.map(el => el.path)
+        usedValues: folders.map(el => el.path),
       },
       onSelected: async (value) => {
         this.plugin.settings.binFolder = value;
@@ -69,7 +56,7 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       },
       dropdownStyle: true,
       style: "width: auto;",
-      value: this.plugin.settings.binFolder
+      value: this.plugin.settings.binFolder,
     })
 
     const projectFolder = new Setting(containerEl)
@@ -86,7 +73,7 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       },
       dropdownStyle: true,
       style: "width: auto;",
-      value: this.plugin.settings.projectsFolder
+      value: this.plugin.settings.projectsFolder,
     })  
 
     const projectsTemplatePath = new Setting(containerEl)
@@ -103,7 +90,8 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       },
       dropdownStyle: true,
       style: "width: auto;",
-      value: this.plugin.settings.projectsTemplatePath
+      value: this.plugin.settings.projectsTemplatePath,
+      allowNewEntry: true
     })
     
     const projectsTag = new Setting(containerEl)
@@ -120,7 +108,8 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       },
       dropdownStyle: true,
       style: "width: auto;",
-      value: this.plugin.settings.projectsTag
+      value: this.plugin.settings.projectsTag,
+      allowNewEntry: true
     })
 
     const taskFolder = new Setting(containerEl)

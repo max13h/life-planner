@@ -184,3 +184,14 @@ export const getAllTagsInVault = (app: App, filesInVault?: TFile[]) => {
 
   return [...new Set(tagsMessy.flat())].sort();
 }
+
+export const getTagsInFile = (app: App, file: TFile) => {
+  const fileCache = app.metadataCache.getFileCache(file)
+  if (fileCache) {
+    const tags = getAllTags(fileCache)
+
+    if (tags) return tags
+  }
+
+  return []
+}
