@@ -19,7 +19,7 @@ export function parseFromMarkdownLine(this: Task, line: string): void {
     this.start = columns[3] || undefined;
     this.end = columns[4] || undefined;
     this.occurrence = columns[5] || undefined;
-    this.projectLink = columns[6] ? columns[6].replace(/\[\[(.*?)\]\]/, "$1") : undefined;
+    this.projectLink = columns[6] || undefined;
     this.tags = columns[7] ? columns[7].split(" ").filter((tag) => tag.startsWith("#")) : [];
     this.priority = columns[8] || undefined;
     this.recurs = columns[9] || undefined;

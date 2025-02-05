@@ -1,8 +1,4 @@
 import { App, ItemView, WorkspaceLeaf, getAllTags, moment } from 'obsidian';
-import { Projects } from 'src/classes/projects/projects';
-import { Tasks } from 'src/classes/tasks/tasks';
-import { createTaskComponent } from 'src/ui/components/task';
-import { listenClick, listenOverAndOut } from 'src/ui/html';
 import { AppWithPlugin } from 'types';
 import { renderHeading } from './render/heading';
 import { renderProjects } from './render/projects/projects';
@@ -39,6 +35,6 @@ export class ProjectsView extends ItemView {
     `}});
 
     renderHeading(viewContainer)
-    renderProjects(this.app as AppWithPlugin, viewContainer, this.leaf)
+    await renderProjects(this.app as AppWithPlugin, viewContainer, this.leaf)
   }
 }

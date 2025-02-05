@@ -1,13 +1,15 @@
 import { TFile } from "obsidian";
 import { AppWithPlugin } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
-import { validate as validateFn } from "./validate";
-import { parseFromMarkdownLine as parseFromMarkdownLineFn } from "./parseFromMarkdownLine";
-import { toMarkdownLine as toMarkdownLineFn } from "./toMarkdownLine";
-import { insertTaskInFile as insertTaskInFileFn } from "./insertTaskInFile";
+import { validate } from "./validate";
+import { parseFromMarkdownLine } from "./parseFromMarkdownLine";
+import { toMarkdownLine } from "./toMarkdownLine";
+import { insertTaskInFile } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
 import { createTask } from "./new/new";
 import { Tasks } from "../tasks/tasks";
+import { update } from "./update";
+import { save } from "./save";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -31,23 +33,31 @@ export default class Task implements ITask {
   }
 
   validate(isStrict: boolean = false, message?: string): TaskValidationResult {
-    return validateFn.call(this, isStrict, message);
+    return validate.call(this, isStrict, message);
   }
 
   toMarkdownLine(): string {
-    return toMarkdownLineFn.call(this);
+    return toMarkdownLine.call(this);
   }
 
   parseFromMarkdownLine(line: string): void {
-    return parseFromMarkdownLineFn.call(this, line);
+    return parseFromMarkdownLine.call(this, line);
   }
 
   insertTaskInFile(): Promise<void> {
-    return insertTaskInFileFn.call(this);
+    return insertTaskInFile.call(this);
   }
 
   compareTo(other: Task): number {
     return compareTo.call(this, other);
+  }
+
+  update(updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink' | 'recurs'>>) {
+    return update.call(this, updates)
+  }
+
+  async save(): Promise<void> {
+    return save.call(this)
   }
 
   static async new(app: AppWithPlugin): Promise<void> {

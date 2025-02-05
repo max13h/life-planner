@@ -1,6 +1,5 @@
-import { App } from 'obsidian';
-import { ITask } from 'types';
-import { createStatus } from './status';
+import { createStatus } from './status/status';
+import Task from 'src/classes/task/task';
 
 interface Props {
   onStatusChange?: (newStatus: string) => void;
@@ -9,7 +8,7 @@ interface Props {
 
 export const createTaskComponent = (
   container: HTMLElement,
-  task: ITask,
+  task: Task,
   props: Props,
 ) => {
   const taskContainer = container.createDiv({
@@ -17,10 +16,9 @@ export const createTaskComponent = (
       style: `
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        border: 1px solid var(--background-modifier-border);
-        padding: 1rem;
-        border-radius: 5px;
+        border-radius: var(--radius-l);
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
         background: var(--background-primary);
         cursor: ${props.onTaskClick ? 'pointer' : 'default'};
       `
@@ -41,7 +39,7 @@ export const createTaskComponent = (
     attr: {
       style: `
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 0.5rem;
       `
     }

@@ -1,6 +1,6 @@
 import Task, { ensureInstanceOfTask } from "./task";
 
-export function compareTo(other: Task): number {
+export function compareTo(this: Task, other: Task): number {
   ensureInstanceOfTask(this)
 
   if (this.schedule && other.schedule) {

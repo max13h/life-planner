@@ -35,7 +35,7 @@ export function validate(this: Task, isStrict: boolean = false, message?: string
   }
 
   if (this.projectLink && !(/^\[\[[^\[\]]+\.md\]\]$/.test(this.projectLink))) {
-    errors.push("Occurrence must be in format like [[exemple.md]] or [[exemple/.../exemple.md]]");
+    errors.push("ProjectLink must be in format like [[exemple.md]] or [[exemple/.../exemple.md]]");
   }
 
   if (this.tags.some((tag: string) => !tag.startsWith("#"))) {

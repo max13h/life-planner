@@ -8,6 +8,9 @@ export const getTasksFromProperties = async (app: AppWithPlugin, properties: Tas
   return tasks.filter(task => {
     return Object.entries(properties).every(([key, value]) => {
       const taskValue = task[key as keyof Task];
+      // console.log("taskValue", taskValue);
+      // console.log("value", value);
+      // console.log("========");
 
       if (key === 'tags' && Array.isArray(value)) {
         return JSON.stringify(task.tags) === JSON.stringify(value);

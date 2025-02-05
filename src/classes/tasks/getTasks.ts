@@ -19,6 +19,7 @@ export const getTasks = async (app : AppWithPlugin): Promise<Task[]> => {
       try {
         const task = new Task(app as AppWithPlugin);
         task.parseFromMarkdownLine(line);
+
         const validation = task.validate();
         if (validation.isValid) {
           tasks.push(task);
