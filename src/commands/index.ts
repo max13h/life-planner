@@ -3,7 +3,7 @@ import { moveFileToBin } from "./moveFileToBin";
 import LifePlanner from "main";
 import { openDashboard } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
-import { Task } from "src/tasks/task";
+import Task from "src/tasks/task";
 import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
 import { newProject } from "./newProject";
 import { openView } from "src/views";
@@ -45,7 +45,7 @@ export class Commands {
       id: 'add-task',
       name: 'Add task',
       icon: 'check-check',
-      callback: async () => await Task.new(this.app)
+      callback: async () => await Task.new(this.app as AppWithPlugin)
     });
     
     plugin.addCommand({

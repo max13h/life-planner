@@ -27,7 +27,7 @@ export interface ITask {
   created?: string;
   completed?: string;
   app: AppWithPlugin;
-  file?: TFile;
+  file: TFile;
 }
 
 export interface TaskComparators {

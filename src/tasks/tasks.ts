@@ -1,6 +1,6 @@
 import { App } from "obsidian";
 import { AppWithPlugin } from "types";
-import { Task } from "./task";
+import Task from "./task";
 import { TaskFilterProperties } from "types";
 import { TaskFileError } from "errors";
 
