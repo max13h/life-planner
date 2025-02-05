@@ -1,5 +1,6 @@
 import { App } from 'obsidian';
 import { ITask } from 'types';
+import { createStatus } from './status';
 
 interface Props {
   onStatusChange?: (newStatus: string) => void;
@@ -11,7 +12,7 @@ export const createTaskComponent = (
   task: ITask,
   props: Props,
 ) => {
-  const taskElementContainer = container.createDiv({
+  const taskContainer = container.createDiv({
     attr: {
       style: `
         display: flex;
@@ -27,7 +28,7 @@ export const createTaskComponent = (
   });
 
   if (props.onTaskClick) {
-    taskElementContainer.addEventListener('click', (e) => {
+    taskContainer.addEventListener('click', (e) => {
       // Prevent triggering click when interacting with checkbox
       if (!(e.target instanceof HTMLInputElement)) {
         props.onTaskClick?.();
@@ -36,7 +37,7 @@ export const createTaskComponent = (
   }
 
   // Status and Text Container
-  const statusTextContainer = taskElementContainer.createDiv({
+  const statusTextContainer = taskContainer.createDiv({
     attr: {
       style: `
         display: flex;
@@ -46,33 +47,9 @@ export const createTaskComponent = (
     }
   });
 
-  // Status
-  if (task.status === " " || task.status === "x") {
-    const checkbox = statusTextContainer.createEl("input", {
-      attr: {
-        type: "checkbox",
-        checked: task.status === "x",
-        style: "margin-top: 0.25rem;"
-      }
-    });
-    
-    if (props.onStatusChange) {
-      checkbox.addEventListener('change', (e) => {
-        const newStatus = (e.target as HTMLInputElement).checked ? "x" : " ";
-        props.onStatusChange?.(newStatus);
-      });
-    }
-  } else {
-    statusTextContainer.createSpan({
-      text: task.status === "-" ? "❌" : "⚒️",
-      attr: {
-        style: `
-          font-size: 1.1em;
-          line-height: 1.5;
-        `
-      }
-    });
-  }
+  createStatus(task, statusTextContainer)
+
+  
 
   // Task Text
   statusTextContainer.createSpan({
@@ -87,7 +64,7 @@ export const createTaskComponent = (
 
   // Schedule Info Container
   if (task.schedule || task.start || task.end) {
-    const scheduleContainer = taskElementContainer.createDiv({
+    const scheduleContainer = taskContainer.createDiv({
       attr: {
         style: `
           display: flex;
@@ -130,7 +107,7 @@ export const createTaskComponent = (
 
   // Tags Container
   if (task.tags && task.tags.length > 0) {
-    const tagsContainer = taskElementContainer.createDiv({
+    const tagsContainer = taskContainer.createDiv({
       attr: {
         style: `
           display: flex;
@@ -156,5 +133,5 @@ export const createTaskComponent = (
     });
   }
 
-  return taskElementContainer;
+  return taskContainer;
 };
