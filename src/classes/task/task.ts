@@ -6,7 +6,7 @@ import { parseFromMarkdownLine as parseFromMarkdownLineFn } from "./parseFromMar
 import { toMarkdownLine as toMarkdownLineFn } from "./toMarkdownLine";
 import { insertTaskInFile as insertTaskInFileFn } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
-import { createTask } from "./new";
+import { createTask } from "./new/new";
 import { Tasks } from "../tasks/tasks";
 
 export default class Task implements ITask {

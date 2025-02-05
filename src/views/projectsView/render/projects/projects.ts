@@ -1,5 +1,5 @@
 import { TFile, WorkspaceLeaf } from "obsidian"
-import { Projects } from "src/projects/projects"
+import { Projects } from "src/classes/projects/projects"
 import { AppWithPlugin } from "types"
 import { renderProject } from "../project/project"
 

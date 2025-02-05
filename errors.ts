@@ -32,3 +32,16 @@ export class VaultError extends Error {
     this.name = 'VaultError';
   }
 }
+
+export class ProjectError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ProjectError';
+  }
+}
+export class ProjectFileError extends ProjectError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ProjectFileError';
+  }
+}

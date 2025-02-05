@@ -1,5 +1,5 @@
 import { App, ItemView, WorkspaceLeaf, getAllTags, moment } from 'obsidian';
-import { Projects } from 'src/projects/projects';
+import { Projects } from 'src/classes/projects/projects';
 import { Tasks } from 'src/classes/tasks/tasks';
 import { createTaskComponent } from 'src/ui/components/task';
 import { listenClick, listenOverAndOut } from 'src/ui/html';

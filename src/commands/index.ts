@@ -5,8 +5,8 @@ import { openDashboard } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
 import Task from "src/classes/task/task";
 import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
-import { newProject } from "./newProject";
 import { openView } from "src/views";
+import { Project } from "src/classes/project/project";
 
 export class Commands {
   private readonly plugin: LifePlanner;
@@ -31,7 +31,7 @@ export class Commands {
       id: 'create-project',
       name: 'Create project',
       icon: 'folder-heart',
-      callback: async () => await newProject(this.app as AppWithPlugin)
+      callback: async () => await Project.new(this.app as AppWithPlugin)
     });
     
     plugin.addCommand({
