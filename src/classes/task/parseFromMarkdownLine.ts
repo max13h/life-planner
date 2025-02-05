@@ -1,5 +1,5 @@
 import { TaskParseError } from "errors";
-import Task, { ensureInstanceOfTask } from ".";
+import Task, { ensureInstanceOfTask } from "./task";
 import { TaskStatus } from "types";
 
 export function parseFromMarkdownLine(this: Task, line: string): void {

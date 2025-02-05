@@ -1,4 +1,4 @@
-import Task, { ensureInstanceOfTask } from ".";
+import Task, { ensureInstanceOfTask } from "./task";
 
 export async function insertTaskInFile(this: Task): Promise<void> {
   ensureInstanceOfTask(this)

@@ -1,5 +1,5 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "..";
+import Task from "../task";
 import { isTimeAfterTime, timeFromDurationAndStartTime } from "src/utils/time";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
 import { timeModal } from "src/ui/modals/timeModal";

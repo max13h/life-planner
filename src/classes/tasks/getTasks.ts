@@ -1,5 +1,5 @@
 import { TaskFileError } from "errors";
-import Task from "src/tasks/task";
+import Task from "src/classes/task/task";
 import { Tasks } from "src/classes/tasks/tasks";
 import { AppWithPlugin } from "types";
 

@@ -1,7 +1,7 @@
 import { App } from "obsidian";
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { AppWithPlugin } from "types";
-import Task from "..";
+import Task from "../task";
 import { askText } from "./askText";
 import { askProject } from "./askProject";
 import { askDate } from "./askDate";

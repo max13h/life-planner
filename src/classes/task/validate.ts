@@ -1,5 +1,5 @@
 import { TaskValidationResult } from "types";
-import Task, { ensureInstanceOfTask } from ".";
+import Task, { ensureInstanceOfTask } from "./task";
 import { moment } from "obsidian";
 import { TaskValidationError } from "errors";
 

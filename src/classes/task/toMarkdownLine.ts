@@ -1,4 +1,4 @@
-import Task, { ensureInstanceOfTask } from ".";
+import Task, { ensureInstanceOfTask } from "./task";
 
 export function toMarkdownLine(this: Task): string {
   ensureInstanceOfTask(this)

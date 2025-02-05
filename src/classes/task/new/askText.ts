@@ -1,5 +1,5 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "..";
+import Task from "../task";
 import { addInputComponent } from "src/ui/components/input";
 
 export async function askText(modal: NavigationModal, task: Task, isLast: boolean = false) {

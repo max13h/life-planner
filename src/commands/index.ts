@@ -3,7 +3,7 @@ import { moveFileToBin } from "./moveFileToBin";
 import LifePlanner from "main";
 import { openDashboard } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
-import Task from "src/tasks/task";
+import Task from "src/classes/task/task";
 import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
 import { newProject } from "./newProject";
 import { openView } from "src/views";

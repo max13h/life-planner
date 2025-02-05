@@ -1,5 +1,5 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "..";
+import Task from "../task";
 import { Projects } from "src/projects/projects";
 import { AppWithPlugin } from "types";
 import { addAutocompleteSelect } from "src/ui/components/suggester";

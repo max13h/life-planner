@@ -1,4 +1,4 @@
-import Task, { ensureInstanceOfTask } from ".";
+import Task, { ensureInstanceOfTask } from "./task";
 
 export function compareTo(other: Task): number {
   ensureInstanceOfTask(this)
