@@ -1,4 +1,4 @@
-import { App, ItemView, WorkspaceLeaf, moment } from 'obsidian';
+import { App, ItemView, WorkspaceLeaf, getAllTags, moment } from 'obsidian';
 import { Projects } from 'src/projects/projects';
 import { Tasks } from 'src/tasks/tasks';
 import { createTaskComponent } from 'src/ui/components/task';
@@ -40,9 +40,17 @@ export class ProjectsView extends ItemView {
     const headingContainer = projectsContainer.createEl("hgroup")
     headingContainer.createEl("h1", { text: "Projects"})
 
+
+    // PROJECTS
     const projectsFiles = await Projects.getAllFiles(this.app as AppWithPlugin)
+    const topProjectFiles = projectsFiles.filter(file => {
+      const fileCache = this.app.metadataCache.getFileCache(file)
+      if (!fileCache || !fileCache.frontmatter || !fileCache.frontmatter['parent_project']) return
+    })
+
     const projectsElementsContainer = projectsContainer.createDiv()
-    projectsFiles.forEach(async file => {
+
+    topProjectFiles.forEach(async file => {
       const projectElementContainer = projectsElementsContainer.createDiv({ attr: { style: `display: flex; flex-direction: column; gap: 4rem;` } })
 
       const header = projectElementContainer.createEl("h2", { text: file.basename, attr: { style: "cursor: pointer;" } })
@@ -58,25 +66,4 @@ export class ProjectsView extends ItemView {
       });
     })
   }
-}
-
-export const openProjectsView = async (app: App) => {
-  const { workspace } = app;
-
-  let leaf: WorkspaceLeaf | null = null;
-  const leaves = workspace.getLeavesOfType(VIEW_LIFE_PLANNER_PROJECTS);
-
-  if (leaves.length > 0) {
-    // A leaf with our view already exists, use that
-    leaf = leaves[0];
-  } else {
-    // Our view could not be found in the workspace, create a new leaf
-    // in the right sidebar for it
-    leaf = workspace.getLeaf(false);
-    if (!leaf) throw new Error("There is no leaf");
-    await leaf.setViewState({ type: VIEW_LIFE_PLANNER_PROJECTS, active: true });
-  }
-
-  // "Reveal" the leaf in case it is in a collapsed sidebar
-  workspace.revealLeaf(leaf);
 }

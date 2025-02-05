@@ -4,8 +4,9 @@ import LifePlanner from "main";
 import { openDashboard } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
 import { Task } from "src/tasks/task";
-import { openProjectsView } from "src/views/projects";
+import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
 import { newProject } from "./newProject";
+import { openView } from "src/views";
 
 export class Commands {
   private readonly plugin: LifePlanner;
@@ -51,7 +52,7 @@ export class Commands {
       id: 'open-projects-view',
       name: 'Open projects view',
       icon: 'folder-heart',
-      callback: async () => await openProjectsView(this.app)
+      callback: async () => await openView(this.app, VIEW_LIFE_PLANNER_PROJECTS)
     });
 
   }
