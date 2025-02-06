@@ -7,7 +7,7 @@ import { moment } from "obsidian";
 
 export async function askEnd(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {
-    if (!task.schedule || !task.start) return modal.pressDone()
+    if (!task.schedule || !task.start) return isLast ? modal.pressDone() : await modal.pressNext()
 
     const now = moment().format("HH:mm");
     const isStartAfterNow = isTimeAfterTime(task.start, now)
@@ -42,9 +42,9 @@ export async function askEnd(modal: NavigationModal, task: Task, isLast: boolean
       },
       onSelected: async (usedValue) => {
         if (typeof usedValue === 'function') {
-          task.end = await usedValue() || undefined;
+          task.update({ end: await usedValue() || undefined })
         } else {
-          task.end = usedValue;
+          task.update({ end: usedValue })
         }
         
         if (isLast) {

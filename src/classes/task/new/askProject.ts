@@ -17,7 +17,7 @@ export async function askProject(modal: NavigationModal, task: Task, isLast: boo
         usedValues: projectFiles.map(file => file.path)
       },
       onSelected: async (selected) => {
-        task.setProjectLink(selected)
+        task.update({ projectLink: selected })
 
         if (isLast) {
           modal.pressDone()  

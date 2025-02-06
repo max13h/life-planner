@@ -38,7 +38,7 @@ export const renderProject = async ({ app, container, file, leaf, headingNumber,
     container: projectContainer,
     leaf,
     projectsFiles,
-    headingNumber: 6
+    headingNumber: headingNumber + 1
   })
   })
 }

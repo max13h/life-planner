@@ -6,7 +6,7 @@ import { timeModal } from "src/ui/modals/timeModal";
 
 export async function askStart(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {
-    if (!task.schedule) return await modal.pressNext()
+    if (!task.schedule) return isLast ? modal.pressDone() : await modal.pressNext()
 
     const now = timeNow()
     modal.setTitle("Choose start time");
@@ -38,9 +38,9 @@ export async function askStart(modal: NavigationModal, task: Task, isLast: boole
       },
       onSelected: async (usedValue) => {
         if (typeof usedValue === 'function') {
-          task.start = await usedValue() || undefined;
+          task.update({ start: await usedValue() || undefined })
         } else {
-          task.start = usedValue;
+          task.update({ start: usedValue })
         }
         
         if (isLast) {

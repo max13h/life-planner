@@ -80,14 +80,6 @@ export default class Task implements ITask {
         this.created = new Date().toISOString();
     }
   }
-
-  setProjectLink(path: string): void {
-    if (/^\[\[[^\[\]]+\.md\]\]$/.test(path)) {
-      this.projectLink = path;
-    } else {
-      this.projectLink = `[[${path.replace(/\.md$/, '')}.md]]`;
-    }
-  }
 }
 
 export const ensureInstanceOfTask = (taskInstance: any): void => {

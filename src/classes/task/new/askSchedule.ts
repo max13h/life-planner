@@ -33,9 +33,9 @@ export async function askSchedule(modal: NavigationModal, task: Task, isLast: bo
       },
       onSelected: async (usedValue) => {
         if (typeof usedValue === 'function') {
-          task.schedule = await usedValue() || undefined;
+          task.update({ schedule: await usedValue() || undefined })
         } else {
-          task.schedule = usedValue;
+          task.update({ schedule: usedValue })
         }
         
         if (isLast) {

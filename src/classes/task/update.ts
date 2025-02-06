@@ -9,6 +9,17 @@ export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text'
       if (this.status === " " && updates[key] === "x") this.completed = new Date().toISOString()
       if (this.status === "x" && updates[key] === " ") this.completed = undefined
     }
+
+    if (key === "projectLink" && updates["projectLink"]) {
+      if (/^\[\[[^\[\]]+\.md\]\]$/.test(updates["projectLink"])) {
+        this.projectLink = updates["projectLink"];
+      } else {
+        this.projectLink = `[[${updates["projectLink"].replace(/\.md$/, '')}.md]]`;
+      }
+      return
+    }
+
+
     (this[key as keyof typeof updates] as any) = updates[key as keyof typeof updates];
   });
 
