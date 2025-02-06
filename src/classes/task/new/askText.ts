@@ -5,13 +5,16 @@ import { addInputComponent } from "src/ui/components/input";
 export async function askText(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Insert content of the new task");
+    let newTaskText: string;
 
     addInputComponent(contentEl, {
+      value: task.text,
       focus: true,
       onKeyUp: async (input) => {
-        task.text = input.value;
+        newTaskText = input.value
       },
       onEnter: async () => {
+        task.update({ text: newTaskText })
         if (!task.text) return;
         
         if (isLast) {
@@ -20,7 +23,6 @@ export async function askText(modal: NavigationModal, task: Task, isLast: boolea
           await modal.pressNext()
         }
       },
-      value: task.text,
     });
   };
 }

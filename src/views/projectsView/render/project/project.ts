@@ -9,9 +9,10 @@ export const renderProject = async ({ app, container, file, leaf, headingNumber,
     display: flex; 
     flex-direction: column; 
     gap: 0.5rem;
-    background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.10);
+    border: 1px solid hsla(var(--accent-h) var(--accent-s) var(--accent-l));
     border-radius: var(--radius-m);
     padding-left: 16px;
+    padding-right: 8px;
     padding-bottom: 8px;
   ` } })
 

@@ -1,3 +1,4 @@
+import { Notice } from "obsidian";
 import Task, { ensureInstanceOfTask } from "./task";
 
 export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink' | 'recurs'>>) {
@@ -12,6 +13,6 @@ export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text'
   });
 
   this.validate(true, "Cannot update with invalid task properties");
-
+  new Notice("Task updated", 1000)
   return this;
 }

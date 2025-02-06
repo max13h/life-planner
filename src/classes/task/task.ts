@@ -10,6 +10,7 @@ import { createTask } from "./new/new";
 import { Tasks } from "../tasks/tasks";
 import { update } from "./update";
 import { save } from "./save";
+import { deleteTask } from "./delete";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -58,6 +59,10 @@ export default class Task implements ITask {
 
   async save(): Promise<void> {
     return save.call(this)
+  }
+
+  async delete(): Promise<void> {
+    return deleteTask.call(this);
   }
 
   static async new(app: AppWithPlugin): Promise<void> {

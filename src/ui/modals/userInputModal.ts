@@ -9,6 +9,7 @@ export class UserInputModal extends Modal {
 
   constructor(app: App) {
     super(app);
+    this.createHeader()
   }
 
   async open(): Promise<null> {

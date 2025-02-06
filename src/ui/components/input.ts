@@ -16,7 +16,10 @@ export const addInputComponent = (parentEl: HTMLElement, options?: InputOptions)
     value: options?.value || ""
   }});
   
-  if (options?.focus) input.focus();
+  if (options?.focus) {
+    input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
+  }
 
   setTimeout(() => {
     listenKeyUp(input, async () => options?.onKeyUp ? await options?.onKeyUp(input) : undefined);

@@ -1,5 +1,8 @@
 import { createStatus } from './status/status';
 import Task from 'src/classes/task/task';
+import { createText } from './text/text';
+import { App } from 'obsidian';
+import { createDelete } from './delete/delete';
 
 interface Props {
   onStatusChange?: (newStatus: string) => void;
@@ -7,6 +10,7 @@ interface Props {
 }
 
 export const createTaskComponent = (
+  app: App,
   container: HTMLElement,
   task: Task,
   props: Props,
@@ -19,7 +23,6 @@ export const createTaskComponent = (
         border-radius: var(--radius-m) 0 0 var(--radius-m);
         padding-left: 0.5rem;
         padding-right: 0.5rem;
-        background: var(--background-primary);
         cursor: ${props.onTaskClick ? 'pointer' : 'default'};
       `
     }
@@ -44,21 +47,12 @@ export const createTaskComponent = (
       `
     }
   });
-
   createStatus(task, statusTextContainer)
-
+  createText(app, task, statusTextContainer)
+  createDelete(app, task, statusTextContainer)
   
 
-  // Task Text
-  statusTextContainer.createSpan({
-    text: task.text,
-    attr: {
-      style: `
-        flex: 1;
-        line-height: 1.5;
-      `
-    }
-  });
+  
 
   // Schedule Info Container
   if (task.schedule || task.start || task.end) {

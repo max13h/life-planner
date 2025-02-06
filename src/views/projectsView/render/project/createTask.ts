@@ -6,6 +6,6 @@ export const createTasks = async ({ app, projectLink, projectContainer }: { app:
   const tasksNotDone = await Tasks.getTasksFromProperties(app, { projectLink: `[[${projectLink}]]` });
 
   tasksNotDone.forEach(task => {
-    createTaskComponent(projectContainer, task, { onStatusChange: () => console.log("click on status") });
+    createTaskComponent(app, projectContainer, task, { onStatusChange: () => console.log("click on status") });
   });
 }
