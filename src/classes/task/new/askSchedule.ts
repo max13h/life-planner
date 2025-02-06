@@ -4,7 +4,7 @@ import { DayName, getDayDate } from "src/utils/time";
 import { dateModal } from "src/ui/modals/dateModal";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
 
-export async function askDate(modal: NavigationModal, task: Task, isLast: boolean = false) {
+export async function askSchedule(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Choose task date");
 

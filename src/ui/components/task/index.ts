@@ -1,8 +1,9 @@
-import { createStatus } from './status/status';
+import { createStatus } from './firstLine/status/status';
 import Task from 'src/classes/task/task';
-import { createText } from './text/text';
+import { createText } from './firstLine/text/text';
 import { App } from 'obsidian';
-import { createDelete } from './delete/delete';
+import { createDelete } from './firstLine/delete/delete';
+import { createSchedule } from './secondLine/schedule/schedule';
 
 interface Props {
   onStatusChange?: (newStatus: string) => void;
@@ -38,7 +39,7 @@ export const createTaskComponent = (
   }
 
   // Status and Text Container
-  const statusTextContainer = taskContainer.createDiv({
+  const firstLine = taskContainer.createDiv({
     attr: {
       style: `
         display: flex;
@@ -47,39 +48,27 @@ export const createTaskComponent = (
       `
     }
   });
-  createStatus(task, statusTextContainer)
-  createText(app, task, statusTextContainer)
-  createDelete(app, task, statusTextContainer)
-  
-
-  
+  createStatus(task, firstLine)
+  createText(app, task, firstLine)
+  createDelete(app, task, firstLine)
 
   // Schedule Info Container
-  if (task.schedule || task.start || task.end) {
-    const scheduleContainer = taskContainer.createDiv({
+  if (task.schedule || task.start || task.end || task.occurrence || task.tags.length) {
+    const secondLine = taskContainer.createDiv({
       attr: {
         style: `
           display: flex;
           gap: 1rem;
           align-items: center;
-          padding: 0.5rem;
-          background: var(--background-secondary);
-          border-radius: 4px;
+          justify-content: end;
         `
       }
     });
 
-    if (task.schedule) {
-      scheduleContainer.createDiv({
-        text: `📅 ${task.schedule}`,
-        attr: {
-          style: "font-size: 0.9em;"
-        }
-      });
-    }
+    if (task.schedule) createSchedule(app, task, secondLine)
 
     if (task.start) {
-      scheduleContainer.createDiv({
+      secondLine.createDiv({
         text: `▶️ ${task.start}`,
         attr: {
           style: "font-size: 0.9em;"
@@ -88,7 +77,7 @@ export const createTaskComponent = (
     }
 
     if (task.end) {
-      scheduleContainer.createDiv({
+      secondLine.createDiv({
         text: `⏹️ ${task.end}`,
         attr: {
           style: "font-size: 0.9em;"
