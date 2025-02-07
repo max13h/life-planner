@@ -6,3 +6,13 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+:root {
+  --lp-text-xxl: clamp(3rem, 8vw, 6rem);  /* Very Big */
+  --lp-text-xl: clamp(2.5rem, 6vw, 4.5rem); /* Big */
+  --lp-text-lg: clamp(2rem, 4.5vw, 3.5rem); /* Medium Big */
+  --lp-text-md: clamp(1.25rem, 3vw, 2rem); /* Medium */
+  --lp-text-base: clamp(0.875rem, 2vw, 1.5rem); /* Small */
+  --lp-text-sm: clamp(0.875rem, 2vw, 1.2rem); /* Small */
+  --lp-text-xs: clamp(0.625rem, 1.5vw, 1rem);  /* Very Small */
+  --lp-text-xxs: clamp(0.5rem, 1vw, 0.875rem); /* Extra Small */
+}

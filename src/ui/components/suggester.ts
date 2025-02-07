@@ -5,7 +5,7 @@ interface Suggestions<T> {
 
 interface AutocompleteSelectOptions<T> {
   suggestions: Suggestions<T>;
-  onSelected?: (usedValue: T | string) => void;
+  onSelected?: (usedValue: T | string, event: Event) => void;
   dropdownStyle?: boolean;
   style?: string,
   value?: string,
@@ -121,7 +121,7 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
       
       item.addEventListener("click", (e) => {
         e.stopPropagation(); // Prevent the click from bubbling to document
-        selectItem(value);
+        selectItem(value, e);
       });
     });
 
@@ -135,27 +135,27 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
     }
   };
   
-  const selectItem = (displayValue: string) => {
+  const selectItem = (displayValue: string, event: Event) => {
     const index = options.suggestions.displayedValues.indexOf(displayValue);
     if (index !== -1) {
       input.value = displayValue;
-      if (options.onSelected) options.onSelected(options.suggestions.usedValues[index]);
+      if (options.onSelected) options.onSelected(options.suggestions.usedValues[index], event);
       hideDropdown();
       updateOptions(input.value);
     } else if (options.allowNewEntry) {
-      if (options.onSelected) options.onSelected(input.value);
+      if (options.onSelected) options.onSelected(input.value, event);
       updateOptions(input.value)
     }
   };
   
   // Input event handlers
-  input.addEventListener("input", () => {
+  input.addEventListener("input", (event) => {
     currentFocusIndex = 0;
     updateOptions(input.value);
     showDropdown();
 
     if (options.allowNewEntry) {
-      selectItem("")
+      selectItem("", event)
     }
   });
 
@@ -185,7 +185,7 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
       case "Enter":
         event.preventDefault();
         if (filteredValues.length > 0) {
-          selectItem(filteredValues[currentFocusIndex]);
+          selectItem(filteredValues[currentFocusIndex], event);
         }
         break;
 

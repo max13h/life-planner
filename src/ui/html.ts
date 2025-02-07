@@ -10,9 +10,9 @@ export const listenKeyUp = (el: HTMLElement, cb: (event?: KeyboardEvent) => void
     cb(event)
   });
 }
-export const listenClick = (el: HTMLElement, cb: () => void) => {
-  el.addEventListener("click", () => {
-    cb()
+export const listenClick = (el: HTMLElement, cb: (e: MouseEvent) => void) => {
+  el.addEventListener("click", (e: MouseEvent) => {
+    cb(e)
   });
 }
 export const listenOverAndOut = (el: HTMLElement, cbOver?: () => void, cbOut?: () => void) => {

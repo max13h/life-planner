@@ -2,12 +2,13 @@ import { App } from "obsidian";
 import { askSchedule } from "src/classes/task/new/askSchedule";
 import Task from "src/classes/task/task";
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import { createDateField } from "./dateField";
+import { createField } from "../createField";
 
 export const createScheduleField = (app: App, task: Task, container: HTMLElement) => {
-  const element = createDateField(app, task, container, {
+  const element = createField(task, container, {
     icon: "📅",
-    key: "schedule"
+    key: "schedule",
+    style: "text-wrap: nowrap;",
   }, async () => {
     const modal = new NavigationModal(app);
     const modifySchedule = await askSchedule(modal, task, true);

@@ -1,15 +1,13 @@
-import { createStatus } from './firstLine/status/status';
 import Task from 'src/classes/task/task';
-import { createText } from './firstLine/text';
 import { App } from 'obsidian';
-import { createDelete } from './firstLine/delete';
-import { createSchedule } from './secondLine/schedule';
 import { createFirstLine } from './firstLine/createFirstLine';
 import { createSecondLine } from './secondLine/createSecondLine';
+import { createField } from './secondLine/createField';
+import { NavigationModal } from 'src/ui/modals/navigationModal';
+import { askProject } from 'src/classes/task/new/askProject';
 
 interface Props {
-  onStatusChange?: (newStatus: string) => void;
-  onTaskClick?: () => void;
+  refreshView: (() => Promise<void>);
 }
 
 export const createTaskComponent = (
@@ -23,55 +21,38 @@ export const createTaskComponent = (
       style: `
         display: flex;
         flex-direction: column;
+        gap: 4px;
         border-radius: var(--radius-m);
         padding-left: 0.5rem;
         padding-right: 0.5rem;
-        cursor: ${props.onTaskClick ? 'pointer' : 'default'};
       `
     }
   });
 
-  if (props.onTaskClick) {
-    taskContainer.addEventListener('click', (e) => {
-      // Prevent triggering click when interacting with checkbox
-      if (!(e.target instanceof HTMLInputElement)) {
-        props.onTaskClick?.();
-      }
-    });
-  }
-
-  createFirstLine(app, task, taskContainer)
+  createFirstLine(app, task, taskContainer, props.refreshView)
   createSecondLine(app, task, taskContainer)
-  
 
+  if (!task.projectLink) {
+    const projectLinkWrapper = taskContainer.createDiv({ attr: { style: `
+      width: 100%;
+      display: flex;
+      justify-content: end;  
+    ` } })
 
-  // Tags Container
-  if (task.tags && task.tags.length > 0) {
-    const tagsContainer = taskContainer.createDiv({
-      attr: {
-        style: `
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-        `
-      }
-    });
-
-    task.tags.forEach(tag => {
-      tagsContainer.createSpan({
-        text: tag,
-        attr: {
-          style: `
-            background: var(--background-modifier-success);
-            color: var(--text-on-accent);
-            padding: 0.25rem 0.5rem;
-            border-radius: 1rem;
-            font-size: 0.85em;
-          `
-        }
-      });
+    createField(task, projectLinkWrapper, {
+      icon: "+",
+      key: "other",
+      value: "assign to project",
+      style: "background-color: lightgreen; padding: 0 9px 0 9px; border-radius: var(--radius-m);"
+    }, async () => {
+      const modal = new NavigationModal(app);
+      const modifyProject = await askProject(modal, task, true);
+      modal.pages = [modifyProject];
+      await modal.open();
+      await task.save();
+      if (props.refreshView) await props.refreshView()
     });
   }
-
+  
   return taskContainer;
 };

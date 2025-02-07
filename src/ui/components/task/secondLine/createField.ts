@@ -1,29 +1,34 @@
-import { App } from "obsidian";
 import Task from "src/classes/task/task";
 import { listenClick } from "src/ui/html";
 
-interface DateFieldConfig {
+interface FieldConfig {
   icon: string;
-  key: 'schedule' | 'start' | 'end';
+  key: 'schedule' | 'start' | 'end' | 'other';
+  value?: string;
+  style?: string;
   requiresSchedule?: boolean;
   requiresStart?: boolean;
 }
 
-export const createDateField = (
-  app: App, 
+export const createField = (
   task: Task, 
   container: HTMLElement,
-  config: DateFieldConfig,
+  config: FieldConfig,
   onClick: () => Promise<void>
 ) => {
+  const text = config.key === 'other'
+    ? config.value
+    : task[config.key]
+
   const element = container.createDiv({
-    text: `${config.icon} ${task[config.key] || '-'}`,
+    text: `${config.icon ? config.icon + " " : ""}${text || '-'}`,
     attr: {
       style: `
-        font-size: var(--font-smallest);
+        font-size: var(--lp-text-xxs);
         border: 1px solid hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);
         padding: 2px 8px 2px 8px;
-        border-radius: var(--radius-m)
+        border-radius: var(--radius-m);
+        ${config.style || ""}
       `
     }
   });

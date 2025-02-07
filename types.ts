@@ -1,4 +1,5 @@
 import { App, TFile } from "obsidian"
+import Task from "src/classes/task/task";
 import { LifePlannerSettings } from "src/settings/settings"
 
 export type AppWithPlugin = App & {
@@ -41,7 +42,10 @@ export interface TaskValidationResult {
   errors: string[];
 }
 
-export type TaskFilterProperties = Partial<Omit<ITask, 'app' | 'file'>>;
+type TaskFilterValue = string | string[] | undefined;
+export type TaskFilterProperties = {
+  [K in keyof Omit<ITask, 'app' | 'file'>]?: TaskFilterValue;
+};
 
 export interface TimeType {
   name: string;
@@ -52,4 +56,11 @@ export interface Metadata {
   folderPath: string;
   fileName: string;
   filePathFormatted: string;
+}
+
+export interface ProjectViewObject {
+  file: TFile;
+  tasks: Task[];
+  childrenProjects: ProjectViewObject[];
+  hasParentProject: boolean;
 }

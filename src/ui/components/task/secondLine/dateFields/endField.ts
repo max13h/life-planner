@@ -2,10 +2,10 @@ import { App, Notice } from "obsidian";
 import { askEnd } from "src/classes/task/new/askEnd";
 import Task from "src/classes/task/task";
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import { createDateField } from "./dateField";
+import { createField } from "../createField";
 
 export const createEndField = (app: App, task: Task, container: HTMLElement) => {
-  const element = createDateField(app, task, container, {
+  const element = createField(task, container, {
     icon: "■",
     key: "end",
     requiresSchedule: true,

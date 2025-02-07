@@ -2,10 +2,10 @@ import { App, Notice } from "obsidian";
 import { askStart } from "src/classes/task/new/askStart";
 import Task from "src/classes/task/task";
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import { createDateField } from "./dateField";
+import { createField } from "../createField";
 
 export const createStartField = (app: App, task: Task, container: HTMLElement) => {
-  const element = createDateField(app, task, container, {
+  const element = createField(task, container, {
     icon: "▶",
     key: "start",
     requiresSchedule: true

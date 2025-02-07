@@ -6,17 +6,21 @@ export const getTasksFromProperties = async (app: AppWithPlugin, properties: Tas
   const tasks = await Tasks.getTasks(app);
 
   return tasks.filter(task => {
-    return Object.entries(properties).every(([key, value]) => {
+    return Object.entries(properties).every(([key, filterValue]) => {
       const taskValue = task[key as keyof Task];
-      // console.log("taskValue", taskValue);
-      // console.log("value", value);
-      // console.log("========");
-
-      if (key === 'tags' && Array.isArray(value)) {
-        return JSON.stringify(task.tags) === JSON.stringify(value);
+      
+      // Handle array values in filter
+      if (Array.isArray(filterValue)) {
+        // For tags property, check if arrays match exactly
+        if (key === 'tags') {
+          return JSON.stringify(task.tags) === JSON.stringify(filterValue);
+        }
+        // For other properties, check if task value is in the array
+        return filterValue.includes(taskValue as string);
       }
 
-      return taskValue === value;
+      // Handle non-array values (direct comparison)
+      return taskValue === filterValue;
     });
   });
-}
+};

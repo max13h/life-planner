@@ -10,7 +10,7 @@ export const createText = (app: App, task: Task, container: HTMLElement) => {
     attr: {
       style: `
         flex: 1;
-        font-size: var(--font-ui-large);
+        font-size: var(--lp-text-sm);
         padding-top: 4px;
         padding-bottom: 4px;
       `

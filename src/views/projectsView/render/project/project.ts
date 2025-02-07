@@ -1,24 +1,21 @@
-import { TFile, WorkspaceLeaf } from "obsidian";
-import { AppWithPlugin } from "types";
+import { WorkspaceLeaf } from "obsidian";
+import { AppWithPlugin, ProjectViewObject } from "types";
 import { createHeader } from "./createHeader";
 import { createTasks } from "./createTask";
-import { getChildrenProjects } from "src/utils/projects/filters";
 
-export const renderProject = async ({ app, container, file, leaf, headingNumber, projectsFiles }: { app: AppWithPlugin, leaf: WorkspaceLeaf, file: TFile, container: HTMLElement, headingNumber: number, projectsFiles: TFile[] }) => {
+export const renderProject = async ({ app, container, projectObject, leaf, headingNumber, refreshView }: { app: AppWithPlugin, leaf: WorkspaceLeaf, projectObject: ProjectViewObject, container: HTMLElement, headingNumber: number, refreshView: (() => Promise<void>) }) => {
   const projectContainer = container.createDiv({ attr: { style: `
     display: flex; 
     flex-direction: column; 
     gap: 0.5rem;
     border: 1px solid hsla(var(--accent-h) var(--accent-s) var(--accent-l));
     border-radius: var(--radius-m);
-    padding-left: 16px;
-    padding-right: 8px;
-    padding-bottom: 8px;
+    padding: 4px 8px 4px 16px;
   ` } })
 
   createHeader({
     projectContainer,
-    file,
+    projectObject,
     leaf,
     h: headingNumber
   })
@@ -26,19 +23,18 @@ export const renderProject = async ({ app, container, file, leaf, headingNumber,
   await createTasks({
     projectContainer,
     app,
-    projectLink: file.path
+    projectLink: projectObject.file.path,
+    refreshView
   })
 
-  const childrenProjects = getChildrenProjects(app, file, projectsFiles)
-
-  childrenProjects.forEach(async childrenFile => {
+  projectObject.childrenProjects.forEach(async childrenFile => {
     await renderProject({
-    app,
-    file: childrenFile, 
-    container: projectContainer,
-    leaf,
-    projectsFiles,
-    headingNumber: headingNumber + 1
-  })
+      app,
+      projectObject: childrenFile,
+      container: projectContainer,
+      leaf,
+      headingNumber: headingNumber + 1,
+      refreshView
+    })
   })
 }
