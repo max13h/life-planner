@@ -24,6 +24,5 @@ export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text'
   });
 
   this.validate(true, "Cannot update with invalid task properties");
-  new Notice("Task updated", 1000)
   return this;
 }

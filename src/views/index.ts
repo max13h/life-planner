@@ -35,8 +35,7 @@ export const openView = async (app: App, viewType: string) => {
     leaf = leaves[0];
   } else {
     // Our view could not be found in the workspace, create a new leaf
-    // in the right sidebar for it
-    leaf = workspace.getLeaf(false);
+    leaf = workspace.getLeaf(true);
     if (!leaf) throw new Error("There is no leaf");
     await leaf.setViewState({ type: viewType, active: true });
   }

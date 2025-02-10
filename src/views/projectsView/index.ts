@@ -44,7 +44,7 @@ export class ProjectsView extends ItemView {
       gap: 1rem;
     `}});
 
-    renderHeading(viewContainer)
+    renderHeading(viewContainer, this.refreshView)
     await renderUnassignedTasks(this.app as AppWithPlugin, viewContainer, this.refreshView)
 
     const projectsObject = await this.getProjectsObject(this.app as AppWithPlugin)

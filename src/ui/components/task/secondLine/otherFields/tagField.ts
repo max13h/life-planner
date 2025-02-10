@@ -42,7 +42,6 @@ const updateUI = (app: App, task: Task, container: HTMLElement) => {
       task.update({ tags: newTags })
       await task.save();
 
-      console.log(task);
       updateUI(app, task, container)
     })
   }
@@ -64,7 +63,6 @@ const updateUI = (app: App, task: Task, container: HTMLElement) => {
       task.update({ tags: newTags })
       await task.save();
 
-      console.log(task);
       updateUI(app, task, container)
     });
   })

@@ -14,6 +14,7 @@ export async function askText(modal: NavigationModal, task: Task, isLast: boolea
         newTaskText = input.value
       },
       onEnter: async () => {
+        if (!newTaskText) return
         task.update({ text: newTaskText })
         if (!task.text) return;
         
