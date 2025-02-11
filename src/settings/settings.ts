@@ -4,6 +4,7 @@ import { getAllTagsInVault } from 'src/utils/vault';
 import { renderBinFolderSetting } from './render/binFolderSettings';
 import { renderProjectsSettings } from './render/projectsSettings';
 import { renderTasksSettings } from './render/tasksSettings';
+import { renderDashboardSettings } from './render/dashboardSettings';
 
 export interface LifePlannerSettings {
   binFolder: string;
@@ -18,6 +19,11 @@ export interface LifePlannerSettings {
     file: string;
   }
   recurringTasksFile: string;
+  dashboard: {
+    startingHour: number;
+    endingHour: number;
+    numberOfPixelForOneMinute: number;
+  }
 }
 
 export const DEFAULT_SETTINGS: LifePlannerSettings = {
@@ -32,9 +38,13 @@ export const DEFAULT_SETTINGS: LifePlannerSettings = {
     folder: "",
     file: "TASKS-" + new Date().getFullYear()
   },
-  recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear()
+  recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear(),
+  dashboard: {
+    startingHour: 0,
+    endingHour: 24,
+    numberOfPixelForOneMinute: 1
+  }
 }
-
 
 export class LifePlannerSettingTab extends PluginSettingTab {
   plugin: LifePlanner;
@@ -68,6 +78,10 @@ export class LifePlannerSettingTab extends PluginSettingTab {
       container: containerEl, 
       plugin: this.plugin,
       folders
+    })
+    renderDashboardSettings({ 
+      container: containerEl, 
+      plugin: this.plugin,
     })
   }
 }
