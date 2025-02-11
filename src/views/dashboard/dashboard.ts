@@ -1,7 +1,7 @@
 import { App, ItemView, WorkspaceLeaf, moment } from 'obsidian';
-import { buildPlanner } from './planner';
+import { buildPlanner } from './render/planner';
 
-export const VIEW_DASHBOARD = 'VIEW_DASHBOARD';
+export const VIEW_LIFE_PLANNER_DASHBOARD = 'VIEW_LIFE_PLANNER_DASHBOARD';
 
 export class DashboardView extends ItemView {
   protected selectedWeek: string | undefined 
@@ -13,7 +13,7 @@ export class DashboardView extends ItemView {
   }
 
   getViewType() {
-    return VIEW_DASHBOARD;
+    return VIEW_LIFE_PLANNER_DASHBOARD;
   }
 
   getDisplayText() {
@@ -25,7 +25,7 @@ export class DashboardView extends ItemView {
     this.buildDashboard()
   }
 
-  buildDashboard() {
+  async buildDashboard() {
     const container = this.containerEl.children[1];
     container.empty();
     container.addClass("dashboard")
@@ -48,27 +48,6 @@ export class DashboardView extends ItemView {
       justify-content: center;
       width: 100%;  
   ` }})
-    buildPlanner(this.app, plannerContainer)
+    buildPlanner(this.app, plannerContainer, this.buildDashboard)
   }
-}
-
-export const openDashboard = async (app: App) => {
-  const { workspace } = app;
-
-  let leaf: WorkspaceLeaf | null = null;
-  const leaves = workspace.getLeavesOfType(VIEW_DASHBOARD);
-
-  if (leaves.length > 0) {
-    // A leaf with our view already exists, use that
-    leaf = leaves[0];
-  } else {
-    // Our view could not be found in the workspace, create a new leaf
-    // in the right sidebar for it
-    leaf = workspace.getLeaf(false);
-    if (!leaf) throw new Error("There is no leaf");
-    await leaf.setViewState({ type: VIEW_DASHBOARD, active: true });
-  }
-
-  // "Reveal" the leaf in case it is in a collapsed sidebar
-  workspace.revealLeaf(leaf);
 }

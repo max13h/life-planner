@@ -1,7 +1,7 @@
 import { App } from "obsidian";
-import { createOptionsMenu } from "./menu/optionsMenu";
-import { createStatus } from "./status/status";
-import { createText } from "./text";
+import { createOptionsMenu } from "../elements/menu/optionsMenu";
+import { createStatus } from "../elements/status/statusField";
+import { createText } from "../elements/textField";
 import Task from "src/classes/task/task";
 
 export const createFirstLine = (app: App, task: Task, container: HTMLElement, refreshView: (() => Promise<void>)) => {
@@ -14,7 +14,7 @@ export const createFirstLine = (app: App, task: Task, container: HTMLElement, re
       `
     }
   });
-  createStatus(task, firstLine)
-  createText(app, task, firstLine)
+  createStatus({ task, container: firstLine })
+  createText({ app, task, container: firstLine, allowClick: true })
   createOptionsMenu(app, task, firstLine, refreshView)
 }

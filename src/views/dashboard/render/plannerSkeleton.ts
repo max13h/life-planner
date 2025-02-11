@@ -1,11 +1,7 @@
-import { App } from "obsidian"
-import { Tasks } from "src/classes/tasks/tasks";
-import { dateNow } from "src/utils/time";
-
-const buildPlannerSkeleton = (plannerContainer: HTMLDivElement) => {
-  const startingHour = 6
-  const numberOfHour = 18
-  const numberOfPixelForOneMinute = 1.5
+export const buildPlannerSkeleton = (plannerContainer: HTMLDivElement): HTMLDivElement => {
+  const startingHour = 0
+  const numberOfHour = 24
+  const numberOfPixelForOneMinute = 0.5
 
   const skeleton = plannerContainer.createDiv({ attr: { style: `
     display: flex;
@@ -48,11 +44,7 @@ const buildPlannerSkeleton = (plannerContainer: HTMLDivElement) => {
       `} 
     })
   }
+
+  return tasksColumn
 }
 
-export const buildPlanner = (app: App, plannerContainer: HTMLDivElement) => {
-  buildPlannerSkeleton(plannerContainer)
-  const date = dateNow()
-  // const tasksFromDate = Tasks.getTasksFromDate(app, date)
-  // const recurringTasks = Tasks.getRecurringTasks(app)
-}

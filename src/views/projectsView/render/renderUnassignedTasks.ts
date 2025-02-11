@@ -1,4 +1,4 @@
-import { createTaskComponent } from "src/ui/components/task";
+import { createFullTaskComponent } from "src/ui/components/task/full";
 import { Tasks } from "src/classes/tasks/tasks";
 import { AppWithPlugin } from "types";
 
@@ -15,6 +15,11 @@ export async function renderUnassignedTasks(app: AppWithPlugin, container: HTMLE
     }
   })
   unassignedTasks.forEach(task => {
-    createTaskComponent(task.app, taskWrapper, task, { refreshView });
+    createFullTaskComponent({
+      app: task.app,
+      container: taskWrapper, 
+      task, 
+      refreshView
+    });
   })
 }

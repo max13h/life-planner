@@ -1,7 +1,9 @@
 import { App } from "obsidian";
 import Task from "src/classes/task/task";
-import { createScheduleField, createStartField, createEndField } from "./dateFields";
-import { createTagField } from "./otherFields/tagField";
+import { createTagField } from "../elements/tagField";
+import { createEndField } from "../elements/endField";
+import { createScheduleField } from "../elements/scheduleField";
+import { createStartField } from "../elements/startField";
 
 export const createSecondLine = (app: App, task: Task, container: HTMLElement) => {
   const secondLine = container.createDiv({
@@ -25,10 +27,9 @@ export const createSecondLine = (app: App, task: Task, container: HTMLElement) =
       `
     }
   })
-  createScheduleField(app, task, dateWrapper);
-  createStartField(app, task, dateWrapper);
-  createEndField(app, task, dateWrapper);
-
+  createScheduleField({ app, container: dateWrapper, task, allowClick: true });
+  createStartField({ app, container: dateWrapper, task, allowClick: true });
+  createEndField({ app, container: dateWrapper, task, allowClick: true });
 
   const otherWrapper = secondLine.createDiv({
     attr: {
@@ -41,5 +42,5 @@ export const createSecondLine = (app: App, task: Task, container: HTMLElement) =
       `
     }
   })
-  createTagField(app, task, otherWrapper);
+  createTagField({ app, container: otherWrapper, task, allowClick: true });
 }

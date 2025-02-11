@@ -1,5 +1,6 @@
 import { TaskParseError } from "errors";
 import Task, { ensureInstanceOfTask } from "./task";
+import { Notice } from "obsidian";
 
 export async function save(this: Task) {
   ensureInstanceOfTask(this)
@@ -30,4 +31,5 @@ export async function save(this: Task) {
     index === taskLineIndex ? this.toMarkdownLine() : line
   ).join('\n');
   await this.app.vault.modify(this.file, updatedContent);
+  new Notice("Task update")
 }

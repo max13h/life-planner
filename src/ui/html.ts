@@ -15,6 +15,11 @@ export const listenClick = (el: HTMLElement, cb: (e: MouseEvent) => void) => {
     cb(e)
   });
 }
+export const listenRightClick = (el: HTMLElement, cb: (e: MouseEvent) => void) => {
+  el.addEventListener("contextmenu", (e: MouseEvent) => {
+    cb(e)
+  });
+}
 export const listenOverAndOut = (el: HTMLElement, cbOver?: () => void, cbOut?: () => void) => {
   if (cbOver) {
     el.addEventListener("mouseover", () => {

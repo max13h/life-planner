@@ -1,7 +1,7 @@
 import { App, MarkdownView, Editor } from "obsidian";
 import { moveFileToBin } from "./moveFileToBin";
 import LifePlanner from "main";
-import { openDashboard } from "src/views/dashboard/dashboard";
+import { VIEW_LIFE_PLANNER_DASHBOARD } from "src/views/dashboard/dashboard";
 import { AppWithPlugin } from "types";
 import Task from "src/classes/task/task";
 import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
@@ -38,7 +38,7 @@ export class Commands {
       id: 'open-dashboard',
       name: 'Open dashboard',
       icon: 'lamp-desk',
-      callback: () => openDashboard(this.app)
+      callback: async () => await openView(this.app, VIEW_LIFE_PLANNER_DASHBOARD)
     });
 
     plugin.addCommand({

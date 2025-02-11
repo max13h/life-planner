@@ -61,17 +61,8 @@ export class ProjectsView extends ItemView {
 
       const newContent: string[] = (await this.app.vault.cachedRead(newTFile)).split("\n")
 
-      if (newContent.length > taskFileContent.length) await this.onOpen()
+      if (newContent.length > taskFileContent.length) await this.refreshView()
     }));
-    // this.registerEvent(this.app.vault.on('create', async (newFile) => {
-
-    //   // const newTFile: TFile | null = this.app.vault.getFileByPath(newFile.path)
-    //   // if (!newTFile) return
-
-    //   // const newContent: string[] = (await this.app.vault.cachedRead(newTFile)).split("\n")
-
-    //   // if (newContent.length > taskFileContent.length) await this.onOpen()
-    // }));
   }
   
   private async getProjectsObject(app: AppWithPlugin): Promise<ProjectViewObject[]> {

@@ -2,7 +2,12 @@ import { statusEvenListeners } from "./eventListeners";
 import Task from "src/classes/task/task";
 import { setSpan } from "./spanComponent";
 
-export const createStatus = (task: Task, container: HTMLElement) => {
+type CreateStatusProps = {
+  task: Task, 
+  container: HTMLElement
+}
+
+export const createStatus = ({ task, container }: CreateStatusProps) => {
   const wrapper = container.createDiv({
     attr: {
       style: `
@@ -29,7 +34,7 @@ export const createStatus = (task: Task, container: HTMLElement) => {
     setSpan(wrapper, task.status === "-" ? "❌" : "⚒️")
   }
 
-  statusEvenListeners(wrapper, task)
+  statusEvenListeners({ wrapper, task })
 
   return checkbox;
 }

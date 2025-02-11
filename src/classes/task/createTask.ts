@@ -1,12 +1,12 @@
 import { App } from "obsidian";
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { AppWithPlugin } from "types";
-import Task from "../task";
-import { askText } from "./askText";
-import { askProject } from "./askProject";
-import { askSchedule } from "./askSchedule";
-import { askStart } from "./askStart";
-import { askEnd } from "./askEnd";
+import Task from "./task";
+import { askEnd } from "./ask/askEnd";
+import { askProject } from "./ask/askProject";
+import { askSchedule } from "./ask/askSchedule";
+import { askStart } from "./ask/askStart";
+import { askText } from "./ask/askText";
 
 export async function createTask(app: App) {
   const task = new Task(app as AppWithPlugin)

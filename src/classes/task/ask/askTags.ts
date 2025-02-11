@@ -6,7 +6,7 @@ import { listenClick } from "src/ui/html";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
 import { getAllTagsInVault } from "src/utils/vault";
 
-export async function askTags(modal: NavigationModal, task: Task, isLast: boolean = false) {
+export async function askTags(modal: NavigationModal, task: Task) {
   return async (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Set tags")
     
@@ -36,6 +36,7 @@ export async function askTags(modal: NavigationModal, task: Task, isLast: boolea
       onSelected: (usedValue) => {
         if(/^#[^\s]*[^/]$/.test(usedValue)) {
           tagsToDisplay.push(usedValue)
+          task.tags.push(usedValue)
           input.input.value = ""
           refreshTagsToUI(tagsContainer, tagsToDisplay)
         }

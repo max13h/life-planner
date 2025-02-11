@@ -8,13 +8,16 @@ export const renderHeading = (viewContainer: HTMLElement, refreshView: () => Pro
         display: flex;
         justify-content: space-between;
         align-items: center;
-        cursor: pointer;
       `
     }
   })
   headingContainer.createEl("h1", { text: "Projects"})
-  const refreshButton = headingContainer.createSpan()
-
+  
+  const refreshButton = headingContainer.createSpan({
+    attr: {
+      style: "cursor: pointer;"
+    }
+  })
   setIcon(refreshButton, "refresh-ccw")
   listenClick(refreshButton, refreshView)
 }

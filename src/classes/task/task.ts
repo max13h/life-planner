@@ -6,11 +6,11 @@ import { parseFromMarkdownLine } from "./parseFromMarkdownLine";
 import { toMarkdownLine } from "./toMarkdownLine";
 import { insertTaskInFile } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
-import { createTask } from "./new/new";
 import { Tasks } from "../tasks/tasks";
 import { update } from "./update";
 import { save } from "./save";
 import { deleteTask } from "./delete";
+import { createTask } from "./createTask";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
