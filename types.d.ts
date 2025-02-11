@@ -42,9 +42,15 @@ export interface TaskValidationResult {
   errors: string[];
 }
 
-type TaskFilterValue = string | string[] | undefined;
+type FilterOperator = {
+  type: 'equals' | 'regex' | 'exists' | 'notExists';
+  value?: string | string[];
+  pattern?: string;
+};
+
+// Enhanced filter properties type
 export type TaskFilterProperties = {
-  [K in keyof Omit<ITask, 'app' | 'file'>]?: TaskFilterValue;
+  [K in keyof Omit<ITask, 'app' | 'file'>]?: string | string[] | FilterOperator;
 };
 
 export interface TimeType {

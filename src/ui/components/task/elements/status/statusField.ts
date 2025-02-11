@@ -17,6 +17,7 @@ export const createStatus = ({ task, container }: CreateStatusProps) => {
       height: fit-content;
       display: flex;
       align-items: center;
+      z-index: 1000;
     `
     }
   });

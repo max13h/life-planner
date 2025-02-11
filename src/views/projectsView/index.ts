@@ -1,4 +1,4 @@
-import { App, ItemView, TFile, WorkspaceLeaf, getAllTags, moment } from 'obsidian';
+import { App, ItemView, TFile, WorkspaceLeaf } from 'obsidian';
 import { AppWithPlugin, ProjectViewObject } from 'types';
 import { renderHeading } from './render/heading';
 import { renderProjects } from './render/projects/projects';

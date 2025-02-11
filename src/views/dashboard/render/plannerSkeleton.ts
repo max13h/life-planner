@@ -7,7 +7,6 @@ export const buildPlannerSkeleton = (plannerContainer: HTMLDivElement): HTMLDivE
     display: flex;
     width: 24rem;
     border: #b6b6b6 1px solid;
-    border-radius: var(--radius-xl);
     overflow: hidden
   `}})
 
@@ -22,6 +21,7 @@ export const buildPlannerSkeleton = (plannerContainer: HTMLDivElement): HTMLDivE
     width: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
   `}})
 
   for (let i = 0; i < numberOfHour; i++) {
@@ -33,14 +33,14 @@ export const buildPlannerSkeleton = (plannerContainer: HTMLDivElement): HTMLDivE
         display: flex;
         justify-content: center;
         color: grey;
-        border-bottom: 1px solid #b6b6b6;
+        ${i === (numberOfHour - 1) ? "" : "border-bottom: 1px solid #b6b6b6;"}
       `} 
     })
     tasksColumn.createDiv({ 
       cls: "task",
       attr: { style: `
         height: ${numberOfPixelForOneMinute * 60}px;
-        border-bottom: 1px solid #b6b6b6;
+        ${i === (numberOfHour - 1) ? "" : "border-bottom: 1px solid #b6b6b6;"}
       `} 
     })
   }

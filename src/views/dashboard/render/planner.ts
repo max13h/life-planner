@@ -8,8 +8,7 @@ import { populateTaskColumn } from "./populateTaskColumn"
 export const buildPlanner = async (app: App, plannerContainer: HTMLDivElement, refreshView: (() => Promise<void>)) => {
   const tasksColumn = buildPlannerSkeleton(plannerContainer)
 
-  const tasksFromDate = await Tasks.getTasksFromProperties(app as AppWithPlugin, { schedule: dateNow() })
-  console.log(tasksFromDate);
+  const tasksFromDate = await Tasks.getTasksFromProperties(app as AppWithPlugin, { schedule: dateNow(), start: { type: "exists" }, end: { type: "exists" } })
 
   populateTaskColumn({ 
     app: app as AppWithPlugin, 
