@@ -21,9 +21,10 @@ export const createProjectLinkField = ({ app, container, task, refreshView, allo
         background-color: white;
         padding: 0 9px 0 9px; 
         border-radius: var(--radius-m);
-        ${!task.projectLink && `
-          background-color: lightgreen;  
-        `}
+        ${!task.projectLink ? `
+            background-color: lightgreen;  
+          ` : ""
+        }
       `
     },
     clickAction: {

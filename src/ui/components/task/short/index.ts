@@ -20,20 +20,35 @@ export const createShortTaskComponent = ({ app, container, task, refreshView, st
     attr: {
       style: `
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
         gap: 4px;
         border-radius: var(--radius-m);
+        border: var(--lp-task-borders);
         padding-left: 0.5rem;
         padding-right: 0.5rem;
-        background-color: white;
+        background-color: var(--color-base-00);
+        cursor: pointer;
         ${style}
       `
     }
   });
+  const line = taskContainer.createDiv({
+    attr: {
+      style: `
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding-top: 8px;
+      `
+    }
+  });
 
-  createStatus({ task, container: taskContainer })
-  createText({ app, task, container: taskContainer, allowClick: false })
-  createProjectLinkField({ app, container: taskContainer, task, refreshView, allowClick: false });
+  createStatus({ task, container: line })
+  createText({ app, task, container: line, allowClick: false, style: "font-size: 1rem;" })
+  createProjectLinkField({ app, container: line, task, refreshView, allowClick: false });
 
   listenClick(taskContainer, async (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') return

@@ -1,11 +1,3 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
 :root {
   --lp-text-xxl: clamp(3rem, 8vw, 6rem);  /* Very Big */
   --lp-text-xl: clamp(2.5rem, 6vw, 4.5rem); /* Big */

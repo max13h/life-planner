@@ -70,3 +70,18 @@ export interface ProjectViewObject {
   childrenProjects: ProjectViewObject[];
   hasParentProject: boolean;
 }
+
+export type PositionedTask = {
+  top: number;
+  height: number;
+  left: number;
+  right: number;
+  task: Task;
+};
+
+export type CalculateTaskPositionsParams = {
+  tasks: Task[];
+  numberOfPixelForOneMinute: number;
+  startingHour: number;
+  endingHour: number;
+};

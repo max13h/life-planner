@@ -1,16 +1,16 @@
 import { App, WorkspaceLeaf } from 'obsidian';
-import type Max13hPlugin from 'main';
+import type LifePlanner from 'main';
 import { DashboardView, VIEW_LIFE_PLANNER_DASHBOARD } from './dashboard/dashboard';
 import { ProjectsView, VIEW_LIFE_PLANNER_PROJECTS } from './projectsView';
 
 export class Views {
-    private readonly plugin: Max13hPlugin;
+    private readonly plugin: LifePlanner;
 
     private get app(): App {
         return this.plugin.app;
     }
 
-    constructor({ plugin }: { plugin: Max13hPlugin }) {
+    constructor({ plugin }: { plugin: LifePlanner }) {
       this.plugin = plugin;
 
       plugin.registerView(

@@ -1,5 +1,7 @@
 import { App, ItemView, WorkspaceLeaf, moment } from 'obsidian';
 import { buildPlanner } from './render/planner';
+import { AppWithPlugin } from 'types';
+import { updateDashboard } from './updateDashboard';
 
 export const VIEW_LIFE_PLANNER_DASHBOARD = 'VIEW_LIFE_PLANNER_DASHBOARD';
 
@@ -30,24 +32,36 @@ export class DashboardView extends ItemView {
     container.empty();
     container.addClass("dashboard")
 
-    const dashboardContainer = container.createDiv({ attr: { style: `
-      max-width: var(--file-line-width); 
-      margin-left: auto; 
-      margin-right: auto;
-    `}});
+    const dashboardContainer = container.createDiv({ 
+      cls: "testtest",
+      attr: { 
+        style: `
+          max-width: var(--file-line-width); 
+          margin-left: auto; 
+          margin-right: auto;
+          display: flex;
+          flex-direction: column;
+        `
+      }
+    });
 
     // Heading
     const headingContainer = dashboardContainer.createEl("hgroup")
     headingContainer.createEl("h1", { text: `${moment().format("dddd, DD MMMM")}`})
 
-    // const buttonsContainer = dashboardContainer.createDiv({ cls: "buttons" })
-    // buildButtons(this.app, buttonsContainer)
-
     const plannerContainer = dashboardContainer.createDiv({ attr: { style: `
       display: flex;
       justify-content: center;
-      width: 100%;  
+      width: 100%;
+      max-width: 32rem;
+      align-self: center;
   ` }})
-    buildPlanner(this.app, plannerContainer, this.buildDashboard)
+
+    await buildPlanner(this.app as AppWithPlugin, plannerContainer, this.buildDashboard)
+
+    await updateDashboard({
+      context: this,
+      refreshView: () => buildPlanner(this.app as AppWithPlugin, plannerContainer, this.buildDashboard)
+    })
   }
 }

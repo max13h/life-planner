@@ -8,9 +8,10 @@ type CreateTextProps = {
   task: Task, 
   container: HTMLElement;
   allowClick: boolean;
+  style?: string;
 }
 
-export const createText = ({ app, task, container, allowClick }: CreateTextProps) => {
+export const createText = ({ app, task, container, allowClick, style }: CreateTextProps) => {
   createField({
     container,
     config: {
@@ -21,6 +22,8 @@ export const createText = ({ app, task, container, allowClick }: CreateTextProps
         font-size: var(--lp-text-sm);
         padding-top: 4px;
         padding-bottom: 4px;
+        text-wrap: wrap;
+        ${style || ""}
       `
     },
     clickAction: {

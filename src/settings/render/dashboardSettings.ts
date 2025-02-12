@@ -38,13 +38,24 @@ export const renderDashboardSettings = ({container, plugin}: RenderDashboardSett
       component.inputEl.min = "1"
       component.inputEl.max = "24"
       component.onChange((value) => {
-        if (value !== "" && (parseInt(value) < 1 || parseInt(value) > 24 || value.length > 2)) {
+        if (
+          value !== "" 
+          && (
+            parseInt(value) < 1 
+            || parseInt(value) > 24 
+            || value.length > 2
+          )
+        ) {
           component.inputEl.value = "24"
           plugin.settings.dashboard.endingHour = 24
           component.inputEl.style.color = "red"
         } else {
           component.inputEl.style.color = "var(--text-normal)"
-          plugin.settings.dashboard.endingHour = parseInt(value || "24")
+          if (parseInt(value) <= plugin.settings.dashboard.startingHour) {
+            plugin.settings.dashboard.endingHour = plugin.settings.dashboard.startingHour + 1
+          } else {
+            plugin.settings.dashboard.endingHour = parseInt(value || "24")
+          }
         }
       })
     })
@@ -58,13 +69,23 @@ export const renderDashboardSettings = ({container, plugin}: RenderDashboardSett
       component.inputEl.min = "0.3"
       component.inputEl.max = "5"
       component.onChange((value) => {
-        if (value !== "" && (parseFloat(value) < 0.3 || parseFloat(value) > 5 || value.length > 3)) {
+        if (
+          value !== "" 
+          && (
+            parseFloat(value) > 5 
+            || value.length > 3
+          )
+        ) {
           component.inputEl.value = "1"
           plugin.settings.dashboard.numberOfPixelForOneMinute = 1
           component.inputEl.style.color = "red"
         } else {
           component.inputEl.style.color = "var(--text-normal)"
-          plugin.settings.dashboard.numberOfPixelForOneMinute = parseFloat(value || "1")
+          if (parseFloat(value) < 0.3) {
+            plugin.settings.dashboard.numberOfPixelForOneMinute = 0.3
+          } else {
+            plugin.settings.dashboard.numberOfPixelForOneMinute = parseFloat(value || "1")
+          }
         }
       })
     })

@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { Plugin } from 'obsidian';
 import { Commands } from 'src/commands';
 import { LifePlannerSettings, DEFAULT_SETTINGS, LifePlannerSettingTab } from "src/settings/settings";
 import { Views } from 'src/views';
