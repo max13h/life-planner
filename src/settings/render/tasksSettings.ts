@@ -1,5 +1,5 @@
 import LifePlanner from "main";
-import { TFolder, TFile, Setting } from "obsidian";
+import { TFolder, Setting } from "obsidian";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
 
 interface RenderTasksSettingsProps {
