@@ -8,25 +8,11 @@ type CreateStatusProps = {
 }
 
 export const createStatus = ({ task, container }: CreateStatusProps) => {
-  const wrapper = container.createDiv({
-    attr: {
-      style: `
-      position: relative; 
-      display: inline-block; 
-      width: fit-content;
-      height: fit-content;
-      display: flex;
-      align-items: center;
-      z-index: 1000;
-    `
-    }
-  });
+  const wrapper = container.createDiv({ cls: "status-wrapper" });
 
   const checkbox = wrapper.createEl("input", {
-    attr: {
-      type: "checkbox",
-      style: "margin-inline-end: 0",
-    },
+    cls: "checkbox",
+    attr: { type: "checkbox" },
     value: `${task.status === "x"}`,
   }) as HTMLInputElement;
   checkbox.checked = task.status === "x"

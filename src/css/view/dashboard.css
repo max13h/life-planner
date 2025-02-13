@@ -1,0 +1,17 @@
+.lp-view {
+  & .dashboardView {
+    max-width: var(--file-line-width); 
+    margin-left: auto; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+
+    & .planner-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 32rem;
+      align-self: center;
+    }
+  }
+}

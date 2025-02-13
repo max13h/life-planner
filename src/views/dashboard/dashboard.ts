@@ -30,32 +30,14 @@ export class DashboardView extends ItemView {
   async buildDashboard() {
     const container = this.containerEl.children[1];
     container.empty();
-    container.addClass("dashboard")
-
-    const dashboardContainer = container.createDiv({ 
-      cls: "testtest",
-      attr: { 
-        style: `
-          max-width: var(--file-line-width); 
-          margin-left: auto; 
-          margin-right: auto;
-          display: flex;
-          flex-direction: column;
-        `
-      }
-    });
+    container.addClass("lp-view")
+    const dashboardContainer = container.createDiv({ cls: "dashboardView" });
 
     // Heading
     const headingContainer = dashboardContainer.createEl("hgroup")
     headingContainer.createEl("h1", { text: `${moment().format("dddd, DD MMMM")}`})
 
-    const plannerContainer = dashboardContainer.createDiv({ attr: { style: `
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      max-width: 32rem;
-      align-self: center;
-  ` }})
+    const plannerContainer = dashboardContainer.createDiv({ cls: "planner-container" })
 
     await buildPlanner(this.app as AppWithPlugin, plannerContainer, this.buildDashboard)
 

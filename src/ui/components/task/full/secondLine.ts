@@ -6,41 +6,13 @@ import { createScheduleField } from "../elements/scheduleField";
 import { createStartField } from "../elements/startField";
 
 export const createSecondLine = (app: App, task: Task, container: HTMLElement) => {
-  const secondLine = container.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        gap: 4px;
-        align-items: center;
-        justify-content: space-between;
-      `
-    }
-  });
+  const secondLine = container.createDiv({ cls: "second-line" });
 
-  const dateWrapper = secondLine.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        flex-wrap: wrap;
-      `
-    }
-  })
-  createScheduleField({ app, container: dateWrapper, task, allowClick: true });
-  createStartField({ app, container: dateWrapper, task, allowClick: true });
-  createEndField({ app, container: dateWrapper, task, allowClick: true });
+  const dateContainer = secondLine.createDiv({ cls: "date-container" })
+  createScheduleField({ app, container: dateContainer, task, allowClick: true });
+  createStartField({ app, container: dateContainer, task, allowClick: true });
+  createEndField({ app, container: dateContainer, task, allowClick: true });
 
-  const otherWrapper = secondLine.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        gap: 4px;
-        flex-wrap: wrap;
-      `
-    }
-  })
-  createTagField({ app, container: otherWrapper, task, allowClick: true });
+  const tagsContainer = secondLine.createDiv({ cls: "tags-container" })
+  createTagField({ app, container: tagsContainer, task, allowClick: true });
 }

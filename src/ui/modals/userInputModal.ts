@@ -10,6 +10,8 @@ export class UserInputModal<T = any> extends Modal {
   constructor(app: App) {
     super(app);
     this.createHeader()
+
+    this.modalEl.addClass("lp-view")
   }
 
   async open(): Promise<T | null> {

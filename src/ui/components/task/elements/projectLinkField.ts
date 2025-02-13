@@ -17,15 +17,7 @@ export const createProjectLinkField = ({ app, container, task, refreshView, allo
     config: {
       icon: "",
       value: task.projectLink?.match(/^\[\[.*\/([^\/]+)\.md\]\]$/)?.[1] || "+ assign to project",
-      style: `
-        background-color: white;
-        padding: 0 9px 0 9px; 
-        border-radius: var(--radius-m);
-        ${!task.projectLink ? `
-            background-color: lightgreen;  
-          ` : ""
-        }
-      `
+      cls: `projectLink ${!task.projectLink ? "missing" : ""}`
     },
     clickAction: {
       allow: allowClick,

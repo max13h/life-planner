@@ -1,4 +1,3 @@
-import { addInputComponent } from "src/ui/components/input";
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { Project } from "../project";
 import { Projects } from "src/classes/projects/projects";

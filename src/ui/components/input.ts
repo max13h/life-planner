@@ -12,8 +12,7 @@ export const addInputComponent = (parentEl: HTMLElement, options?: InputOptions)
   const input = parentEl.createEl("input", { attr: { 
     placeholder: options?.placeholder || "",
     type: "text",
-    style: "width: 100%",
-    value: options?.value || ""
+    value: options?.value || "",
   }});
   
   if (options?.focus) {

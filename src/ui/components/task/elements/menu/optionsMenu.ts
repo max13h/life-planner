@@ -7,16 +7,8 @@ export const createOptionsMenu = (app: App, task: Task, container: HTMLElement, 
   const optionsMenu = createField({
     container,
     config: {
+      cls: "menu-button",
       value: "",
-      style: `
-        width: 1rem;
-        height: 1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        padding: 0;
-      `
     },
     clickAction: {
       allow: true,

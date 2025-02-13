@@ -4,6 +4,7 @@ type FieldConfig = {
   icon?: string;
   value: string;
   style?: string;
+  cls?: string;
 }
 
 type ClickAction = {
@@ -21,14 +22,10 @@ export const createField = ({ container, config, clickAction}: CreateFieldProps)
   const text = config.value
 
   const element = container.createDiv({
+    cls: `element ${clickAction && clickAction.allow ? "cursor-pointer" : ""} ${config.cls}`,
     text: `${config.icon ? config.icon + " " : ""}${text || '-'}`,
     attr: {
       style: `
-        font-size: var(--lp-text-xxs);
-        border: 1px solid hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);
-        padding: 2px 8px 2px 8px;
-        border-radius: var(--radius-m);
-        ${clickAction && clickAction.allow ? "cursor: pointer;" : ""}
         ${config.style || ""}
       `
     }

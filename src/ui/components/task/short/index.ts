@@ -16,35 +16,8 @@ interface CreateFullTaskComponentProps {
 }
 
 export const createShortTaskComponent = ({ app, container, task, refreshView, style }: CreateFullTaskComponentProps) => {
-  const taskContainer = container.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-        border-radius: var(--radius-m);
-        border: var(--lp-task-borders);
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        background-color: var(--color-base-00);
-        cursor: pointer;
-        ${style}
-      `
-    }
-  });
-  const line = taskContainer.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        width: 100%;
-        height: fit-content;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 4px;
-        padding-top: 8px;
-      `
-    }
-  });
+  const taskContainer = container.createDiv({ cls: "lp-view task-short", attr: { style: `${style}` }});
+  const line = taskContainer.createDiv({ cls: "line" });
 
   createStatus({ task, container: line })
   createText({ app, task, container: line, allowClick: false, style: "font-size: 1rem;" })

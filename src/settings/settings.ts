@@ -61,6 +61,7 @@ export class LifePlannerSettingTab extends PluginSettingTab {
     const tags = getAllTagsInVault(this.app, files)
 
     containerEl.empty();
+    containerEl.addClass("lp-view")
 
     renderBinFolderSetting({ 
       container: containerEl, 

@@ -33,22 +33,15 @@ export class ProjectsView extends ItemView {
   async onOpen() {
     const container = this.containerEl.children[1];
     container.empty();
-    container.addClass("projectsView")
+    container.addClass("lp-view")
 
-    const viewContainer = container.createDiv({ attr: { style: `
-      max-width: var(--file-line-width); 
-      margin-left: auto; 
-      margin-right: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    `}});
+    const projectViewContainer = container.createDiv({ cls: "projectsView" });
 
-    renderHeading(viewContainer, this.refreshView)
-    await renderUnassignedTasks(this.app as AppWithPlugin, viewContainer, this.refreshView)
+    renderHeading(projectViewContainer, this.refreshView)
+    await renderUnassignedTasks(this.app as AppWithPlugin, projectViewContainer, this.refreshView)
 
     const projectsObject = await this.getProjectsObject(this.app as AppWithPlugin)
-    await renderProjects(this.app as AppWithPlugin, viewContainer, this.leaf, projectsObject, this.refreshView)
+    await renderProjects(this.app as AppWithPlugin, projectViewContainer, this.leaf, projectsObject, this.refreshView)
 
     // Handle update view
     const taskFile: TFile = await Tasks.getFile(this.app as AppWithPlugin)

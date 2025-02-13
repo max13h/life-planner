@@ -1,0 +1,10 @@
+.lp-view {
+  &.alert-modal {
+    & .buttons-container {
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      justify-content: end;
+    }
+  }
+}

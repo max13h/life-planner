@@ -11,19 +11,7 @@ type CreateTagFieldProps = {
 }
 
 export const createTagField = ({ app, container, task, allowClick }: CreateTagFieldProps) => {
-  const tagsWrapper = container.createDiv({
-    attr: { 
-      style: `
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      gap: 4px;
-      flex-wrap: wrap;
-      font-size: calc(12px + 0.3vw);
-      `
-    }
-  })
-
+  const tagsWrapper = container.createDiv({ cls: "tags-container" })
   updateUI({ app, task, container: tagsWrapper, allowClick })
 }
 
@@ -50,7 +38,6 @@ const updateUI = ({ app, container, task, allowClick }: { app: App, container: H
     createField({
       container,
       config: {
-        icon: "",
         value: tag,
       },
       clickAction: {

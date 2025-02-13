@@ -12,11 +12,9 @@ interface ButtonOptions {
 export const addButtonComponent = (parentEl: HTMLElement, options: ButtonOptions): HTMLButtonElement => {
   const button = parentEl.createEl("button", {
     text: options.text,
+    cls: `button ${options.isPrimary ? "primary": ""}`,
     attr: { 
       style: `
-        width: fit-content; 
-        cursor: pointer;
-        ${options.isPrimary ? "background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);": ""} 
         ${options.style}
       ` 
     },

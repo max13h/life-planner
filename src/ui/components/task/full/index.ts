@@ -12,30 +12,13 @@ interface CreateFullTaskComponentProps {
 }
 
 export const createFullTaskComponent = ({ app, container, task, refreshView }: CreateFullTaskComponentProps) => {
-  const taskContainer = container.createDiv({
-    attr: {
-      style: `
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        border-radius: var(--radius-m);
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        background-color: white;
-      `
-    }
-  });
+  const taskContainer = container.createDiv({ cls: "task-full"});
 
   createFirstLine(app, task, taskContainer, refreshView)
   createSecondLine(app, task, taskContainer)
 
   if (!task.projectLink) {
-    const projectLinkContainer = taskContainer.createDiv({ attr: { style: `
-      width: 100%;
-      display: flex;
-      justify-content: end;
-    ` } })
-
+    const projectLinkContainer = taskContainer.createDiv({ cls: "project-link-container" })
     createProjectLinkField({ app, container: projectLinkContainer, task, refreshView, allowClick: true });
   }
   

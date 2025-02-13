@@ -1,0 +1,27 @@
+.lp-view {
+  & .task-short {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border-radius: var(--radius-m);
+    border: var(--lp-task-borders);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: var(--color-base-00);
+    cursor: pointer;
+    
+    & .line {
+      display: flex;
+      width: 100%;
+      height: fit-content;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding-top: 8px;
+
+      & .short {
+        background-color: red;
+      }
+    }
+  }
+}

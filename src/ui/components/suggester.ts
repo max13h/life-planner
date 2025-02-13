@@ -19,16 +19,16 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
   let filteredValues: string[] = [];
   let isDropdownVisible = false;
 
-  const wrapper = containerEl.createEl("div", {
+  const wrapper = containerEl.createDiv({ 
+    cls: "suggester",
     attr: {
-      style: "position: relative; width: 100%; " + (options.style || "")
+      style: (options.style || "")
     }
   });
   
   // Create input
   const input = wrapper.createEl("input", {
     attr: {
-      style: "width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;",
       type: "text",
       role: "combobox",
       "aria-autocomplete": "list",
@@ -39,27 +39,8 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
   
   // Create options list
   const optionsList = wrapper.createEl("ul", {
+    cls: `${options.dropdownStyle ? "dropdown-style" : "" }`,
     attr: {
-      style: `
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        ${options.dropdownStyle ? `
-          position: absolute;
-          top: 100%;
-          left: 0;
-          background: white;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          max-height: 200px;
-          overflow-y: auto;
-          z-index: 1000;
-          display: none;
-          text-wrap: wrap;
-          overflow-x: hidden
-        ` : ''}
-      `,
       role: "listbox"
     }
   });
@@ -94,23 +75,17 @@ export const addAutocompleteSelect = <T>(containerEl: HTMLElement, options: Auto
       const item = optionsList.createEl("li", {
         text: value,
         attr: {
-          style: `
-            padding: 8px;
-            cursor: pointer;
-            list-style: none;
-            ${options.dropdownStyle ? 'border-bottom: 1px solid #eee;' : 'border-radius: 4px;'}
-          `,
           role: "option",
           "aria-selected": index === currentFocusIndex ? "true" : "false"
         }
       });
       
       if (index === currentFocusIndex) {
-        item.style.backgroundColor = "#e5e5e5";
+        item.style.backgroundColor = "var(--background-modifier-hover)";
       }
       
       item.addEventListener("mouseover", () => {
-        item.style.backgroundColor = "#e5e5e5";
+        item.style.backgroundColor = "var(--background-modifier-hover)";
       });
       
       item.addEventListener("mouseout", () => {

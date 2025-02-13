@@ -1,0 +1,56 @@
+.lp-view {
+  & input[type=text] {
+    width: 100%;
+  }
+
+  & .suggester {
+    position: relative; 
+    width: 100%;
+
+    & input {
+      width: 100%; 
+    }
+
+    & ul {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      & li {
+        padding: 8px;
+        cursor: pointer;
+        list-style: none;
+        border-radius: 4px;
+      }
+    }
+
+    & .dropdown-style {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--color-base-00);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      text-wrap: wrap;
+      overflow-x: hidden;
+
+      & li {
+        border-bottom: 1px solid #eee;
+      }
+    }
+  }
+
+  & .button {
+    width: fit-content; 
+    cursor: pointer;
+
+    &.primary {
+      background-color: hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);
+    }
+  }
+}

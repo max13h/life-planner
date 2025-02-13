@@ -9,20 +9,18 @@ export class AlertModal extends UserInputModal {
     this.setTitle("Confirmation Required ⚠️");
     this.setDescription("You are about to perform an irreversible action.");
 
-    const buttons = this.contentEl.createDiv({
-      attr: {
-        style: "display: flex; align-items: center; gap: 0.5rem; justify-content: end"
-      }
-    })
+    this.modalEl.addClass("alert-modal")
 
-    addButtonComponent(buttons, {
+    const buttonsContainer = this.contentEl.createDiv({ cls: "buttons-container" })
+
+    addButtonComponent(buttonsContainer, {
       text: "Cancel",
       isPrimary: true,
       onClick: () => {
         this.complete(false)
       }
     })
-    addButtonComponent(buttons, {
+    addButtonComponent(buttonsContainer, {
       text: "Continue",
       onClick: () => {
         this.complete(true)
