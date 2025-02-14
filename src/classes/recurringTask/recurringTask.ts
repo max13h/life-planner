@@ -2,13 +2,13 @@ import { TFile } from "obsidian";
 import { AppWithPlugin, IRecurringTask, TaskValidationResult } from "types";
 import { validate } from "./validate";
 import { toMarkdownLine } from "./toMarkdownLine";
-import { parseFromMarkdownLine } from "./parseFromMarkdownLine";
 import { insertRecurringTaskInFile } from "./insertRecurringTaskInFile";
 import { update } from "./update";
 import { save } from "./save";
 import { deleteRecurringTask } from "./delete";
 import { RecurringTasks } from "../recurringTasks/recurringTasks";
 import { createRecurringTask } from "./createTask";
+import { parseFromMarkdownLine } from "../utils/parseFromMarkdownLine";
 
 export class RecurringTask implements IRecurringTask {
   text: string = "";
@@ -33,7 +33,7 @@ export class RecurringTask implements IRecurringTask {
   }
 
   parseFromMarkdownLine(line: string): void {
-    return parseFromMarkdownLine.call(this, line);
+    return parseFromMarkdownLine(line, this)
   }
 
   insertRecurringTaskInFile(): Promise<void> {

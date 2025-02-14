@@ -2,7 +2,6 @@ import { TFile } from "obsidian";
 import { AppWithPlugin } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
 import { validate } from "./validate";
-import { parseFromMarkdownLine } from "./parseFromMarkdownLine";
 import { toMarkdownLine } from "./toMarkdownLine";
 import { insertTaskInFile } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
@@ -11,6 +10,7 @@ import { update } from "./update";
 import { save } from "./save";
 import { deleteTask } from "./delete";
 import { createTask } from "./createTask";
+import { parseFromMarkdownLine } from "../utils/parseFromMarkdownLine";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -41,7 +41,7 @@ export default class Task implements ITask {
   }
 
   parseFromMarkdownLine(line: string): void {
-    return parseFromMarkdownLine.call(this, line);
+    return parseFromMarkdownLine(line, this)
   }
 
   insertTaskInFile(): Promise<void> {
