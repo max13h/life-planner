@@ -2,11 +2,11 @@ import { TFile } from "obsidian";
 import { AppWithPlugin, Metadata } from "types";
 import { TaskFilterProperties } from "types";
 import { getFile } from "src/classes/tasks/getFile";
-import { getMetadata } from "./getMetadata";
 import { getTasks } from "./getTasks";
 import Task from "../task/task";
 import { getTasksFromProperties } from "./getTasksFromProperties";
 import { sortTasks } from "./sortTasks";
+import { getMetadata } from "../utils/getMetadata";
 
 export class Tasks {
   static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|---------|";
@@ -15,7 +15,7 @@ export class Tasks {
 
   static async getTasks(app: AppWithPlugin): Promise<Task[]> { return await getTasks(app) }
 
-  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app) }
+  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app, "tasks") }
 
   static async getTasksFromProperties(app: AppWithPlugin, properties: TaskFilterProperties): Promise<Task[]> {
     return await getTasksFromProperties(app, properties)

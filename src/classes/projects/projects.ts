@@ -1,7 +1,7 @@
 import { App, TFile } from "obsidian";
 import { AppWithPlugin, Metadata } from "types";
 import { getFiles } from "./getFiles";
-import { getMetadata } from "./getMetadata";
+import { getMetadata } from "../utils/getMetadata";
 
 export class Projects {
   private app: App
@@ -12,5 +12,5 @@ export class Projects {
 
   static async getFiles(app: AppWithPlugin): Promise<TFile[]> { return getFiles(app) }
 
-  static async getMetadata(app: AppWithPlugin, projectFileName?: string): Promise<Metadata> { return getMetadata(app, projectFileName) }
+  static async getMetadata(app: AppWithPlugin, projectFileName?: string): Promise<Metadata> { return getMetadata(app, "projects", projectFileName) }
 }

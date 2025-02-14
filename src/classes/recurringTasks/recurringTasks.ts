@@ -1,8 +1,8 @@
 import { TFile } from "obsidian";
 import { AppWithPlugin, Metadata } from "types";
 import { getFile } from "./getFile";
-import { getMetadata } from "./getMetadata";
 import { getRecurringTasks } from "./getRecurringTasks";
+import { getMetadata } from "../utils/getMetadata";
 
 export class RecurringTasks {
   static readonly TABLE_HEADER = "|Text|Project Link|Tags|Priority|Created|\n|------|-------------|-----|--------|---------|";
@@ -11,5 +11,5 @@ export class RecurringTasks {
 
   static async getTasks(app: AppWithPlugin): Promise<RecurringTasks[]> { return await getRecurringTasks(app) }
 
-  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app) }
+  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app, "recurringTasks") }
 }
