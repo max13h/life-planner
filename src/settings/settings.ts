@@ -17,8 +17,8 @@ export interface LifePlannerSettings {
   tasks: {
     folder: string;
     file: string;
+    recurringTasksFile: string;
   }
-  recurringTasksFile: string;
   dashboard: {
     startingHour: number;
     endingHour: number;
@@ -36,9 +36,9 @@ export const DEFAULT_SETTINGS: LifePlannerSettings = {
   },
   tasks: {
     folder: "",
-    file: "TASKS-" + new Date().getFullYear()
+    file: "TASKS-" + new Date().getFullYear(),
+    recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear(),
   },
-  recurringTasksFile: "RECURRING-TASKS-" + new Date().getFullYear(),
   dashboard: {
     startingHour: 0,
     endingHour: 24,
