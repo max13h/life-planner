@@ -24,12 +24,12 @@ export interface ITask {
   projectLink?: string;
   tags: string[];
   priority?: string;
-  recurs?: string;
   created?: string;
   completed?: string;
   app: AppWithPlugin;
   file: TFile;
 }
+export interface IRecurringTask extends Omit<ITask, 'status' | 'schedule' | 'start' | 'end' | 'occurrence' | 'completed'> {}
 
 export interface TaskComparators {
   byDate: (a: ITask, b: ITask) => number;

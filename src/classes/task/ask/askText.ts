@@ -1,8 +1,9 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import Task from "../task";
 import { addInputComponent } from "src/ui/components/input";
+import { RecurringTask } from "src/classes/recurringTask/recurringTask";
 
-export async function askText(modal: NavigationModal, task: Task, isLast: boolean = false) {
+export async function askText(modal: NavigationModal, task: Task | RecurringTask, isLast: boolean = false) {
   return (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Insert content of the new task");
     let newTaskText: string;

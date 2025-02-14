@@ -3,8 +3,9 @@ import Task from "../task";
 import { Projects } from "src/classes/projects/projects";
 import { AppWithPlugin } from "types";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { RecurringTask } from "src/classes/recurringTask/recurringTask";
 
-export async function askProject(modal: NavigationModal, task: Task, isLast: boolean = false) {
+export async function askProject(modal: NavigationModal, task: Task | RecurringTask, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Choose project related the new task");
 

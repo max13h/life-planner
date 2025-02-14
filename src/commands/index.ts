@@ -7,6 +7,7 @@ import Task from "src/classes/task/task";
 import { VIEW_LIFE_PLANNER_PROJECTS } from "src/views/projectsView";
 import { openView } from "src/views";
 import { Project } from "src/classes/project/project";
+import { RecurringTask } from "src/classes/recurringTask/recurringTask";
 
 export class Commands {
   private readonly plugin: LifePlanner;
@@ -19,7 +20,7 @@ export class Commands {
     this.plugin = plugin;
 
     plugin.addCommand({
-      id: 'move-file-to-bin',
+      id: 'lp-move-file-to-bin',
       name: 'Move file to bin',
       icon:'trash-2',
       editorCallback: (editor: Editor, view: MarkdownView) => {
@@ -28,28 +29,35 @@ export class Commands {
     });
 
     plugin.addCommand({
-      id: 'create-project',
+      id: 'lp-create-project',
       name: 'Create project',
       icon: 'folder-heart',
       callback: async () => await Project.new(this.app as AppWithPlugin)
     });
     
     plugin.addCommand({
-      id: 'open-dashboard',
+      id: 'lp-open-dashboard',
       name: 'Open dashboard',
       icon: 'lamp-desk',
       callback: async () => await openView(this.app, VIEW_LIFE_PLANNER_DASHBOARD)
     });
 
     plugin.addCommand({
-      id: 'add-task',
+      id: 'lp-add-task',
       name: 'Add task',
       icon: 'check-check',
       callback: async () => await Task.new(this.app as AppWithPlugin)
     });
     
     plugin.addCommand({
-      id: 'open-projects-view',
+      id: 'lp-add-recurring-task',
+      name: 'Add recurring task',
+      icon: 'check-check',
+      callback: async () => await RecurringTask.new(this.app as AppWithPlugin)
+    });
+    
+    plugin.addCommand({
+      id: 'lp-open-projects-view',
       name: 'Open projects view',
       icon: 'folder-heart',
       callback: async () => await openView(this.app, VIEW_LIFE_PLANNER_PROJECTS)

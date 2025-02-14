@@ -22,7 +22,6 @@ export default class Task implements ITask {
   projectLink?: string;
   tags: string[] = [];
   priority?: string;
-  recurs?: string;
   created?: string;
   completed?: string;
   app: AppWithPlugin;
@@ -53,7 +52,7 @@ export default class Task implements ITask {
     return compareTo.call(this, other);
   }
 
-  update(updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink' | 'recurs'>>) {
+  update(updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink'>>) {
     return update.call(this, updates)
   }
 

@@ -1,7 +1,6 @@
-import { Notice } from "obsidian";
 import Task, { ensureInstanceOfTask } from "./task";
 
-export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink' | 'recurs'>>) {
+export function update(this: Task, updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink'>>) {
   ensureInstanceOfTask(this)
 
   Object.keys(updates).forEach(key => {
