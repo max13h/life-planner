@@ -11,7 +11,7 @@ export async function createRecurringTask(app: App) {
 
   modal.pages = [
     await askText(modal, recurringTask),
-    await askProject(modal, recurringTask),
+    await askProject(modal, recurringTask, true),
   ]
 
   await modal.open()

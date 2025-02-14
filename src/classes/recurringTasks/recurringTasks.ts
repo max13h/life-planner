@@ -11,5 +11,5 @@ export class RecurringTasks {
 
   static async getTasks(app: AppWithPlugin): Promise<RecurringTasks[]> { return await getRecurringTasks(app) }
 
-  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { const meta = getMetadata(app); console.log(meta); return meta }
+  static async getMetadata(app: AppWithPlugin): Promise<Metadata> { return getMetadata(app) }
 }
