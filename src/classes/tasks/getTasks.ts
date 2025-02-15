@@ -10,7 +10,7 @@ export const getTasks = async (app : AppWithPlugin): Promise<Task[]> => {
   try {
     const fileContent = await app.vault.read(file);
     const lines = fileContent.split("\n");
-    const tasksLines = lines.slice(2); // Skip header and separator
+    const tasksLines = lines.slice(2);
     const tasks: Task[] = [];
 
     for (const line of tasksLines) {

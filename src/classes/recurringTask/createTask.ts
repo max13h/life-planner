@@ -2,8 +2,8 @@ import { App } from "obsidian";
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { AppWithPlugin } from "types";
 import { RecurringTask } from "./recurringTask";
-import { askText } from "../task/task/askText";
-import { askProject } from "../task/task/askProject";
+import { askProject } from "../utils/ask/task/askProject";
+import { askText } from "../utils/ask/task/askText";
 
 export async function createRecurringTask(app: App) {
   const recurringTask = new RecurringTask(app as AppWithPlugin)

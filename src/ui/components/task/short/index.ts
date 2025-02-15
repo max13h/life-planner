@@ -17,11 +17,12 @@ interface CreateFullTaskComponentProps {
 
 export const createShortTaskComponent = ({ app, container, task, refreshView, style }: CreateFullTaskComponentProps) => {
   const taskContainer = container.createDiv({ cls: "lp-view task-short", attr: { style: `${style}` }});
-  const line = taskContainer.createDiv({ cls: "line" });
+  const firstLine = taskContainer.createDiv({ cls: "line-one" });
+  const secondLine = taskContainer.createDiv({ cls: "line-two" });
 
-  createStatus({ task, container: line })
-  createText({ app, task, container: line, allowClick: false, style: "font-size: 1rem;" })
-  createProjectLinkField({ app, container: line, task, refreshView, allowClick: false });
+  createStatus({ task, container: firstLine })
+  createText({ app, task, container: firstLine, allowClick: false, style: "font-size: 1rem;" })
+  createProjectLinkField({ app, container: secondLine, task, refreshView, allowClick: false });
 
   listenClick(taskContainer, async (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') return

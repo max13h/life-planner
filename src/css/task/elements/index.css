@@ -41,7 +41,7 @@
     background-color: var(--color-base-00);
 
     &.missing {
-      background-color: lightgreen;
+      background-color: var(--color-base-20);
     }
   }
 

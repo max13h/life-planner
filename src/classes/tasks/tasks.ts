@@ -9,7 +9,7 @@ import { sortTasks } from "./sortTasks";
 import { getMetadata } from "../utils/getMetadata";
 
 export class Tasks {
-  static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|---------|";
+  static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|";
 
   static async getFile(app: AppWithPlugin): Promise<TFile> { return getFile(app) }
 

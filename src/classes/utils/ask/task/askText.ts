@@ -1,7 +1,7 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "../task";
 import { addInputComponent } from "src/ui/components/input";
 import { RecurringTask } from "src/classes/recurringTask/recurringTask";
+import Task from "src/classes/task/task";
 
 export async function askText(modal: NavigationModal, task: Task | RecurringTask, isLast: boolean = false) {
   return (contentEl: typeof modal.contentEl) => {
