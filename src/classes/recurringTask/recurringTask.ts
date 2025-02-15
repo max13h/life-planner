@@ -1,14 +1,14 @@
 import { TFile } from "obsidian";
 import { AppWithPlugin, IRecurringTask, TaskValidationResult } from "types";
-import { validate } from "./validate";
-import { toMarkdownLine } from "./toMarkdownLine";
-import { insertRecurringTaskInFile } from "./insertRecurringTaskInFile";
-import { update } from "./update";
-import { save } from "./save";
-import { deleteRecurringTask } from "./delete";
 import { RecurringTasks } from "../recurringTasks/recurringTasks";
 import { createRecurringTask } from "./createTask";
 import { parseFromMarkdownLine } from "../utils/parseFromMarkdownLine";
+import { toMarkdownLine } from "../utils/toMarkdownLine";
+import { validate } from "../utils/validate";
+import { insertTaskInFile } from "../utils/insertTaskInFile";
+import { update } from "../utils/update";
+import { save } from "../utils/save";
+import { deleteTaskOrRecurringTask } from "../utils/delete";
 
 export class RecurringTask implements IRecurringTask {
   text: string = "";
@@ -25,11 +25,11 @@ export class RecurringTask implements IRecurringTask {
   }
 
   validate(isStrict: boolean = false, message?: string): TaskValidationResult {
-    return validate.call(this, isStrict, message);
+    return validate(this, isStrict, message);
   }
 
   toMarkdownLine(): string {
-    return toMarkdownLine.call(this);
+    return toMarkdownLine(this)
   }
 
   parseFromMarkdownLine(line: string): void {
@@ -37,19 +37,19 @@ export class RecurringTask implements IRecurringTask {
   }
 
   insertRecurringTaskInFile(): Promise<void> {
-    return insertRecurringTaskInFile.call(this);
+    return insertTaskInFile(this);
   }
 
   update(updates: Partial<Pick<RecurringTask, 'text' | 'tags' | 'priority' | 'projectLink'>>) {
-    return update.call(this, updates)
+    return update(this, updates)
   }
 
   async save(): Promise<void> {
-    return save.call(this)
+    return save(this)
   }
 
   async delete(): Promise<void> {
-    return deleteRecurringTask.call(this);
+    return deleteTaskOrRecurringTask.call(this);
   }
 
   static async new(app: AppWithPlugin): Promise<void> {

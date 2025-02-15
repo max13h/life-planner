@@ -3,7 +3,7 @@ import { TaskStatus } from "types";
 import { RecurringTask, ensureInstanceOfRecurringTask } from "../recurringTask/recurringTask";
 import Task, { ensureInstanceOfTask } from "../task/task";
 
-export function parseFromMarkdownLine(line: string, taskInstance: Task | RecurringTask): void {
+export const parseFromMarkdownLine = (line: string, taskInstance: Task | RecurringTask): void => {
   if (taskInstance instanceof RecurringTask) {
     ensureInstanceOfRecurringTask(taskInstance);
   } else if (taskInstance instanceof Task) {

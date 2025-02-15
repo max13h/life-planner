@@ -1,16 +1,16 @@
 import { TFile } from "obsidian";
 import { AppWithPlugin } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
-import { validate } from "./validate";
-import { toMarkdownLine } from "./toMarkdownLine";
-import { insertTaskInFile } from "./insertTaskInFile";
 import { compareTo } from "./compareTo";
 import { Tasks } from "../tasks/tasks";
-import { update } from "./update";
-import { save } from "./save";
-import { deleteTask } from "./delete";
 import { createTask } from "./createTask";
 import { parseFromMarkdownLine } from "../utils/parseFromMarkdownLine";
+import { toMarkdownLine } from "../utils/toMarkdownLine";
+import { validate } from "../utils/validate";
+import { insertTaskInFile } from "../utils/insertTaskInFile";
+import { update } from "../utils/update";
+import { save } from "../utils/save";
+import { deleteTaskOrRecurringTask } from "../utils/delete";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -33,11 +33,11 @@ export default class Task implements ITask {
   }
 
   validate(isStrict: boolean = false, message?: string): TaskValidationResult {
-    return validate.call(this, isStrict, message);
+    return validate(this, isStrict, message);
   }
 
   toMarkdownLine(): string {
-    return toMarkdownLine.call(this);
+    return toMarkdownLine(this)
   }
 
   parseFromMarkdownLine(line: string): void {
@@ -45,23 +45,23 @@ export default class Task implements ITask {
   }
 
   insertTaskInFile(): Promise<void> {
-    return insertTaskInFile.call(this);
+    return insertTaskInFile(this);
   }
 
   compareTo(other: Task): number {
-    return compareTo.call(this, other);
+    return compareTo(this, other);
   }
 
   update(updates: Partial<Pick<Task, 'status' | 'text' | 'tags' | 'priority' | 'schedule' | 'start' | 'end' | 'occurrence' | 'projectLink'>>) {
-    return update.call(this, updates)
+    return update(this, updates)
   }
 
   async save(): Promise<void> {
-    return save.call(this)
+    return save(this)
   }
 
   async delete(): Promise<void> {
-    return deleteTask.call(this);
+    return deleteTaskOrRecurringTask(this);
   }
 
   static async new(app: AppWithPlugin): Promise<void> {

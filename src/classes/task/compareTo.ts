@@ -1,16 +1,16 @@
 import Task, { ensureInstanceOfTask } from "./task";
 
-export function compareTo(this: Task, other: Task): number {
-  ensureInstanceOfTask(this)
+export const compareTo = (task: Task, other: Task): number => {
+  ensureInstanceOfTask(task)
 
-  if (this.schedule && other.schedule) {
-    const dateComparison = this.schedule.localeCompare(other.schedule);
+  if (task.schedule && other.schedule) {
+    const dateComparison = task.schedule.localeCompare(other.schedule);
     if (dateComparison !== 0) return dateComparison;
   }
 
   const priorityValues: { [key: string]: number } = { high: 3, medium: 2, low: 1 };
-  const thisPriority = this.priority && this.priority in priorityValues ? priorityValues[this.priority] : 0;
+  const taskPriority = task.priority && task.priority in priorityValues ? priorityValues[task.priority] : 0;
   const otherPriority = other.priority && other.priority in priorityValues ? priorityValues[other.priority] : 0;
   
-  return otherPriority - thisPriority;
+  return otherPriority - taskPriority;
 }
