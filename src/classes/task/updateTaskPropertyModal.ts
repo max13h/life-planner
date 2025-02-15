@@ -1,12 +1,12 @@
 import { NavigationModal } from "src/ui/modals/navigationModal"
 import { App, Notice } from "obsidian"
 import Task from "./task";
-import { askSchedule } from "./ask/askSchedule";
-import { askStart } from "./ask/askStart";
-import { askEnd } from "./ask/askEnd";
-import { askProject } from "./ask/askProject";
-import { askTags } from "./ask/askTags";
-import { askText } from "./ask/askText";
+import { askText } from "../utils/ask/task/askText";
+import { askSchedule } from "../utils/ask/task/askSchedule";
+import { askStart } from "../utils/ask/task/askStart";
+import { askEnd } from "../utils/ask/task/askEnd";
+import { askProject } from "../utils/ask/task/askProject";
+import { askTags } from "../utils/ask/task/askTags";
 
 type RequireOptions = {
   allow: boolean

@@ -1,6 +1,6 @@
 import { AppWithPlugin } from "types";
 import { Projects } from "../projects/projects";
-import { createProject } from "./new/new";
+import { createProject } from "./new";
 import { createAndOpenFile } from "./createAndOpenFile";
 
 export class Project {
