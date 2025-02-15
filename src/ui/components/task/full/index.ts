@@ -21,6 +21,6 @@ export const createFullTaskComponent = ({ app, container, task, refreshView }: C
     const projectLinkContainer = taskContainer.createDiv({ cls: "project-link-container" })
     createProjectLinkField({ app, container: projectLinkContainer, task, refreshView, allowClick: true });
   }
-  
+
   return taskContainer;
 };

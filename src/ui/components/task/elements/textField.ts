@@ -12,7 +12,7 @@ type CreateTextProps = {
 }
 
 export const createText = ({ app, task, container, allowClick, style }: CreateTextProps) => {
-  createField({
+  const el = createField({
     container,
     config: {
       cls: "text",
@@ -21,7 +21,10 @@ export const createText = ({ app, task, container, allowClick, style }: CreateTe
     },
     clickAction: {
       allow: allowClick,
-      onClick: async () => await updateTaskPropertyModal({ app, task, property: "text" })
+      onClick: async () => {
+        await updateTaskPropertyModal({ app, task, property: "text" })
+        el.setText(task.text)
+      }
     }
   })
 }

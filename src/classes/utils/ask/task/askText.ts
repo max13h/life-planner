@@ -6,25 +6,24 @@ import Task from "src/classes/task/task";
 export async function askText(modal: NavigationModal, task: Task | RecurringTask, isLast: boolean = false) {
   return (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Insert content of the new task");
-    let newTaskText: string;
+
+    const handleEnter = async () => {
+      if (!task.text) return;
+
+      if (isLast) {
+        modal.pressDone();
+      } else {
+        await modal.pressNext();
+      }
+    };
 
     addInputComponent(contentEl, {
       value: task.text,
       focus: true,
       onKeyUp: async (input) => {
-        newTaskText = input.value
+        task.update({ text: input.value })
       },
-      onEnter: async () => {
-        if (!newTaskText) return
-        task.update({ text: newTaskText })
-        if (!task.text) return;
-        
-        if (isLast) {
-          modal.pressDone()  
-        } else {
-          await modal.pressNext()
-        }
-      },
+      onEnter: handleEnter,
     });
   };
 }

@@ -1,9 +1,9 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "../task";
 import { isTimeAfterTime, timeFromDurationAndStartTime } from "src/utils/time";
 import { addAutocompleteSelect } from "src/ui/components/suggester";
 import { timeModal } from "src/ui/modals/timeModal";
 import { moment } from "obsidian";
+import Task from "src/classes/task/task";
 
 export async function askEnd(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {

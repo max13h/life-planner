@@ -47,7 +47,7 @@ const validateCommonFields = (task: Task | RecurringTask, errors: string[]) => {
 const validateTaskSpecificFields = (task: Task, errors: string[]) => {
   if (![" ", "x", "/", "-"].includes(task.status)) {
     errors.push("Status must be ' ' or 'x' or '/' or '-'");
-  } else if (task.status !== " " && !task.completed) {
+  } else if (task.status === "x" && !task.completed) {
     errors.push("A completed task should have a completed date");
   }
 

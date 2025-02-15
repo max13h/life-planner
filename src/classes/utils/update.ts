@@ -17,7 +17,7 @@ export const update = <T extends Task | RecurringTask>(
 
     if (task instanceof Task && !isRecurring) {
       if (key === "status") {
-        if (task.status === " " && update === "x") task.setCreationDate()
+        if (task.status === " " && update === "x") task.completed = new Date().toISOString()
         if (task.status === "x" && update !== "x") task.completed = undefined;
 
         task.status = update || " ";

@@ -76,7 +76,7 @@ export default class Task implements ITask {
 
   setCreationDate(): void {
     if (!this.created) {
-        this.created = new Date().toISOString();
+      this.created = new Date().toISOString();
     }
   }
 }
