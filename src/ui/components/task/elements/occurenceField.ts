@@ -7,17 +7,17 @@ type CreateOccurenceFieldProps = {
 }
 
 export const createOccurenceField = ({ container, task }: CreateOccurenceFieldProps) => {
-  if (!task.occurrence) return
-
   createField({
     container,
     config: {
       icon: "",
-      value: task.occurrence,
+      value: task.occurrence || "duplicate task",
     },
     clickAction: {
-      allow: false,
-      onClick: () => undefined
+      allow: true,
+      onClick: async () => {
+        await task.duplicate()
+      }
     },
   })
 }

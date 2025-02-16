@@ -29,7 +29,7 @@ export const createCreatedField = ({ container, task }: CreateCreatedFieldProps)
   createField({
     container,
     config: {
-      icon: "",
+      icon: "➕",
       value: dateString,
     },
     clickAction: {

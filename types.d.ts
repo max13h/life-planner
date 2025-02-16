@@ -29,6 +29,7 @@ export interface ITask {
   completed?: string;
   app: AppWithPlugin;
   file: TFile;
+  id: string;
 }
 export interface IRecurringTask extends Omit<ITask, 'status' | 'schedule' | 'start' | 'end' | 'occurrence' | 'completed'> {}
 

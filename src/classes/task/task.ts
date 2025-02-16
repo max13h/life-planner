@@ -10,6 +10,8 @@ import { insertTaskInFile } from "../utils/insertTaskInFile";
 import { update } from "../utils/update";
 import { save } from "../utils/save";
 import { deleteTaskOrRecurringTask } from "../utils/delete";
+import { duplicateTask } from "./duplicate";
+import { generateId } from "src/utils/id";
 
 export default class Task implements ITask {
   status: TaskStatus = " ";
@@ -25,10 +27,12 @@ export default class Task implements ITask {
   completed?: string;
   app: AppWithPlugin;
   file: TFile;
+  id: string;
 
   constructor(app: AppWithPlugin) {
     this.app = app;
     this.setFile()
+    this.id = generateId()
   }
 
   validate(isStrict: boolean = false, message?: string): TaskValidationResult {
@@ -65,6 +69,10 @@ export default class Task implements ITask {
 
   static async new(app: AppWithPlugin): Promise<void> {
     return await createTask(app);
+  }
+
+  async duplicate(): Promise<void> {
+    return duplicateTask(this.app, this)
   }
 
   async setFile(): Promise<void> {

@@ -7,9 +7,24 @@ import Task from "../task/task";
 import { getTasksFromProperties } from "./getTasksFromProperties";
 import { sortTasks } from "./sortTasks";
 import { getMetadata } from "../utils/getMetadata";
+import { formatTableHeader } from "../utils/formatTableHeader";
 
 export class Tasks {
-  static readonly TABLE_HEADER = "|Status|Text|Schedule|Start|End|Occurrence|Project Link|Tags|Priority|Created|Completed|\n|------|-----|--------|-----|---|----------|-------------|----|--------|-------|--------|";
+  static readonly tableColumns = [
+    "Status", 
+    "Text", 
+    "Schedule", 
+    "Start", 
+    "End", 
+    "Occurrence", 
+    "Project Link", 
+    "Tags", 
+    "Priority", 
+    "Created", 
+    "Completed",
+    "ID",
+  ]
+  static readonly TABLE_HEADER = formatTableHeader(Tasks.tableColumns);
 
   static async getFile(app: AppWithPlugin): Promise<TFile> { return getFile(app) }
 

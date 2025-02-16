@@ -3,16 +3,6 @@ import { Notice } from "obsidian";
 import { RecurringTask, ensureInstanceOfRecurringTask } from "../recurringTask/recurringTask";
 import Task, { ensureInstanceOfTask } from "../task/task";
 
-const ensureTaskInstance = (task: Task | RecurringTask) => {
-  if (task instanceof Task) {
-    ensureInstanceOfTask(task);
-  } else if (task instanceof RecurringTask) {
-    ensureInstanceOfRecurringTask(task);
-  } else {
-    throw new Error("Cannot save: unknown task type");
-  }
-};
-
 const validateTaskCreationDate = (task: Task | RecurringTask) => {
   if (!task.created) {
     throw new Error(`Cannot save ${task instanceof RecurringTask ? "recurring task" : "task"}: no creation date found`);
@@ -24,7 +14,10 @@ const findTaskLineIndex = (lines: string[], task: Task | RecurringTask) => {
     try {
       const tempTask = task instanceof RecurringTask ? new RecurringTask(task.app) : new Task(task.app);
       tempTask.parseFromMarkdownLine(line);
-      return tempTask.created === task.created;
+      if (task instanceof RecurringTask) return tempTask.created === task.created
+      else if (task instanceof Task && tempTask instanceof Task) return tempTask.id === task.id
+      else return false
+      ;
     } catch {
       return false;
     }
@@ -32,7 +25,10 @@ const findTaskLineIndex = (lines: string[], task: Task | RecurringTask) => {
 };
 
 export const save = async (task: Task | RecurringTask) => {
-  ensureTaskInstance(task);
+  const isRecurring = task instanceof RecurringTask;
+  const ensureInstance = isRecurring ? ensureInstanceOfRecurringTask : ensureInstanceOfTask;
+  ensureInstance(task);
+
   validateTaskCreationDate(task);
   await task.setFile();
 
