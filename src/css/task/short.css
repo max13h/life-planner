@@ -1,11 +1,11 @@
 .lp-view {
   & .task-short {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 4px;
     border-radius: var(--radius-m);
     border: var(--lp-task-borders);
-    padding: 4px 0.5rem 4px 0.5rem;
+    padding: 0 0.5rem 0 0.5rem;
     background-color: var(--color-base-00);
     cursor: pointer;
     overflow: hidden;
@@ -14,12 +14,15 @@
       display: flex;
       width: 100%;
       height: fit-content;
-      align-items: center;
       flex-wrap: nowrap;
       gap: 4px;
+
+      & input[type=checkbox] {
+        margin-top: 8px;
+      }
     }
 
-    & .line-two {
+    & .projectLink {
       width: fit-content;
     }
   }

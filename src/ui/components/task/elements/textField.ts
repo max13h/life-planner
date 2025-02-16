@@ -9,15 +9,17 @@ type CreateTextProps = {
   container: HTMLElement;
   allowClick: boolean;
   style?: string;
+  size?: "small"
 }
 
-export const createText = ({ app, task, container, allowClick, style }: CreateTextProps) => {
+export const createText = ({ app, task, container, allowClick, style, size }: CreateTextProps) => {
   const el = createField({
     container,
     config: {
       cls: "text",
       value: task.text,
-      style: `${style || ""}`
+      style: `${style || ""}`,
+      size
     },
     clickAction: {
       allow: allowClick,

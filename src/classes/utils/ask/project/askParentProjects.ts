@@ -1,7 +1,7 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { Project } from "../project";
 import { Projects } from "src/classes/projects/projects";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 
 export async function askParentProject(modal: NavigationModal, project: Project, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {

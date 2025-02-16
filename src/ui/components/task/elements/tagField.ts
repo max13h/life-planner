@@ -11,8 +11,7 @@ type CreateTagFieldProps = {
 }
 
 export const createTagField = ({ app, container, task, allowClick }: CreateTagFieldProps) => {
-  const tagsWrapper = container.createDiv({ cls: "tags-container" })
-  updateUI({ app, task, container: tagsWrapper, allowClick })
+  updateUI({ app, task, container, allowClick })
 }
 
 const updateUI = ({ app, container, task, allowClick }: { app: App, container: HTMLElement, task: Task, allowClick: boolean }) => {

@@ -1,6 +1,6 @@
 import Task from 'src/classes/task/task';
 import { App } from 'obsidian';
-import { createSecondLine } from './secondLine';
+import { createOtherLines } from './secondLine';
 import { createFirstLine } from './firstLine';
 import { createProjectLinkField } from '../elements/projectLinkField';
 
@@ -15,7 +15,7 @@ export const createFullTaskComponent = ({ app, container, task, refreshView }: C
   const taskContainer = container.createDiv({ cls: "task-full"});
 
   createFirstLine(app, task, taskContainer, refreshView)
-  createSecondLine(app, task, taskContainer)
+  createOtherLines(app, task, taskContainer)
 
   if (!task.projectLink) {
     const projectLinkContainer = taskContainer.createDiv({ cls: "project-link-container" })

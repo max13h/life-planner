@@ -1,5 +1,5 @@
 import { Setting, TFile, TFolder } from "obsidian";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 import LifePlanner from "main";
 
 interface RenderProjectsSettingProps {
@@ -34,7 +34,7 @@ const renderProjectsFolderSetting = ({container, folders, plugin}: Omit<RenderPr
     dropdownStyle: true,
     style: "width: auto;",
     value: plugin.settings.projects.folder,
-    allowNewEntry: true
+    allow: "newEntry",
   }) 
 }
 
@@ -54,7 +54,7 @@ const renderProjectsTagsSetting = ({container, tags, plugin}: Omit<RenderProject
     dropdownStyle: true,
     style: "width: auto;",
     value: plugin.settings.projects.tag,
-    allowNewEntry: true
+    allow: "newEntry",
   })
 }
 
@@ -74,6 +74,6 @@ const renderProjectsTemplatePathSetting = ({container, files, plugin}: Omit<Rend
     dropdownStyle: true,
     style: "width: auto;",
     value: plugin.settings.projects.templatePath,
-    allowNewEntry: true
+    allow: "newEntry",
   })
 }

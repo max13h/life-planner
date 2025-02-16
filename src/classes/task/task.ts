@@ -1,5 +1,5 @@
 import { TFile } from "obsidian";
-import { AppWithPlugin } from "types";
+import { AppWithPlugin, TaskPriority } from "types";
 import { ITask, TaskStatus, TaskValidationResult } from "types";
 import { compareTo } from "./compareTo";
 import { Tasks } from "../tasks/tasks";
@@ -21,7 +21,7 @@ export default class Task implements ITask {
   occurrence?: string;
   projectLink?: string;
   tags: string[] = [];
-  priority?: string;
+  priority?: TaskPriority;
   created?: string;
   completed?: string;
   app: AppWithPlugin;

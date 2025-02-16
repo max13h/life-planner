@@ -1,5 +1,5 @@
 import { Setting, TFolder } from "obsidian";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 import LifePlanner from "main";
 
 type renderBinFolderSettingProps = {
@@ -16,7 +16,7 @@ export const renderBinFolderSetting = ({container, folders, plugin}: renderBinFo
     dropdownStyle: true,
     style: "width: auto;",
     value: plugin.settings.binFolder,
-    allowNewEntry: true,
+    allow: "newEntry",
     suggestions: {
       displayedValues: folders.map(el => el.path),
       usedValues: folders.map(el => el.path),

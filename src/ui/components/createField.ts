@@ -5,6 +5,7 @@ type FieldConfig = {
   value: string;
   style?: string;
   cls?: string;
+  size?: "small"
 }
 
 type ClickAction = {
@@ -22,7 +23,7 @@ export const createField = ({ container, config, clickAction}: CreateFieldProps)
   const text = config.value
 
   const element = container.createDiv({
-    cls: `element ${clickAction && clickAction.allow ? "cursor-pointer" : ""} ${config.cls}`,
+    cls: `element ${config.size ? config.size : "" } ${clickAction && clickAction.allow ? "cursor-pointer" : ""} ${config.cls}`,
     text: `${config.icon ? config.icon + " " : ""}${text || '-'}`,
     attr: {
       style: `

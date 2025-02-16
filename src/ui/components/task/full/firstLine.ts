@@ -8,5 +8,5 @@ export const createFirstLine = (app: App, task: Task, container: HTMLElement, re
   const firstLine = container.createDiv({ cls: "first-line" });
   createStatus({ task, container: firstLine })
   createText({ app, task, container: firstLine, allowClick: true })
-  createOptionsMenu(app, task, firstLine, refreshView)
+  // createOptionsMenu(app, task, firstLine, refreshView)
 }

@@ -1,6 +1,6 @@
 import LifePlanner from "main";
 import { TFolder, Setting } from "obsidian";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 
 interface RenderTasksSettingsProps {
   container: HTMLElement;
@@ -31,7 +31,7 @@ const renderTasksFolderSetting = ({container, folders, plugin}: Omit<RenderTasks
     dropdownStyle: true,
     style: "width: auto;",
     value: plugin.settings.tasks.folder,
-    allowNewEntry: true
+    allow: "newEntry",
   })
 }
 const renderTasksFileSetting = ({container, plugin}: Omit<RenderTasksSettingsProps, 'folders'>) => {

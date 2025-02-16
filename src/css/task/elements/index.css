@@ -1,9 +1,12 @@
 .lp-view {
   & .element {
-    font-size: var(--lp-text-xxs);
     border: 1px solid hsla(var(--accent-h) var(--accent-s) var(--accent-l) / 0.3);
     padding: 1px 6px 1px 6px;
     border-radius: var(--radius-m);
+
+    &.small {
+      font-size: var(--lp-text-xs);
+    }
   }
 
   & .status-wrapper {
@@ -32,8 +35,6 @@
     flex: 1;
     border: 0;
     font-size: var(--lp-text-sm);
-    padding-top: 4px;
-    padding-bottom: 4px;
     overflow-wrap: break-word;
   }
 
@@ -43,15 +44,6 @@
     &.missing {
       background-color: var(--color-base-20);
     }
-  }
-
-  & .tags-container {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    gap: 4px;
-    flex-wrap: wrap;
-    font-size: calc(12px + 0.3vw);
   }
 
   & .menu-button {

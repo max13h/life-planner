@@ -9,15 +9,17 @@ type CreateProjectLinkFieldProps = {
   task: Task; 
   refreshView: () => Promise<void>; 
   allowClick: boolean;
+  size?: "small"
 }
 
-export const createProjectLinkField = ({ app, container, task, refreshView, allowClick }: CreateProjectLinkFieldProps) => {
+export const createProjectLinkField = ({ app, container, task, refreshView, allowClick, size }: CreateProjectLinkFieldProps) => {
   createField({
     container,
     config: {
       icon: "",
       value: task.projectLink?.match(/^\[\[.*\/([^\/]+)\.md\]\]$/)?.[1] || "+ assign to project",
-      cls: `projectLink ${!task.projectLink ? "missing" : ""}`
+      cls: `projectLink ${!task.projectLink ? "missing" : ""}`,
+      size
     },
     clickAction: {
       allow: allowClick,

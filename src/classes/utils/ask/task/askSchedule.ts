@@ -1,8 +1,8 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "../task";
 import { DayName, getDayDate } from "src/utils/time";
 import { dateModal } from "src/ui/modals/dateModal";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
+import Task from "src/classes/task/task";
 
 export async function askSchedule(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {

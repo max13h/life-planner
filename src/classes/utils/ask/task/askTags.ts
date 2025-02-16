@@ -1,14 +1,14 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "../task";
 import { setIcon } from "obsidian";
 import { listenClick } from "src/ui/html";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 import { getAllTagsInVault } from "src/utils/vault";
+import Task from "src/classes/task/task";
 
 export async function askTags(modal: NavigationModal, task: Task) {
   return async (contentEl: typeof modal.contentEl) => {
     modal.setTitle("Set tags")
-    
+
     const tagsToDisplay = [...task.tags]
     modal.pressDone = () => modal.complete(tagsToDisplay)
 

@@ -1,7 +1,7 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
 import { Projects } from "src/classes/projects/projects";
 import { AppWithPlugin } from "types";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 import { RecurringTask } from "src/classes/recurringTask/recurringTask";
 import Task from "src/classes/task/task";
 

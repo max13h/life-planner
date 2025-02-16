@@ -1,8 +1,8 @@
 import { NavigationModal } from "src/ui/modals/navigationModal";
-import Task from "../task";
 import { timeFromDurationAndStartTime, timeNow } from "src/utils/time";
-import { addAutocompleteSelect } from "src/ui/components/suggester";
+import { addAutocompleteSelect } from "src/ui/components/autoCompleteSelect/autocompleteSelect";
 import { timeModal } from "src/ui/modals/timeModal";
+import Task from "src/classes/task/task";
 
 export async function askStart(modal: NavigationModal, task: Task, isLast: boolean = false) {
   return async (contentEl: typeof modal.contentEl) => {

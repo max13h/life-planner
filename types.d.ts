@@ -13,6 +13,7 @@ export type AppWithPlugin = App & {
 };
 
 export type TaskStatus = " " | "/" | "-" | "x";
+export type TaskPriorities = "high" | "low" | undefined;
 
 export interface ITask {
   status: TaskStatus;
@@ -85,3 +86,25 @@ export type CalculateTaskPositionsParams = {
   startingHour: number;
   endingHour: number;
 };
+
+export interface Suggestions<T> {
+  displayedValues: string[];
+  usedValues: T[];
+}
+
+export interface AutocompleteSelectOptions<T> {
+  suggestions: Suggestions<T>;
+  onSelected?: (usedValue: T | string, event: Event) => void;
+  dropdownStyle?: boolean;
+  style?: string;
+  value?: string;
+  focus?: boolean;
+  placeholder?: string;
+  allow?: "newEntry" | "blank" | "undefined"
+}
+
+export interface AutocompleteElements {
+  input: HTMLInputElement;
+  optionsList: HTMLUListElement;
+  wrapper: HTMLDivElement;
+}

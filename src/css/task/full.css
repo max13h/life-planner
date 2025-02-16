@@ -2,10 +2,8 @@
   & .task-full {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 1rem;
     border-radius: var(--radius-m);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
     background-color: var(--color-base-00);
 
     & .project-link-container {
@@ -16,29 +14,27 @@
 
     & .first-line {
       display: flex;
-      align-items: center;
       gap: 0.5rem;
-    }
 
-    & .second-line {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-      justify-content: space-between;
-
-      & .date-container {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        flex-wrap: wrap;
+      & input[type=checkbox] {
+        margin-top: 8px;
       }
 
-      & .tags-container {
+      & .text {
+        padding: 0;
+      }
+    }
+
+    & .other-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-wrap: wrap;
+
+      & .line {
         display: flex;
         align-items: center;
-        justify-content: end;
         gap: 4px;
-        flex-wrap: wrap;
       }
     }
   }

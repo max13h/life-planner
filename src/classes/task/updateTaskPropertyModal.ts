@@ -16,7 +16,7 @@ type RequireOptions = {
 type UpdateTaskPropertyModalProps = {
   app: App;
   task: Task;
-  property: "text" | "schedule" | "start" | "end" | "projectLink" | "tags";
+  property: "text" | "schedule" | "start" | "end" | "projectLink" | "tags" | "priority";
   requireOptions?: RequireOptions
 }
 export const updateTaskPropertyModal = async ({ app, task, property, requireOptions }: UpdateTaskPropertyModalProps) => {
@@ -35,6 +35,7 @@ export const updateTaskPropertyModal = async ({ app, task, property, requireOpti
     if (property === "end") modifyProperty = await askEnd(modal, task, true)
     if (property === "projectLink") modifyProperty = await askProject(modal, task, true)
     if (property === "tags") modifyProperty = await askTags(modal, task)
+    if (property === "priority") modifyProperty = await askPriority(modal, task)
 
     if (!modifyProperty) throw new Error("No property to modify");
 
