@@ -14,21 +14,35 @@ export class OptionsManager<T> {
   updateOptions(filterText: string = ""): void {
     this.optionsList.empty();
 
+    console.log("ENTER UPDATE OPTIONS");
+    console.log(this.suggestions.displayedValues);
+    console.log(this.suggestions.usedValues);
+    console.log("===");
+
     if (
       this.suggestions.displayedValues[0] === "Add blank value" 
       || this.suggestions.displayedValues[0].startsWith("Add new value: '")
     ) {
+      console.log("inside of 1 if");
       this.suggestions.displayedValues.shift();
       this.suggestions.usedValues.shift();
     }
 
-    if (filterText === "" && this.allow) {
+    if (
+      filterText === "" 
+      && (
+        this.allow === "blank"
+        || this.allow === "undefined"
+        || this.allow === "newEntry"
+      )
+    ) {
       this.suggestions.displayedValues.unshift("Add blank value");
-      this.suggestions.usedValues.unshift((this.allow === "undefined" ? undefined: "") as T);
+      this.suggestions.usedValues.unshift((this.allow === "undefined" ? undefined : "") as T);
     } else if (
       this.allow === "newEntry" 
       && !this.suggestions.displayedValues.some(value => value === filterText)
     ) {
+      console.log("inside of 3 if");
       this.suggestions.displayedValues.unshift(`Add new value: '${filterText}'`);
       this.suggestions.usedValues.unshift(filterText as unknown as T);
     }
@@ -42,6 +56,10 @@ export class OptionsManager<T> {
     } else {
       this.currentFocusIndex = 0;
     }
+    console.log("Passage 1");
+    console.log(this.suggestions.displayedValues);
+    console.log(this.suggestions.usedValues)
+    console.log("=================");
     this.renderOptions();
   }
 

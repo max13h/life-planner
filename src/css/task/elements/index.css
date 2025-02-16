@@ -5,7 +5,7 @@
     border-radius: var(--radius-m);
 
     &.small {
-      font-size: var(--lp-text-xs);
+      font-size: 0.7rem;
     }
   }
 
@@ -34,7 +34,7 @@
   & .text {
     flex: 1;
     border: 0;
-    font-size: var(--lp-text-sm);
+    font-size: 1rem;
     overflow-wrap: break-word;
   }
 

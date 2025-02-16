@@ -6,6 +6,7 @@ import { createScheduleField } from "../elements/scheduleField";
 import { createStartField } from "../elements/startField";
 import { createCreatedField } from "../elements/createdField";
 import { createOccurenceField } from "../elements/occurenceField";
+import { createPriorityField } from "../elements/priorityField";
 
 export const createOtherLines = (app: App, task: Task, container: HTMLElement) => {
   const otherLines = container.createDiv({ cls: "other-lines" });
@@ -21,6 +22,6 @@ export const createOtherLines = (app: App, task: Task, container: HTMLElement) =
   const metadataContainer = otherLines.createDiv({ cls: "line" })
   createCreatedField({ container: metadataContainer, task })
   createOccurenceField({ container: metadataContainer, task })
-  createPriorityField({ container: metadataContainer, task })
+  createPriorityField({ app, container: metadataContainer, task })
 
 }

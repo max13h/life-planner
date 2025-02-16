@@ -2,6 +2,7 @@ import Task from "src/classes/task/task";
 import { createField } from "../../createField";
 import { updateTaskPropertyModal } from "src/classes/task/updateTaskPropertyModal";
 import { App } from "obsidian";
+import { TaskPriorities } from "types";
 
 type CreatePriorityFieldProps = {
   app: App;
@@ -13,8 +14,7 @@ export const createPriorityField = ({ app, container, task }: CreatePriorityFiel
   const element = createField({
     container,
     config: {
-      icon: "",
-      value: task.occurrence || "+ priority",
+      value: convertPriorityInEmoji(task.priority),
     },
     clickAction: {
       allow: true,
@@ -24,8 +24,12 @@ export const createPriorityField = ({ app, container, task }: CreatePriorityFiel
           task,
           property: "priority",
         })
-        element.setText(`■ ${task.occurrence || "+ priority"}`);
+        element.setText(convertPriorityInEmoji(task.priority));
       }
     },
   })
+}
+
+const convertPriorityInEmoji = (priority: TaskPriorities) => {
+  return priority === "high" ? "⚫ High" : priority === "low" ? "⚪ Low" : "No priority"
 }

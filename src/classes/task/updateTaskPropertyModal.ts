@@ -7,6 +7,7 @@ import { askStart } from "../utils/ask/task/askStart";
 import { askEnd } from "../utils/ask/task/askEnd";
 import { askProject } from "../utils/ask/task/askProject";
 import { askTags } from "../utils/ask/task/askTags";
+import { askPriority } from "../utils/ask/task/askPriority";
 
 type RequireOptions = {
   allow: boolean
@@ -35,7 +36,7 @@ export const updateTaskPropertyModal = async ({ app, task, property, requireOpti
     if (property === "end") modifyProperty = await askEnd(modal, task, true)
     if (property === "projectLink") modifyProperty = await askProject(modal, task, true)
     if (property === "tags") modifyProperty = await askTags(modal, task)
-    if (property === "priority") modifyProperty = await askPriority(modal, task)
+    if (property === "priority") modifyProperty = await askPriority(modal, task, true)
 
     if (!modifyProperty) throw new Error("No property to modify");
 

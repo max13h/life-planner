@@ -70,7 +70,7 @@
     padding: 1px 6px 1px 6px;
     border-radius: var(--radius-m);
     &.small {
-      font-size: var(--lp-text-xs);
+      font-size: 0.7rem;
     }
   }
   & .status-wrapper {
@@ -95,7 +95,7 @@
   & .text {
     flex: 1;
     border: 0;
-    font-size: var(--lp-text-sm);
+    font-size: 1rem;
     overflow-wrap: break-word;
   }
   & .projectLink {
@@ -289,16 +289,6 @@
 }
 
 /* src/css/index.css */
-:root {
-  --lp-text-xxl: clamp(3rem, 8vw, 6rem);
-  --lp-text-xl: clamp(2.5rem, 6vw, 4.5rem);
-  --lp-text-lg: clamp(2rem, 4.5vw, 3.5rem);
-  --lp-text-md: clamp(1.25rem, 3vw, 2rem);
-  --lp-text-base: clamp(0.875rem, 2vw, 1.5rem);
-  --lp-text-sm: clamp(0.875rem, 2vw, 1.2rem);
-  --lp-text-xs: clamp(0.625rem, 1.5vw, 1rem);
-  --lp-text-xxs: clamp(0.5rem, 1vw, 0.875rem);
-}
 .cursor-pointer {
   cursor: pointer;
 }
