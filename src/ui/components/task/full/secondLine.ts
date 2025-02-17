@@ -21,7 +21,7 @@ export const createOtherLines = (app: App, task: Task, container: HTMLElement) =
 
   const metadataContainer = otherLines.createDiv({ cls: "line" })
   createCreatedField({ container: metadataContainer, task })
-  createOccurenceField({ container: metadataContainer, task })
+  createOccurenceField({ container: metadataContainer, task, allowClick: true })
   createPriorityField({ app, container: metadataContainer, task })
 
 }

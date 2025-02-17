@@ -4,7 +4,7 @@ import { AppWithPlugin } from "types";
 export const getFiles = async (app: AppWithPlugin): Promise<TFile[]> => {
   const files = app.vault.getMarkdownFiles();
   const settings = app.plugins.plugins["life-planner"].settings;
-  const projectTag = settings.projectsTag.replace(/^#/, '');
+  const projectTag = settings.projects.tag.replace(/^#/, '');
 
   const projectFiles: TFile[] = []
 

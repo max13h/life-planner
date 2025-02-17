@@ -6,22 +6,26 @@ import { createText } from '../elements/textField';
 import { listenClick } from 'src/ui/html';
 import { UserInputModal } from 'src/ui/modals/userInputModal';
 import { createFullTaskComponent } from '../full';
+import { createOccurenceField } from '../elements/occurenceField';
 
-interface CreateFullTaskComponentProps {
+interface createShortTaskComponentProps {
   app: App;
   container: HTMLElement;
   task: Task;
   refreshView: (() => Promise<void>);
   style?: string
+  size?: "small"
 }
 
-export const createShortTaskComponent = ({ app, container, task, refreshView, style }: CreateFullTaskComponentProps) => {
+export const createShortTaskComponent = ({ app, container, task, refreshView, style, size }: createShortTaskComponentProps) => {
   const taskContainer = container.createDiv({ cls: "lp-view task-short", attr: { style: `${style}` }});
-  const firstLine = taskContainer.createDiv({ cls: "line-one" });
+  const lineOne = taskContainer.createDiv({ cls: "line-one" });
+  const lineTwo = taskContainer.createDiv({ cls: "line-two" });
 
-  createStatus({ task, container: firstLine })
-  createText({ app, task, container: firstLine, allowClick: false, size: "small" })
-  createProjectLinkField({ app, container: taskContainer, task, refreshView, allowClick: false, size: "small" });
+  createStatus({ task, container: lineOne })
+  createText({ app, task, container: lineOne, allowClick: false, size })
+  createProjectLinkField({ app, container: lineTwo, task, refreshView, allowClick: false, size });
+  if (task.occurrence) createOccurenceField({ container: lineTwo, task, size, allowClick: false })
 
   listenClick(taskContainer, async (e) => {
     if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') return

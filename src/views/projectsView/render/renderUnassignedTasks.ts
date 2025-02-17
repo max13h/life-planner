@@ -1,6 +1,6 @@
-import { createFullTaskComponent } from "src/ui/components/task/full";
 import { Tasks } from "src/classes/tasks/tasks";
 import { AppWithPlugin } from "types";
+import { createShortTaskComponent } from "src/ui/components/task/short";
 
 export async function renderUnassignedTasks(app: AppWithPlugin, container: HTMLElement, refreshView: () => Promise<void>) {
   const unassignedTasks = await Tasks.getTasksFromProperties(app, { projectLink: undefined });
@@ -15,7 +15,7 @@ export async function renderUnassignedTasks(app: AppWithPlugin, container: HTMLE
     }
   })
   unassignedTasks.forEach(task => {
-    createFullTaskComponent({
+    createShortTaskComponent({
       app: task.app,
       container: taskWrapper, 
       task, 
